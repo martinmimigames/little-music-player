@@ -1,0 +1,41 @@
+plugins {
+  id 'com.android.application'
+}
+
+def keystorePropertiesFiles = rootProject.file("keystore.properties")
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFiles))
+
+android {
+  compileSdkVersion 32
+
+  defaultConfig {
+    minSdkVersion 8
+    targetSdkVersion 32
+  }
+
+  /* just delete the signing configs if it doesn't work */
+  signingConfigs {
+    release {
+      storeFile file(keystoreProperties['storeFile'])
+      storePassword keystoreProperties['storePassword']
+      keyAlias keystoreProperties['keyAlias']
+      keyPassword keystoreProperties['keyPassword']
+    }
+    debug {
+      storeFile file(keystoreProperties['storeFile'])
+      storePassword keystoreProperties['storePassword']
+      keyAlias keystoreProperties['keyAlias']
+      keyPassword keystoreProperties['keyPassword']
+    }
+  }
+
+  buildTypes {
+    release {
+      minifyEnabled true
+      shrinkResources true
+      proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+      signingConfig signingConfigs.release
+    }
+  }
+}

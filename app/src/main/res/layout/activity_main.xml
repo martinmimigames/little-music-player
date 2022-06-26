@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:orientation="vertical">
+
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:weightSum="100">
+
+    <View
+      android:layout_width="0dp"
+      android:layout_height="match_parent"
+      android:layout_weight="10" />
+
+    <LinearLayout
+      android:layout_width="0dp"
+      android:layout_height="match_parent"
+      android:layout_weight="80"
+      android:orientation="vertical">
+
+      <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/app_name"
+        android:textSize="40sp" />
+
+      <View
+        android:layout_width="match_parent"
+        android:layout_height="11sp" />
+
+      <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/how_to_use"
+        android:textSize="40sp" />
+
+      <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/from_this_app" />
+
+      <Button
+        android:id="@+id/file_opener"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/file_opener_prompt" />
+
+      <View
+        android:layout_width="match_parent"
+        android:layout_height="11sp" />
+
+      <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/from_other_apps" />
+
+      <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="match_parent"
+          android:text="1. "
+          android:gravity="start"
+          tools:ignore="HardcodedText" />
+
+        <TextView
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="@string/instructions_1" />
+      </LinearLayout>
+
+      <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="match_parent"
+          android:text="2. "
+          android:gravity="start"
+          tools:ignore="HardcodedText" />
+
+        <TextView
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="@string/instructions_2" />
+      </LinearLayout>
+
+      <View
+        android:layout_width="match_parent"
+        android:layout_height="11sp" />
+
+      <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/playback_control" />
+
+      <View
+        android:layout_width="match_parent"
+        android:layout_height="11sp" />
+
+      <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/made_by"
+        android:textSize="40sp" />
+
+      <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/organisation_name" />
+
+      <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/enjoy" />
+
+    </LinearLayout>
+
+    <View
+      android:layout_width="0dp"
+      android:layout_height="match_parent"
+      android:layout_weight="10" />
+
+  </LinearLayout>
+</ScrollView>
