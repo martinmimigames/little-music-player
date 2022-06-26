@@ -12,3 +12,4 @@
 local.properties
 publish_0.keystore
 keystore.properties
+/app/build.gradle
