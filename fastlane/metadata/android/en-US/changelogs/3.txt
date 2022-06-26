@@ -1,0 +1,2 @@
+- First f-droid release if successful
+- basic playback functions

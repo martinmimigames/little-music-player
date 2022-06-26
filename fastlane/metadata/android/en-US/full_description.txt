@@ -1,0 +1,7 @@
+A simple small audio player.
+Plays audios and videos that are supported by the system.
+Designed in hope for compatibility with different android versions.
+The app is still under development, changes may be common.
+Issues and pull requests are welcomed.
+Made by martinmimigames!
+Enjoy your music! :)
