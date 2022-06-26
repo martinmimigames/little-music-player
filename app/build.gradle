@@ -14,22 +14,6 @@ android {
     targetSdkVersion 32
   }
 
-  /* just delete the signing configs if it doesn't work */
-  signingConfigs {
-    release {
-      storeFile file(keystoreProperties['storeFile'])
-      storePassword keystoreProperties['storePassword']
-      keyAlias keystoreProperties['keyAlias']
-      keyPassword keystoreProperties['keyPassword']
-    }
-    debug {
-      storeFile file(keystoreProperties['storeFile'])
-      storePassword keystoreProperties['storePassword']
-      keyAlias keystoreProperties['keyAlias']
-      keyPassword keystoreProperties['keyPassword']
-    }
-  }
-
   buildTypes {
     release {
       minifyEnabled true
