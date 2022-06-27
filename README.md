@@ -1,9 +1,10 @@
-# simple music player #
+# little music player #
 
 ## Description ##
 
 Plays audios and videos as pure audio. Simply open or share the file to the app, or select it from
 within the app, and enjoy the sound!
+Previously known as simple music player.
 Please note that it is still in development.
 
 Location of website :
@@ -27,7 +28,7 @@ your issues. :)
 
 ### Last update of README ###
 
-Date : 26-06-2022 dd-mm-yyyy
+Date : 27-06-2022 dd-mm-yyyy
 
 ### Important ###
 
