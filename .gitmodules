@@ -1,3 +1,3 @@
-[submodule "app/src/main/java/com/martinmimigames/util"]
-	path = app/src/main/java/com/martinmimigames/util
-	url = https://github.com/martinmimigames/util
+[submodule "app/src/main/java/mg/utils"]
+	path = app/src/main/java/mg/utils
+	url = https://github.com/martinmimigames/utils
