@@ -1,4 +1,4 @@
-package com.martinmimigames.simpleMusicPlayer;
+package com.martinmimigames.littlemusicplayer;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.IBinder;
 import android.widget.Toast;
 
+import com.martinmimigames.simpleMusicPlayer.R;
 import com.martinmimigames.util.notification.NotificationHelper;
 
 import java.io.File;

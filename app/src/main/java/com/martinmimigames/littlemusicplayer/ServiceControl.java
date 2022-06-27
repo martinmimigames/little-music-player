@@ -1,4 +1,4 @@
-package com.martinmimigames.simpleMusicPlayer;
+package com.martinmimigames.littlemusicplayer;
 
 import android.app.Activity;
 import android.content.Intent;

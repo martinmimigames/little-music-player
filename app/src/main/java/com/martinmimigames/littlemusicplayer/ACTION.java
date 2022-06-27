@@ -1,4 +1,4 @@
-package com.martinmimigames.simpleMusicPlayer;
+package com.martinmimigames.littlemusicplayer;
 
 public final class ACTION {
   public static final String TYPE = ACTION.class.toString();
