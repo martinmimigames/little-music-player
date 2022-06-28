@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.martinmimigames.simpleMusicPlayer.R;
+import com.martinmimigames.littlemusicplayer.R;
 
 public class MainActivity extends Activity implements View.OnClickListener {
 
