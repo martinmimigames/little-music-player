@@ -8,9 +8,9 @@ Previously known as simple music player.
 Please note that it is still in development.
 
 Location of website :
-[https://martinmimigames.github.io/projects/simple-music-player]( https://martinmimigames.github.io/projects/simple-music-player )
+[https://martinmimigames.github.io/projects/little-music-player]( https://martinmimigames.github.io/projects/little-music-player )
 
-You can find most information about simple music player there.
+You can find most information about little music player there.
 
 ## Branches ##
 
@@ -19,7 +19,7 @@ You can find most information about simple music player there.
 ## Issues ##
 
 If have any bugs, features, or improvements, please put them into issues
-[here](https://github.com/martinmimigames/simple-music-player/issues/new). The issues created should
+[here](https://github.com/martinmimigames/little-music-player/issues/new). The issues created should
 be referred to the main branch, unless specified. Only create a new issue when there is no other of
 similar topic. Please put appropriate tags to issues if possible. We would be happy to listen to
 your issues. :)
@@ -28,7 +28,7 @@ your issues. :)
 
 ### Last update of README ###
 
-Date : 27-06-2022 dd-mm-yyyy
+Date : 28-06-2022 dd-mm-yyyy
 
 ### Important ###
 
