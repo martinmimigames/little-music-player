@@ -2,10 +2,6 @@ plugins {
   id 'com.android.application'
 }
 
-def keystorePropertiesFiles = rootProject.file("keystore.properties")
-def keystoreProperties = new Properties()
-keystoreProperties.load(new FileInputStream(keystorePropertiesFiles))
-
 android {
   compileSdkVersion 32
 
@@ -16,6 +12,10 @@ android {
 
   /* just delete the signing configs if it doesn't work */
   signingConfigs {
+    def keystorePropertiesFiles = rootProject.file("keystore.properties")
+    def keystoreProperties = new Properties()
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFiles))
+
     release {
       storeFile file(keystoreProperties['storeFile'])
       storePassword keystoreProperties['storePassword']
