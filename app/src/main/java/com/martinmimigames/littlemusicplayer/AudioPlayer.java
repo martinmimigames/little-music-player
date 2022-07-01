@@ -7,7 +7,6 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.io.IOException;
 
@@ -15,12 +14,12 @@ import mg.utils.notify.ToastHelper;
 
 public class AudioPlayer extends Thread implements MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener {
 
-  static Uri audio_location;
+  static Uri audioLocation;
   private final Service service;
   private final MediaPlayer mediaPlayer;
 
-  public AudioPlayer(Service service, MediaPlayer mediaPlayer, Uri audio_location) {
-    AudioPlayer.audio_location = audio_location;
+  public AudioPlayer(Service service, MediaPlayer mediaPlayer, Uri audioLocation) {
+    AudioPlayer.audioLocation = audioLocation;
     this.service = service;
     this.mediaPlayer = mediaPlayer;
   }
@@ -41,7 +40,7 @@ public class AudioPlayer extends Thread implements MediaPlayer.OnPreparedListene
       );
     }
     try {
-      mediaPlayer.setDataSource(service, audio_location);
+      mediaPlayer.setDataSource(service, audioLocation);
     } catch (IllegalArgumentException e) {
       throwError(e, R.string.illegal_argument_exception);
       return;
@@ -58,7 +57,7 @@ public class AudioPlayer extends Thread implements MediaPlayer.OnPreparedListene
     try {
       mediaPlayer.prepareAsync();
     } catch (IllegalStateException e) {
-      throwError(e, 5);
+      throwError(e, R.string.illegal_state_exception);
     }
   }
 

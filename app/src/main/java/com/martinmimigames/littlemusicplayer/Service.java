@@ -10,9 +10,10 @@ import android.os.Build;
 import android.os.IBinder;
 import android.widget.Toast;
 
-import mg.utils.notify.NotificationHelper;
-
 import java.io.File;
+
+import mg.utils.notify.NotificationHelper;
+import mg.utils.notify.ToastHelper;
 
 public class Service extends android.app.Service {
 
@@ -86,8 +87,7 @@ public class Service extends android.app.Service {
     if (!audioPlayer.isInterrupted())
       audioPlayer.interrupt();
 
-    Toast.makeText(getApplicationContext(), "Closing service...", Toast.LENGTH_SHORT)
-        .show();
+    ToastHelper.showShort(this, "Closing service...");
 
     super.onDestroy();
   }
