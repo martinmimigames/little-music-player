@@ -100,7 +100,7 @@ public class AudioPlayer extends Thread implements MediaPlayer.OnPreparedListene
 
   private void throwError(Exception e, int errorId) {
     Toast.makeText(service, "An error had occurred", Toast.LENGTH_LONG).show();
-    Log.v("simpleMusicPlayer", "an error had occurred : " +
+    Log.v("little music player", "an error had occurred : " +
         "\nError ID : " + errorId +
         "\nError information : " + e);
   }
