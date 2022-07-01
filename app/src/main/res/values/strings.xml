@@ -10,4 +10,9 @@
   <string name="from_this_app">From this app:</string>
   <string name="from_other_apps">From other apps:</string>
   <string name="playback_control">You can control the playback via the notification.</string>
+
+  <string name="illegal_state_exception">Unusable player state, close app and try again.</string>
+  <string name="illegal_argument_exception">Requires cookies, which the app does not support.</string>
+  <string name="io_exception">Read error, try again later.</string>
+  <string name="security_exception">File location protected, cannot be accessed.</string>
 </resources>

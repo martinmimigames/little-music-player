@@ -10,9 +10,7 @@ import android.os.Build;
 import android.os.IBinder;
 import android.widget.Toast;
 
-import com.martinmimigames.littlemusicplayer.R;
-
-import mg.utils.notification.NotificationHelper;
+import mg.utils.notify.NotificationHelper;
 
 import java.io.File;
 

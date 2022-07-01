@@ -11,6 +11,8 @@ import android.widget.Toast;
 
 import java.io.IOException;
 
+import mg.utils.notify.ToastHelper;
+
 public class AudioPlayer extends Thread implements MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener {
 
   static Uri audio_location;
@@ -41,16 +43,16 @@ public class AudioPlayer extends Thread implements MediaPlayer.OnPreparedListene
     try {
       mediaPlayer.setDataSource(service, audio_location);
     } catch (IllegalArgumentException e) {
-      throwError(e, 1);
+      throwError(e, R.string.illegal_argument_exception);
       return;
     } catch (SecurityException e) {
-      throwError(e, 2);
+      throwError(e, R.string.security_exception);
       return;
     } catch (IllegalStateException e) {
-      throwError(e, 3);
+      throwError(e, R.string.illegal_state_exception);
       return;
     } catch (IOException e) {
-      throwError(e, 4);
+      throwError(e, R.string.security_exception);
       return;
     }
     try {
@@ -98,10 +100,10 @@ public class AudioPlayer extends Thread implements MediaPlayer.OnPreparedListene
     service.stopSelf();
   }
 
-  private void throwError(Exception e, int errorId) {
-    Toast.makeText(service, "An error had occurred", Toast.LENGTH_LONG).show();
-    Log.v("little music player", "an error had occurred : " +
-        "\nError ID : " + errorId +
-        "\nError information : " + e);
+  private void throwError(Exception e, int resId) {
+    ToastHelper.showShort(service, resId);
+    Log.v("little music player", "an error had occurred:" +
+        "\nError ID: " + service.getString(resId) +
+        "\nError information: " + e);
   }
 }
