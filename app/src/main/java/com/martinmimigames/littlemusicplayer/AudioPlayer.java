@@ -10,35 +10,18 @@ import android.util.Log;
 
 import java.io.IOException;
 
+import mg.utils.notify.NotificationHelper;
 import mg.utils.notify.ToastHelper;
 
 public class AudioPlayer extends Thread implements MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener {
 
-  static Uri audioLocation;
   private final Service service;
   private final MediaPlayer mediaPlayer;
 
-  public AudioPlayer(Service service, MediaPlayer mediaPlayer, Uri audioLocation) {
-    AudioPlayer.audioLocation = audioLocation;
+  public AudioPlayer(Service service, Uri audioLocation) {
     this.service = service;
-    this.mediaPlayer = mediaPlayer;
-  }
+    mediaPlayer = new MediaPlayer();
 
-  @Override
-  public void run() {
-    mediaPlayer.setLooping(false);
-    mediaPlayer.setOnPreparedListener(this);
-    mediaPlayer.setOnCompletionListener(this);
-    if (Build.VERSION.SDK_INT < 21) {
-      mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-    } else {
-      mediaPlayer.setAudioAttributes(
-          new AudioAttributes.Builder()
-              .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-              .setUsage(AudioAttributes.USAGE_MEDIA)
-              .build()
-      );
-    }
     try {
       mediaPlayer.setDataSource(service, audioLocation);
     } catch (IllegalArgumentException e) {
@@ -54,6 +37,25 @@ public class AudioPlayer extends Thread implements MediaPlayer.OnPreparedListene
       throwError(e, R.string.security_exception);
       return;
     }
+
+    if (Build.VERSION.SDK_INT < 21) {
+      mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+    } else {
+      mediaPlayer.setAudioAttributes(
+          new AudioAttributes.Builder()
+              .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+              .setUsage(AudioAttributes.USAGE_MEDIA)
+              .build()
+      );
+    }
+
+    mediaPlayer.setLooping(false);
+    mediaPlayer.setOnPreparedListener(this);
+    mediaPlayer.setOnCompletionListener(this);
+  }
+
+  @Override
+  public void run() {
     try {
       mediaPlayer.prepareAsync();
     } catch (IllegalStateException e) {
@@ -66,11 +68,11 @@ public class AudioPlayer extends Thread implements MediaPlayer.OnPreparedListene
       if (mediaPlayer.isPlaying()) {
         mediaPlayer.pause();
         if (Build.VERSION.SDK_INT >= 19)
-          service.notification.extras.putCharSequence(Notification.EXTRA_TEXT, "Tap to start");
+          NotificationHelper.setText(service.notification, "Tap to start");
       } else {
         mediaPlayer.start();
         if (Build.VERSION.SDK_INT >= 19)
-          service.notification.extras.putCharSequence(Notification.EXTRA_TEXT, "Tap to stop");
+          NotificationHelper.setText(service.notification, "Tap to stop");
       }
       service.updateNotification();
     } catch (IllegalStateException e) {

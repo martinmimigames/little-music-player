@@ -31,9 +31,9 @@ public class Service extends android.app.Service {
   @Override
   public void onCreate() {
 
-    CharSequence name = "Notification channel";
-    String description = "A channel for showing notification";
-    int importance = (Build.VERSION.SDK_INT > 24) ? NotificationManager.IMPORTANCE_DEFAULT : 0;
+    final CharSequence name = getString(R.string.notification_channel_name);
+    final String description = getString(R.string.notification_channel_info);
+    final int importance = (Build.VERSION.SDK_INT > 24) ? NotificationManager.IMPORTANCE_DEFAULT : 0;
     NotificationHelper.setupNotificationChannel(this, NOTIFICATION_CHANNEL, name, description, importance);
 
     NotificationHelper.getNotificationManager(this);
@@ -42,7 +42,7 @@ public class Service extends android.app.Service {
   }
 
   @Override
-  public int onStartCommand(Intent intent, int flags, int startId) {
+  public int onStartCommand(final Intent intent, final int flags, final int startId) {
     switch (intent.getIntExtra(ACTION.TYPE, ACTION.NULL)) {
       case ACTION.START_PAUSE:
         audioPlayer.startPause();
@@ -55,25 +55,26 @@ public class Service extends android.app.Service {
       case ACTION.SET_AUDIO:
         Uri audioLocation;
 
-        Intent audioIntent = intent.getParcelableExtra(ServiceControl.AUDIO_LOCATION);
-        String action = audioIntent.getAction();
-        if (action.contains(Intent.ACTION_VIEW)) {
-
-          audioLocation = audioIntent.getData();
-
-        } else if (action.contains(Intent.ACTION_SEND)) {
-
-          audioLocation = audioIntent.getParcelableExtra(Intent.EXTRA_STREAM);
-
-        } else return START_STICKY;
+        final Intent audioIntent = intent.getParcelableExtra(ServiceControl.AUDIO_LOCATION);
+        final String action = audioIntent.getAction();
+        switch (action) {
+          case Intent.ACTION_VIEW:
+            audioLocation = audioIntent.getData();
+            break;
+          case Intent.ACTION_SEND:
+            audioLocation = audioIntent.getParcelableExtra(Intent.EXTRA_STREAM);
+            break;
+          default:
+            return START_STICKY;
+        }
 
         notification = createNotification(audioLocation);
 
         startForeground(NOTIFICATION, notification);
-        Toast.makeText(getApplicationContext(), "Starting service...", Toast.LENGTH_SHORT)
-            .show();
 
-        audioPlayer = new AudioPlayer(this, new MediaPlayer(), audioLocation);
+        ToastHelper.showShort(this, "Starting service");
+
+        audioPlayer = new AudioPlayer(this, audioLocation);
         audioPlayer.start();
         break;
     }

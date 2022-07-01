@@ -15,4 +15,6 @@
   <string name="illegal_argument_exception">Requires cookies, which the app does not support.</string>
   <string name="io_exception">Read error, try again later.</string>
   <string name="security_exception">File location protected, cannot be accessed.</string>
+  <string name="notification_channel_name">playback control</string>
+  <string name="notification_channel_info">Allows for control over audio playback.</string>
 </resources>
