@@ -31,8 +31,8 @@ public class Service extends android.app.Service {
   @Override
   public void onCreate() {
 
-    final CharSequence name = getString(R.string.notification_channel_name);
-    final String description = getString(R.string.notification_channel_info);
+    final CharSequence name = "playback control";
+    final String description = "Allows for control over audio playback.";
     final int importance = (Build.VERSION.SDK_INT > 24) ? NotificationManager.IMPORTANCE_DEFAULT : 0;
     NotificationHelper.setupNotificationChannel(this, NOTIFICATION_CHANNEL, name, description, importance);
 

@@ -3,7 +3,8 @@
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
-  android:orientation="vertical">
+  android:orientation="vertical"
+  tools:ignore="HardcodedText">
 
   <LinearLayout
     android:layout_width="match_parent"
@@ -26,7 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="@string/app_name"
+        android:text="Little Music Player"
         android:textSize="40sp" />
 
       <View
@@ -36,19 +37,19 @@
       <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/how_to_use"
+        android:text="How to use"
         android:textSize="40sp" />
 
       <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/from_this_app" />
+        android:text="From this app:" />
 
       <Button
         android:id="@+id/file_opener"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/file_opener_prompt" />
+        android:text="Open a audio" />
 
       <View
         android:layout_width="match_parent"
@@ -57,7 +58,7 @@
       <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/from_other_apps" />
+        android:text="From other apps:" />
 
       <LinearLayout
         android:layout_width="wrap_content"
@@ -67,14 +68,13 @@
         <TextView
           android:layout_width="wrap_content"
           android:layout_height="match_parent"
-          android:text="1. "
           android:gravity="start"
-          tools:ignore="HardcodedText" />
+          android:text="1. " />
 
         <TextView
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:text="@string/instructions_1" />
+          android:text="Share an audio" />
       </LinearLayout>
 
       <LinearLayout
@@ -85,14 +85,13 @@
         <TextView
           android:layout_width="wrap_content"
           android:layout_height="match_parent"
-          android:text="2. "
           android:gravity="start"
-          tools:ignore="HardcodedText" />
+          android:text="2. " />
 
         <TextView
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:text="@string/instructions_2" />
+          android:text="Select simple music player" />
       </LinearLayout>
 
       <View
@@ -102,7 +101,7 @@
       <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/playback_control" />
+        android:text="You can control the playback via the notification." />
 
       <View
         android:layout_width="match_parent"
@@ -111,18 +110,18 @@
       <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/made_by"
+        android:text="Made By"
         android:textSize="40sp" />
 
       <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/organisation_name" />
+        android:text="martinmimigames" />
 
       <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/enjoy" />
+        android:text="Enjoy your audio!" />
 
     </LinearLayout>
 

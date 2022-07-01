@@ -15,6 +15,13 @@ import mg.utils.notify.ToastHelper;
 
 public class AudioPlayer extends Thread implements MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener {
 
+  private static final class Exceptions {
+    static final String IllegalArgument = "Requires cookies, which the app does not support.";
+    static final String IllegalState = "Unusable player state, close app and try again.";
+    static final String IO = "Read error, try again later.";
+    static final String Security = "File location protected, cannot be accessed.";
+  }
+
   private final Service service;
   private final MediaPlayer mediaPlayer;
 
@@ -25,16 +32,16 @@ public class AudioPlayer extends Thread implements MediaPlayer.OnPreparedListene
     try {
       mediaPlayer.setDataSource(service, audioLocation);
     } catch (IllegalArgumentException e) {
-      throwError(e, R.string.illegal_argument_exception);
+      throwError(e, Exceptions.IllegalArgument);
       return;
     } catch (SecurityException e) {
-      throwError(e, R.string.security_exception);
+      throwError(e, Exceptions.Security);
       return;
     } catch (IllegalStateException e) {
-      throwError(e, R.string.illegal_state_exception);
+      throwError(e, Exceptions.IllegalState);
       return;
     } catch (IOException e) {
-      throwError(e, R.string.security_exception);
+      throwError(e, Exceptions.IO);
       return;
     }
 
@@ -59,7 +66,7 @@ public class AudioPlayer extends Thread implements MediaPlayer.OnPreparedListene
     try {
       mediaPlayer.prepareAsync();
     } catch (IllegalStateException e) {
-      throwError(e, R.string.illegal_state_exception);
+      throwError(e, Exceptions.IllegalState);
     }
   }
 
@@ -101,10 +108,10 @@ public class AudioPlayer extends Thread implements MediaPlayer.OnPreparedListene
     service.stopSelf();
   }
 
-  private void throwError(Exception e, int resId) {
-    ToastHelper.showShort(service, resId);
+  private void throwError(Exception e, String msg) {
+    ToastHelper.showShort(service, msg);
     Log.v("little music player", "an error had occurred:" +
-        "\nError ID: " + service.getString(resId) +
+        "\nError ID: " + msg +
         "\nError information: " + e);
   }
 }
