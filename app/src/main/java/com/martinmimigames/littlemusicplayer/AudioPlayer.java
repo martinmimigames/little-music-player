@@ -13,16 +13,8 @@ import mg.utils.notify.ToastHelper;
 
 public class AudioPlayer extends Thread implements MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener {
 
-  private static final class Exceptions {
-    static final String IllegalArgument = "Requires cookies, which the app does not support.";
-    static final String IllegalState = "Unusable player state, close app and try again.";
-    static final String IO = "Read error, try again later.";
-    static final String Security = "File location protected, cannot be accessed.";
-  }
-
   private final Service service;
   private final MediaPlayer mediaPlayer;
-
   public AudioPlayer(Service service, Uri audioLocation) {
     this.service = service;
     mediaPlayer = new MediaPlayer();
@@ -103,5 +95,12 @@ public class AudioPlayer extends Thread implements MediaPlayer.OnPreparedListene
 
   private void throwError(String msg) {
     ToastHelper.showShort(service, msg);
+  }
+
+  private static final class Exceptions {
+    static final String IllegalArgument = "Requires cookies, which the app does not support.";
+    static final String IllegalState = "Unusable player state, close app and try again.";
+    static final String IO = "Read error, try again later.";
+    static final String Security = "File location protected, cannot be accessed.";
   }
 }
