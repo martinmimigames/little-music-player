@@ -24,6 +24,7 @@ public class ServiceControl extends Activity {
     if (intent.getIntExtra(ACTION.SELF_IDENTIFIER, ACTION.NULL) == ACTION.SELF_IDENTIFIER_ID) {
       intent.setClass(this, Service.class);
     } else {
+      stopService(new Intent(this, Service.class));
       intent = new Intent(this, Service.class)
           .putExtra(ACTION.TYPE, ACTION.SET_AUDIO)
           .putExtra(AUDIO_LOCATION, getIntent());

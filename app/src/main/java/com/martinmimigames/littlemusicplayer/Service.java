@@ -128,7 +128,7 @@ public class Service extends android.app.Service {
       notification.extras.putCharSequence(Notification.EXTRA_TITLE, "now playing : " + new File(uri.getPath()).getName());
       notification.extras.putCharSequence(Notification.EXTRA_TEXT, "Tap to stop");
 
-      PendingIntent startPauseIntent = PendingIntent
+      notification.contentIntent = PendingIntent
           .getActivity(
               this,
               2,
@@ -138,8 +138,6 @@ public class Service extends android.app.Service {
                   .putExtra(ACTION.TYPE, ACTION.START_PAUSE)
                   .putExtra(ACTION.SELF_IDENTIFIER, ACTION.SELF_IDENTIFIER_ID),
               pendingIntentFlag);
-
-      notification.contentIntent = startPauseIntent;
 
       notification.actions = new Notification.Action[]{
           new Notification.Action(R.drawable.ic_launcher, "close", killIntent)
