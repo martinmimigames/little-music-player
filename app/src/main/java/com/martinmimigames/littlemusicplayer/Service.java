@@ -97,6 +97,8 @@ public class Service extends android.app.Service {
   }
 
   private Notification createNotification(Uri uri) {
+
+    final String title = "now playing : " + new File(uri.getPath()).getName();
     notification = NotificationHelper
         .createNotification(
             this,
@@ -106,7 +108,7 @@ public class Service extends android.app.Service {
     //notification.largeIcon = BitmapFactory.decodeResource(this.getResources(), R.drawable.ic_launcher); // large icon display
     notification.defaults = Notification.DEFAULT_ALL; // set defaults
     notification.when = System.currentTimeMillis(); // set time of notification
-    notification.tickerText = "now playing : " + new File(uri.getPath()).getName(); // set popup text
+    notification.tickerText = title;// set popup text
     notification.flags = Notification.FLAG_AUTO_CANCEL; // automatically close popup
     notification.audioStreamType = Notification.STREAM_DEFAULT;
     notification.sound = null;
@@ -128,7 +130,7 @@ public class Service extends android.app.Service {
 
     if (Build.VERSION.SDK_INT >= 19) {
 
-      notification.extras.putCharSequence(Notification.EXTRA_TITLE, "now playing : " + new File(uri.getPath()).getName());
+      notification.extras.putCharSequence(Notification.EXTRA_TITLE, title);
       notification.extras.putCharSequence(Notification.EXTRA_TEXT, "Tap to stop");
 
       notification.contentIntent = PendingIntent
@@ -147,7 +149,7 @@ public class Service extends android.app.Service {
       };
     } else {
       notification.contentView = new RemoteViews("com.martinmimigames.littlemusicplayer", R.layout.notif);
-      notification.contentView.setTextViewText(R.id.notiftitle, "now playing : " + new File(uri.getPath()).getName());
+      notification.contentView.setTextViewText(R.id.notiftitle, title);
       notification.contentIntent = killIntent;
     }
 
