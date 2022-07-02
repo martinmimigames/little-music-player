@@ -1,12 +1,10 @@
 package com.martinmimigames.littlemusicplayer;
 
-import android.app.Notification;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
-import android.util.Log;
 
 import java.io.IOException;
 
@@ -32,16 +30,16 @@ public class AudioPlayer extends Thread implements MediaPlayer.OnPreparedListene
     try {
       mediaPlayer.setDataSource(service, audioLocation);
     } catch (IllegalArgumentException e) {
-      throwError(e, Exceptions.IllegalArgument);
+      throwError(Exceptions.IllegalArgument);
       return;
     } catch (SecurityException e) {
-      throwError(e, Exceptions.Security);
+      throwError(Exceptions.Security);
       return;
     } catch (IllegalStateException e) {
-      throwError(e, Exceptions.IllegalState);
+      throwError(Exceptions.IllegalState);
       return;
     } catch (IOException e) {
-      throwError(e, Exceptions.IO);
+      throwError(Exceptions.IO);
       return;
     }
 
@@ -66,20 +64,19 @@ public class AudioPlayer extends Thread implements MediaPlayer.OnPreparedListene
     try {
       mediaPlayer.prepareAsync();
     } catch (IllegalStateException e) {
-      throwError(e, Exceptions.IllegalState);
+      throwError(Exceptions.IllegalState);
     }
   }
 
+  /* only invoked on sdk >= 19 */
   public void startPause() {
     try {
       if (mediaPlayer.isPlaying()) {
         mediaPlayer.pause();
-        if (Build.VERSION.SDK_INT >= 19)
-          NotificationHelper.setText(service.notification, "Tap to start");
+        NotificationHelper.setText(service.notification, "Tap to start");
       } else {
         mediaPlayer.start();
-        if (Build.VERSION.SDK_INT >= 19)
-          NotificationHelper.setText(service.notification, "Tap to stop");
+        NotificationHelper.setText(service.notification, "Tap to stop");
       }
       service.updateNotification();
     } catch (IllegalStateException e) {
@@ -100,18 +97,11 @@ public class AudioPlayer extends Thread implements MediaPlayer.OnPreparedListene
   @Override
   public void interrupt() {
     super.interrupt();
-    try {
-      mediaPlayer.reset();
-    } catch (IllegalStateException ignored) {
-    }
     mediaPlayer.release();
     service.stopSelf();
   }
 
-  private void throwError(Exception e, String msg) {
+  private void throwError(String msg) {
     ToastHelper.showShort(service, msg);
-    Log.v("little music player", "an error had occurred:" +
-        "\nError ID: " + msg +
-        "\nError information: " + e);
   }
 }

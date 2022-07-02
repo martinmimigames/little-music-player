@@ -4,19 +4,14 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
 import android.os.IBinder;
-import android.view.View;
 import android.widget.RemoteViews;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.File;
 
 import mg.utils.notify.NotificationHelper;
-import mg.utils.notify.ToastHelper;
 
 public class Service extends android.app.Service {
 
@@ -38,8 +33,6 @@ public class Service extends android.app.Service {
     final String description = "Allows for control over audio playback.";
     final int importance = (Build.VERSION.SDK_INT > 24) ? NotificationManager.IMPORTANCE_DEFAULT : 0;
     NotificationHelper.setupNotificationChannel(this, NOTIFICATION_CHANNEL, name, description, importance);
-
-    NotificationHelper.getNotificationManager(this);
 
     super.onCreate();
   }
@@ -75,8 +68,6 @@ public class Service extends android.app.Service {
 
         startForeground(NOTIFICATION, notification);
 
-        ToastHelper.showShort(this, "Starting service");
-
         audioPlayer = new AudioPlayer(this, audioLocation);
         audioPlayer.start();
         break;
@@ -88,10 +79,7 @@ public class Service extends android.app.Service {
   public void onDestroy() {
 
     NotificationHelper.unsend(this, NOTIFICATION);
-    if (!audioPlayer.isInterrupted())
-      audioPlayer.interrupt();
-
-    ToastHelper.showShort(this, "Closing service...");
+    if (!audioPlayer.isInterrupted()) audioPlayer.interrupt();
 
     super.onDestroy();
   }
@@ -99,11 +87,7 @@ public class Service extends android.app.Service {
   private Notification createNotification(Uri uri) {
 
     final String title = "now playing : " + new File(uri.getPath()).getName();
-    notification = NotificationHelper
-        .createNotification(
-            this,
-            NOTIFICATION_CHANNEL,
-            (Build.VERSION.SDK_INT > 21) ? Notification.CATEGORY_SERVICE : null);
+    notification = NotificationHelper.createNotification(this, NOTIFICATION_CHANNEL, (Build.VERSION.SDK_INT > 21) ? Notification.CATEGORY_SERVICE : null);
     notification.icon = R.drawable.ic_launcher; // icon display
     //notification.largeIcon = BitmapFactory.decodeResource(this.getResources(), R.drawable.ic_launcher); // large icon display
     notification.defaults = Notification.DEFAULT_ALL; // set defaults
@@ -113,40 +97,19 @@ public class Service extends android.app.Service {
     notification.audioStreamType = Notification.STREAM_DEFAULT;
     notification.sound = null;
 
-    final int pendingIntentFlag =
-        PendingIntent.FLAG_UPDATE_CURRENT |
-            ((Build.VERSION.SDK_INT > 23) ? PendingIntent.FLAG_IMMUTABLE : 0);
+    final int pendingIntentFlag = PendingIntent.FLAG_UPDATE_CURRENT | ((Build.VERSION.SDK_INT > 23) ? PendingIntent.FLAG_IMMUTABLE : 0);
 
     //the PendingIntent to launch our activity if the user select this notification
-    PendingIntent killIntent = PendingIntent
-        .getActivity(this,
-            1,
-            new Intent(this, ServiceControl.class)
-                .addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION
-                    | Intent.FLAG_ACTIVITY_NO_HISTORY)
-                .putExtra(ACTION.SELF_IDENTIFIER, ACTION.SELF_IDENTIFIER_ID)
-                .putExtra(ACTION.TYPE, ACTION.KILL),
-            pendingIntentFlag);
+    PendingIntent killIntent = PendingIntent.getActivity(this, 1, new Intent(this, ServiceControl.class).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_NO_HISTORY).putExtra(ACTION.SELF_IDENTIFIER, ACTION.SELF_IDENTIFIER_ID).putExtra(ACTION.TYPE, ACTION.KILL), pendingIntentFlag);
 
     if (Build.VERSION.SDK_INT >= 19) {
 
       notification.extras.putCharSequence(Notification.EXTRA_TITLE, title);
       notification.extras.putCharSequence(Notification.EXTRA_TEXT, "Tap to stop");
 
-      notification.contentIntent = PendingIntent
-          .getActivity(
-              this,
-              2,
-              new Intent(this, ServiceControl.class)
-                  .addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION
-                      | Intent.FLAG_ACTIVITY_NO_HISTORY)
-                  .putExtra(ACTION.TYPE, ACTION.START_PAUSE)
-                  .putExtra(ACTION.SELF_IDENTIFIER, ACTION.SELF_IDENTIFIER_ID),
-              pendingIntentFlag);
+      notification.contentIntent = PendingIntent.getActivity(this, 2, new Intent(this, ServiceControl.class).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_NO_HISTORY).putExtra(ACTION.TYPE, ACTION.START_PAUSE).putExtra(ACTION.SELF_IDENTIFIER, ACTION.SELF_IDENTIFIER_ID), pendingIntentFlag);
 
-      notification.actions = new Notification.Action[]{
-          new Notification.Action(R.drawable.ic_launcher, "close", killIntent)
-      };
+      notification.actions = new Notification.Action[]{new Notification.Action(R.drawable.ic_launcher, "close", killIntent)};
     } else {
       notification.contentView = new RemoteViews("com.martinmimigames.littlemusicplayer", R.layout.notif);
       notification.contentView.setTextViewText(R.id.notiftitle, title);
