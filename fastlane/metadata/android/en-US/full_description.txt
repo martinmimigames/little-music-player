@@ -1,7 +1,24 @@
-A simple small audio player.
-Plays audios and videos that are supported by the system.
+A simple tiny audio player.
+Plays audios and videos, like how you expected to.
 Designed in hope for compatibility with different android versions.
+
+"Specialities":
+- less than 20kB in size, one of the tiniest audio player apps
+- Theoretical support starting from android 1.0
+- Tested support on android 2.3 and higher
+- clean, simple design
+- plays audio and nothing else, just like how it should be
+- minimal permission required, so you know it's safe to use
+- supports all audio types that your system's decoder supports
+- as little third-party library used as possible
+- open-sourced, everyone should have the right to listen to music
+
+
+if you worry about size, compatibility or privacy, this is the app to use!
+
+We use the permission Foreground Service to provide audio playing while using other apps.
+
 The app is still under development, changes may be common.
 Issues and pull requests are welcomed.
-Made by martinmimigames!
+Proudly made by martinmimigames!
 Enjoy your music! :)

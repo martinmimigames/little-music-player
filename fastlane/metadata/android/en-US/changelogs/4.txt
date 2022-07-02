@@ -1,0 +1,5 @@
+- Better optimisation and removed some bloat
+- Tested support on android 2.3
+- Theoretically works on android 1.0
+- fixed null pointer error when exiting file selection in "open audio"
+- fixed multiple playing when changing to new audio file
