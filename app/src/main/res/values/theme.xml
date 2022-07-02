@@ -15,6 +15,4 @@
     <item name="android:textColor">@color/foreground</item>
     <item name="android:background">@color/buttonBackground</item>
   </style>
-
-  <style name="notif_theme" parent="@android:style/Theme.Light.NoTitleBar.Fullscreen"></style>
 </resources>

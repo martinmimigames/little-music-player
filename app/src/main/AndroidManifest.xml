@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
   package="com.martinmimigames.littlemusicplayer"
   android:versionCode="3"
   android:versionName="2.1">
@@ -11,7 +12,8 @@
     android:label="Little Music Player"
     android:resizeableActivity="true"
     android:restoreAnyVersion="true"
-    android:theme="@style/app_theme">
+    android:theme="@style/app_theme"
+    tools:targetApi="n">
 
     <activity
       android:name=".MainActivity"
@@ -29,23 +31,14 @@
     <activity
       android:name=".ServiceControl"
       android:exported="true">
-      <intent-filter>
+      <intent-filter tools:ignore="AppLinkUrlError">
+        <action android:name="android.intent.action.VIEW" />
         <action android:name="android.intent.action.SEND" />
+
         <category android:name="android.intent.category.DEFAULT" />
 
         <data android:mimeType="audio/*" />
         <data android:mimeType="video/*" />
-      </intent-filter>
-      <intent-filter>
-        <action android:name="android.intent.action.VIEW" />
-        <category android:name="android.intent.category.DEFAULT" />
-
-        <data
-          android:mimeType="audio/*"
-          android:scheme="content" />
-        <data
-          android:mimeType="video/*"
-          android:scheme="content" />
       </intent-filter>
     </activity>
   </application>
