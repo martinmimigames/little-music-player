@@ -8,6 +8,9 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
 import android.os.IBinder;
+import android.view.View;
+import android.widget.RemoteViews;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -143,6 +146,8 @@ public class Service extends android.app.Service {
           new Notification.Action(R.drawable.ic_launcher, "close", killIntent)
       };
     } else {
+      notification.contentView = new RemoteViews("com.martinmimigames.littlemusicplayer", R.layout.notif);
+      notification.contentView.setTextViewText(R.id.notiftitle, "now playing : " + new File(uri.getPath()).getName());
       notification.contentIntent = killIntent;
     }
 
