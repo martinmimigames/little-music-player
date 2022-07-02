@@ -6,7 +6,7 @@ android {
   compileSdkVersion 32
 
   defaultConfig {
-    minSdkVersion 8
+    minSdkVersion 1
     targetSdkVersion 32
   }
 
