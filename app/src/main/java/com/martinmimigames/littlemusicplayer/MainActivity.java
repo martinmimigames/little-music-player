@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.martinmimigames.littlemusicplayer.R;
-
 public class MainActivity extends Activity implements View.OnClickListener {
 
   private static final int REQUEST_CODE = 3216487;
@@ -25,14 +23,12 @@ public class MainActivity extends Activity implements View.OnClickListener {
     startActivityForResult(fileIntent, REQUEST_CODE);
   }
 
+
   @Override
   protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
-    super.onActivityResult(requestCode, resultCode, intent);
-    if (requestCode == REQUEST_CODE) {
-      if (resultCode == Activity.RESULT_OK)
-        intent.setClass(this, ServiceControl.class);
-      intent.setAction(Intent.ACTION_VIEW);
-      startActivity(intent);
-    }
+    if (requestCode != REQUEST_CODE || resultCode != Activity.RESULT_OK) return;
+    intent.setClass(this, ServiceControl.class);
+    intent.setAction(Intent.ACTION_VIEW);
+    startActivity(intent);
   }
 }
