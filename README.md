@@ -1,5 +1,8 @@
 # little music player #
 
+[<img src="https://img.shields.io/github/license/martinmimigames/little-music-player?style=flat-square"
+alt="go to license">](https://github.com/martinmimigames/little-music-player/blob/main/LICENSE.md)
+
 ## Description ##
 
 Plays audios and videos as pure audio. Simply open or share the file to the app, or select it from
@@ -25,6 +28,10 @@ similar topic. Please put appropriate tags to issues if possible. We would be ha
 your issues. :)
 
 - - - -
+
+[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
+    alt="Get it on F-Droid"
+    height="80">](https://f-droid.org/packages/com.martinmimigames.littlemusicplayer)
 
 ### Last update of README ###
 
