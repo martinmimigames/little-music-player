@@ -14,22 +14,45 @@ import java.io.File;
 
 import mg.utils.notify.NotificationHelper;
 
+/**
+ * service for playing music
+ */
 public class Service extends android.app.Service {
 
+  /**
+   * notification channel id
+   */
   private static final String NOTIFICATION_CHANNEL = "martinmimigames.simpleMusicPlayer notification channel";
+
+  /**
+   * notification id
+   */
   public final int NOTIFICATION = 1;
+
+  /**
+   * notification for playback control
+   */
   Notification notification;
 
+  /**
+   * audio playing logic class
+   */
   private AudioPlayer audioPlayer;
 
+  /**
+   * unused
+   */
   @Override
   public IBinder onBind(Intent intent) {
     return null;
   }
 
+  /**
+   * setup
+   */
   @Override
   public void onCreate() {
-
+    /* create a notification channel */
     final CharSequence name = "playback control";
     final String description = "Allows for control over audio playback.";
     final int importance = (Build.VERSION.SDK_INT > 24) ? NotificationManager.IMPORTANCE_DEFAULT : 0;
@@ -38,25 +61,36 @@ public class Service extends android.app.Service {
     super.onCreate();
   }
 
+  /**
+   * older api support - hopefully
+   */
   @Override
   public void onStart(final Intent intent, final int startId) {
     onStartCommand(intent, 0, startId);
   }
 
+  /**
+   * startup locgic
+   */
   @Override
   public int onStartCommand(final Intent intent, final int flags, final int startId) {
     switch (intent.getIntExtra(ACTION.TYPE, ACTION.NULL)) {
+
+      /* start or pause audio playback */
       case ACTION.START_PAUSE:
         audioPlayer.startPause();
         break;
 
+      /* cancel audio playback and kill service */
       case ACTION.KILL:
         stopSelf();
         break;
 
+      /* setup new audio for playback */
       case ACTION.SET_AUDIO:
-        Uri audioLocation;
 
+        /* get audio location */
+        Uri audioLocation;
         final Intent audioIntent = intent.getParcelableExtra(ServiceControl.AUDIO_LOCATION);
         final String action = audioIntent.getAction();
         switch (action) {
@@ -66,15 +100,20 @@ public class Service extends android.app.Service {
           case Intent.ACTION_SEND:
             audioLocation = audioIntent.getParcelableExtra(Intent.EXTRA_STREAM);
             break;
+
+          /* if none return to cancel operation */
           default:
             return START_STICKY;
         }
 
+        /* create notification for playback control */
         notification = createNotification(audioLocation);
 
+        /* start service as foreground */
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ECLAIR)
           startForeground(NOTIFICATION, notification);
 
+        /* get audio playback logic and start async */
         audioPlayer = new AudioPlayer(this, audioLocation);
         audioPlayer.start();
         break;
@@ -82,17 +121,26 @@ public class Service extends android.app.Service {
     return START_STICKY;
   }
 
+  /**
+   * service killing logic
+   */
   @Override
   public void onDestroy() {
 
+    /* remove notification from stack */
     NotificationHelper.unsend(this, NOTIFICATION);
+    /* interrupt audio playback logic */
     if (!audioPlayer.isInterrupted()) audioPlayer.interrupt();
 
     super.onDestroy();
   }
 
+  /**
+   * create and start playback control notification
+   */
   private Notification createNotification(Uri uri) {
 
+    /* setup notification variable */
     final String title = "now playing : " + new File(uri.getPath()).getName();
     notification = NotificationHelper.createNotification(this, NOTIFICATION_CHANNEL, (Build.VERSION.SDK_INT > 21) ? Notification.CATEGORY_SERVICE : null);
     notification.icon = R.drawable.ic_launcher; // icon display
@@ -104,11 +152,13 @@ public class Service extends android.app.Service {
     notification.audioStreamType = Notification.STREAM_DEFAULT;
     notification.sound = null;
 
+    /* flags for control logics on notification */
     final int pendingIntentFlag = PendingIntent.FLAG_UPDATE_CURRENT | ((Build.VERSION.SDK_INT > 23) ? PendingIntent.FLAG_IMMUTABLE : 0);
+    /* calls for control logic by starting activity with flags */
+    final PendingIntent killIntent = PendingIntent.getActivity(this, 1, new Intent(this, ServiceControl.class).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_NO_HISTORY).putExtra(ACTION.SELF_IDENTIFIER, ACTION.SELF_IDENTIFIER_ID).putExtra(ACTION.TYPE, ACTION.KILL), pendingIntentFlag);
 
-    //the PendingIntent to launch our activity if the user select this notification
-    PendingIntent killIntent = PendingIntent.getActivity(this, 1, new Intent(this, ServiceControl.class).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_NO_HISTORY).putExtra(ACTION.SELF_IDENTIFIER, ACTION.SELF_IDENTIFIER_ID).putExtra(ACTION.TYPE, ACTION.KILL), pendingIntentFlag);
-
+    /* extra variables for notification setup */
+    /* different depending on sdk version as they require different logic */
     if (Build.VERSION.SDK_INT >= 19) {
 
       notification.extras.putCharSequence(Notification.EXTRA_TITLE, title);
@@ -123,12 +173,16 @@ public class Service extends android.app.Service {
       notification.contentIntent = killIntent;
     }
 
-    notification.flags |= Notification.FLAG_ONLY_ALERT_ONCE; //set to not notify again when update
+    /* set to not notify again when update */
+    notification.flags |= Notification.FLAG_ONLY_ALERT_ONCE;
     updateNotification();
 
     return notification;
   }
 
+  /**
+   * update notification content and place on stack
+   */
   void updateNotification() {
     NotificationHelper.send(this, NOTIFICATION, notification);
   }

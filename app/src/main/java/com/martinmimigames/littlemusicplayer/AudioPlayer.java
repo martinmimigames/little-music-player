@@ -17,8 +17,10 @@ public class AudioPlayer extends Thread implements MediaPlayer.OnPreparedListene
   private final MediaPlayer mediaPlayer;
   public AudioPlayer(Service service, Uri audioLocation) {
     this.service = service;
+    /* initiate new audio player */
     mediaPlayer = new MediaPlayer();
 
+    /* setup player variables */
     try {
       mediaPlayer.setDataSource(service, audioLocation);
     } catch (IllegalArgumentException e) {
@@ -47,6 +49,8 @@ public class AudioPlayer extends Thread implements MediaPlayer.OnPreparedListene
     }
 
     mediaPlayer.setLooping(false);
+
+    /* setup listeners for further logics */
     mediaPlayer.setOnPreparedListener(this);
     mediaPlayer.setOnCompletionListener(this);
   }
@@ -54,6 +58,7 @@ public class AudioPlayer extends Thread implements MediaPlayer.OnPreparedListene
   @Override
   public void run() {
     try {
+      /* get ready for playback */
       mediaPlayer.prepareAsync();
     } catch (IllegalStateException e) {
       throwError(Exceptions.IllegalState);
@@ -76,16 +81,21 @@ public class AudioPlayer extends Thread implements MediaPlayer.OnPreparedListene
     }
   }
 
+  /**
+   * playback when ready
+   */
   @Override
   public void onPrepared(MediaPlayer mp) {
     mediaPlayer.start();
   }
 
+  /** release resource when playback finished */
   @Override
   public void onCompletion(MediaPlayer mp) {
     interrupt();
   }
 
+  /** release and kill service */
   @Override
   public void interrupt() {
     super.interrupt();
@@ -93,6 +103,7 @@ public class AudioPlayer extends Thread implements MediaPlayer.OnPreparedListene
     service.stopSelf();
   }
 
+  /** create and display error toast to report errors */
   private void throwError(String msg) {
     ToastHelper.showShort(service, msg);
   }
