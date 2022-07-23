@@ -1,5 +1,6 @@
 package com.martinmimigames.littlemusicplayer;
 
+import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -38,6 +39,11 @@ public class Service extends android.app.Service {
   }
 
   @Override
+  public void onStart(final Intent intent, final int startId) {
+    onStartCommand(intent, 0, startId);
+  }
+
+  @Override
   public int onStartCommand(final Intent intent, final int flags, final int startId) {
     switch (intent.getIntExtra(ACTION.TYPE, ACTION.NULL)) {
       case ACTION.START_PAUSE:
@@ -66,7 +72,8 @@ public class Service extends android.app.Service {
 
         notification = createNotification(audioLocation);
 
-        startForeground(NOTIFICATION, notification);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ECLAIR)
+          startForeground(NOTIFICATION, notification);
 
         audioPlayer = new AudioPlayer(this, audioLocation);
         audioPlayer.start();
