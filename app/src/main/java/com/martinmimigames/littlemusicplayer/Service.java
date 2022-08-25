@@ -1,6 +1,5 @@
 package com.martinmimigames.littlemusicplayer;
 
-import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
