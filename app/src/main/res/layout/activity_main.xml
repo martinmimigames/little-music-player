@@ -23,10 +23,13 @@
       android:layout_weight="80"
       android:orientation="vertical">
 
+      <View
+        android:layout_width="match_parent"
+        android:layout_height="11sp" />
+
       <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:text="Little Music Player"
         android:textSize="40sp" />
 
@@ -49,6 +52,7 @@
         android:id="@+id/file_opener"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="10dp"
         android:text="Open a audio" />
 
       <View
@@ -60,39 +64,15 @@
         android:layout_height="wrap_content"
         android:text="From other apps:" />
 
-      <LinearLayout
-        android:layout_width="wrap_content"
+      <TextView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:text="1. Share an audio" />
 
-        <TextView
-          android:layout_width="wrap_content"
-          android:layout_height="match_parent"
-          android:gravity="start"
-          android:text="1. " />
-
-        <TextView
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:text="Share an audio" />
-      </LinearLayout>
-
-      <LinearLayout
-        android:layout_width="wrap_content"
+      <TextView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-          android:layout_width="wrap_content"
-          android:layout_height="match_parent"
-          android:gravity="start"
-          android:text="2. " />
-
-        <TextView
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:text="Select simple music player" />
-      </LinearLayout>
+        android:text="2. Select simple music player" />
 
       <View
         android:layout_width="match_parent"
@@ -123,6 +103,9 @@
         android:layout_height="wrap_content"
         android:text="Enjoy your audio!" />
 
+      <View
+        android:layout_width="match_parent"
+        android:layout_height="11sp" />
     </LinearLayout>
 
     <View
