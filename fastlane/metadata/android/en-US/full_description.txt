@@ -4,23 +4,23 @@ Designed in hope for compatibility with different android versions.
 
 "Specialities":
 - Free $$$
-  everyone have the right to listen to music, and therefore we aim to make it possible
+  Everyone have the right to listen to music, and therefore we aim to make it possible
 
 - AD free !!!
-  ad may be music to some, but we simply want a clean experience for everyone
+  Ad may be music to some, but we simply want a clean experience for everyone
 
 - Mini
-  less than 20kB in size, one of the tiniest audio player apps on android!
-  never worry about bloated apps again!
+  Less than 20kB in size, one of the tiniest audio player apps on android!
+  Never worry about bloated apps again!
 
 - Unbelievably compatible
   Strangely addicted to support, we believe no one should be excluded because of an older system.
   Therefore, we have theoretical support starting from android 1.0,
   and tested support on android 2.3 and higher.
 
-- Clean & simple
-  No strange placement, no hiding options,
-  a straightforward for you to focus on the music.
+- Clean & Simple
+  No strange placement, no hidden options and straightforward,
+  so you can focus on the music.
   Enjoyment is key, right?
 
 - Works :)
@@ -42,7 +42,6 @@ If you worry about size, compatibility or privacy, this is simply the app for yo
 
 We use the permission Foreground Service to provide audio playing while using other apps.
 
-The app is still under development.
 Issues and pull requests are welcomed.
 Proudly made by martinmimigames!
 Enjoy your music! :)

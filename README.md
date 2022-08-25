@@ -40,10 +40,9 @@ You can find most information about little music player there.
   Therefore, we have theoretical support starting from android 1.0,
   and tested support on android 2.3 and higher.
 
-- Clean
+- Clean & Simple
 
-  No strange placement, no hiding options
-  and straightforward for you to focus on the music.
+  No strange placement, no hidden options and straightforward, so you can focus on the music.
   Enjoyment is key, right?
 
 - Works :)
@@ -73,11 +72,10 @@ We use the permission Foreground Service to provide audio playing while using ot
 
 ## Issues ##
 
-If have any bugs, features, or improvements, please put them into issues
-[here](https://github.com/martinmimigames/little-music-player/issues/new). The issues created should
-be referred to the main branch, unless specified. Only create a new issue when there is no other of
-similar topic. Please put appropriate tags to issues if possible. We would be happy to listen to
-your issues. :)
+Issues and pull requests are welcomed.
+
+Please put them into issues
+[here](https://github.com/martinmimigames/little-music-player/issues/new).
 
 - - - -
 

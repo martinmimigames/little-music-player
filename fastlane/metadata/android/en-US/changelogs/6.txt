@@ -1,0 +1,3 @@
+- Now app does not use full screen mode
+- Mini UI changes
+- Updated documentation
