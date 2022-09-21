@@ -30,7 +30,8 @@
 
     <activity
       android:name=".ServiceControl"
-      android:exported="true">
+      android:exported="true"
+      android:excludeFromRecents="true">
       <intent-filter tools:ignore="AppLinkUrlError">
         <action android:name="android.intent.action.VIEW" />
         <action android:name="android.intent.action.SEND" />
