@@ -39,6 +39,14 @@ public class Service extends android.app.Service {
   private AudioPlayer audioPlayer;
 
   /**
+   * service state
+   */
+  private int state;
+
+  private static final int STATE_STARTED = 1;
+  private static final int STATE_ENDED = 0;
+
+  /**
    * unused
    */
   @Override
@@ -73,6 +81,8 @@ public class Service extends android.app.Service {
    */
   @Override
   public int onStartCommand(final Intent intent, final int flags, final int startId) {
+    if (state == STATE_STARTED)
+      return START_STICKY;
     switch (intent.getIntExtra(ACTION.TYPE, ACTION.NULL)) {
 
       /* start or pause audio playback */
@@ -131,6 +141,8 @@ public class Service extends android.app.Service {
     /* interrupt audio playback logic */
     if (!audioPlayer.isInterrupted()) audioPlayer.interrupt();
 
+    state = STATE_ENDED;
+
     super.onDestroy();
   }
 
@@ -168,7 +180,7 @@ public class Service extends android.app.Service {
       notification.actions = new Notification.Action[]{new Notification.Action(R.drawable.ic_launcher, "close", killIntent)};
     } else {
       notification.contentView = new RemoteViews("com.martinmimigames.littlemusicplayer", R.layout.notif);
-      notification.contentView.setTextViewText(R.id.notiftitle, title);
+      NotificationHelper.setText(notification, R.id.notiftitle, title);
       notification.contentIntent = killIntent;
     }
 
