@@ -1,0 +1,3 @@
+- potential bug fix for notification fails on android 4.4
+- potential bug fix for double onStart()
+- bug fix for exposure of hidden class
