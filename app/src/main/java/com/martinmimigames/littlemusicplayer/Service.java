@@ -1,6 +1,5 @@
 package com.martinmimigames.littlemusicplayer;
 
-import android.annotation.TargetApi;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -38,14 +37,6 @@ public class Service extends android.app.Service {
    * audio playing logic class
    */
   private AudioPlayer audioPlayer;
-
-  /**
-   * service state
-   */
-  private int state;
-
-  private static final int STATE_STARTED = 1;
-  private static final int STATE_ENDED = 0;
 
   /**
    * unused
@@ -102,7 +93,6 @@ public class Service extends android.app.Service {
         /* get audio playback logic and start async */
         audioPlayer = new AudioPlayer(this, audioLocation);
         audioPlayer.start();
-        state = STATE_STARTED;
         return;
     }
   }
@@ -110,11 +100,9 @@ public class Service extends android.app.Service {
   /**
    * startup logic
    */
-  @TargetApi(Build.VERSION_CODES.ECLAIR)
   @Override
   public int onStartCommand(final Intent intent, final int flags, final int startId) {
-    if (state != STATE_STARTED)
-      onStart(intent, startId);
+    onStart(intent, startId);
     return START_STICKY;
   }
 
@@ -128,8 +116,6 @@ public class Service extends android.app.Service {
     NotificationHelper.unsend(this, NOTIFICATION);
     /* interrupt audio playback logic */
     if (!audioPlayer.isInterrupted()) audioPlayer.interrupt();
-
-    state = STATE_ENDED;
 
     super.onDestroy();
   }
@@ -154,7 +140,28 @@ public class Service extends android.app.Service {
     /* flags for control logics on notification */
     final int pendingIntentFlag = PendingIntent.FLAG_UPDATE_CURRENT | ((Build.VERSION.SDK_INT > 23) ? PendingIntent.FLAG_IMMUTABLE : 0);
     /* calls for control logic by starting activity with flags */
-    final PendingIntent killIntent = PendingIntent.getActivity(this, 1, new Intent(this, ServiceControl.class).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_NO_HISTORY).putExtra(ACTION.SELF_IDENTIFIER, ACTION.SELF_IDENTIFIER_ID).putExtra(ACTION.TYPE, ACTION.KILL), pendingIntentFlag);
+    final PendingIntent killIntent =
+        PendingIntent
+            .getActivity(
+                this,
+                1,
+                new Intent(
+                    this,
+                    ServiceControl.class
+                ).addFlags(
+                    Intent.FLAG_ACTIVITY_NO_HISTORY |
+                        (
+                            (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ECLAIR) ?
+                                Intent.FLAG_ACTIVITY_NO_ANIMATION : 0)
+                ).putExtra(
+                    ACTION.SELF_IDENTIFIER,
+                    ACTION.SELF_IDENTIFIER_ID
+                ).putExtra(
+                    ACTION.TYPE,
+                    ACTION.KILL
+                ),
+                pendingIntentFlag
+            );
 
     /* extra variables for notification setup */
     /* different depending on sdk version as they require different logic */
