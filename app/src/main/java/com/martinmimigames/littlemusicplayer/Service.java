@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.IBinder;
+import android.view.KeyEvent;
 import android.widget.RemoteViews;
 
 import java.io.File;
@@ -62,7 +63,7 @@ public class Service extends android.app.Service {
   }
 
   /**
-   * older api support - hopefully
+   * startup logic
    */
   @Override
   public void onStart(final Intent intent, final int startId) {
@@ -98,7 +99,7 @@ public class Service extends android.app.Service {
   }
 
   /**
-   * startup logic
+   * forward to startup logic for newer androids
    */
   @TargetApi(Build.VERSION_CODES.ECLAIR)
   @Override
