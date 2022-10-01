@@ -8,7 +8,6 @@ import android.os.Build;
 
 import java.io.IOException;
 
-import mg.utils.notify.NotificationHelper;
 import mg.utils.notify.ToastHelper;
 
 public class AudioPlayer extends Thread implements MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener {
@@ -70,12 +69,11 @@ public class AudioPlayer extends Thread implements MediaPlayer.OnPreparedListene
     try {
       if (mediaPlayer.isPlaying()) {
         mediaPlayer.pause();
-        NotificationHelper.setText(service.notification, "Tap to start");
+        service.nm.pausePlayback();
       } else {
         mediaPlayer.start();
-        NotificationHelper.setText(service.notification, "Tap to stop");
+        service.nm.startPlayback();
       }
-      service.updateNotification();
     } catch (IllegalStateException e) {
       interrupt();
     }
