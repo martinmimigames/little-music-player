@@ -64,19 +64,16 @@ public class AudioPlayer extends Thread implements MediaPlayer.OnPreparedListene
     }
   }
 
-  /* only invoked on sdk >= 19 */
-  public void startPause() {
-    try {
-      if (mediaPlayer.isPlaying()) {
-        mediaPlayer.pause();
-        service.nm.pausePlayback();
-      } else {
-        mediaPlayer.start();
-        service.nm.startPlayback();
-      }
-    } catch (IllegalStateException e) {
-      interrupt();
-    }
+  public boolean isPlaying() {
+    return mediaPlayer.isPlaying();
+  }
+
+  public void play() {
+    mediaPlayer.start();
+  }
+
+  public void pause() {
+    mediaPlayer.pause();
   }
 
   /**

@@ -15,11 +15,13 @@ public class Service extends android.app.Service {
    * audio playing logic class
    */
   private AudioPlayer audioPlayer;
+  SessionBroadcastControl sbc;
 
   Notifications nm;
 
   public Service() {
     nm = new Notifications(this);
+    sbc = new SessionBroadcastControl(this);
   }
 
   /**
@@ -36,6 +38,7 @@ public class Service extends android.app.Service {
   @Override
   public void onCreate() {
     nm.create();
+    sbc.create();
 
     super.onCreate();
   }
@@ -49,7 +52,7 @@ public class Service extends android.app.Service {
 
       /* start or pause audio playback */
       case ACTION.START_PAUSE:
-        audioPlayer.startPause();
+        playPause();
         return;
 
       /* cancel audio playback and kill service */
@@ -76,6 +79,25 @@ public class Service extends android.app.Service {
     }
   }
 
+  void playPause() {
+    if (audioPlayer.isPlaying())
+      pause();
+    else
+      play();
+  }
+
+  void play() {
+    audioPlayer.play();
+    nm.startPlayback();
+    sbc.play();
+  }
+
+  void pause() {
+    audioPlayer.pause();
+    nm.pausePlayback();
+    sbc.pause();
+  }
+
   /**
    * forward to startup logic for newer androids
    */
@@ -92,6 +114,7 @@ public class Service extends android.app.Service {
   @Override
   public void onDestroy() {
     nm.destroy();
+    sbc.destroy();
     /* interrupt audio playback logic */
     if (!audioPlayer.isInterrupted()) audioPlayer.interrupt();
 
