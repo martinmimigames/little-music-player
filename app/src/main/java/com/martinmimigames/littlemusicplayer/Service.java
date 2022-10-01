@@ -1,5 +1,6 @@
 package com.martinmimigames.littlemusicplayer;
 
+import android.annotation.TargetApi;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -93,13 +94,13 @@ public class Service extends android.app.Service {
         /* get audio playback logic and start async */
         audioPlayer = new AudioPlayer(this, audioLocation);
         audioPlayer.start();
-        return;
     }
   }
 
   /**
    * startup logic
    */
+  @TargetApi(Build.VERSION_CODES.ECLAIR)
   @Override
   public int onStartCommand(final Intent intent, final int flags, final int startId) {
     onStart(intent, startId);
@@ -138,7 +139,12 @@ public class Service extends android.app.Service {
     notification.sound = null;
 
     /* flags for control logics on notification */
-    final int pendingIntentFlag = PendingIntent.FLAG_UPDATE_CURRENT | ((Build.VERSION.SDK_INT > 23) ? PendingIntent.FLAG_IMMUTABLE : 0);
+    final int pendingIntentFlag =
+        (Build.VERSION.SDK_INT >= Build.VERSION_CODES.CUPCAKE) ?
+            (PendingIntent.FLAG_UPDATE_CURRENT |
+                ((Build.VERSION.SDK_INT > 23) ?
+                    PendingIntent.FLAG_IMMUTABLE : 0)
+            ) : 0;
     /* calls for control logic by starting activity with flags */
     final PendingIntent killIntent =
         PendingIntent
