@@ -1,5 +1,6 @@
 package com.martinmimigames.littlemusicplayer;
 
+import android.annotation.TargetApi;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -73,27 +74,17 @@ public class Service extends android.app.Service {
    */
   @Override
   public void onStart(final Intent intent, final int startId) {
-    onStartCommand(intent, 0, startId);
-  }
-
-  /**
-   * startup logic
-   */
-  @Override
-  public int onStartCommand(final Intent intent, final int flags, final int startId) {
-    if (state == STATE_STARTED)
-      return START_STICKY;
     switch (intent.getIntExtra(ACTION.TYPE, ACTION.NULL)) {
 
       /* start or pause audio playback */
       case ACTION.START_PAUSE:
         audioPlayer.startPause();
-        break;
+        return;
 
       /* cancel audio playback and kill service */
       case ACTION.KILL:
         stopSelf();
-        break;
+        return;
 
       /* setup new audio for playback */
       case ACTION.SET_AUDIO:
@@ -111,8 +102,19 @@ public class Service extends android.app.Service {
         /* get audio playback logic and start async */
         audioPlayer = new AudioPlayer(this, audioLocation);
         audioPlayer.start();
-        break;
+        state = STATE_STARTED;
+        return;
     }
+  }
+
+  /**
+   * startup logic
+   */
+  @TargetApi(Build.VERSION_CODES.ECLAIR)
+  @Override
+  public int onStartCommand(final Intent intent, final int flags, final int startId) {
+    if (state != STATE_STARTED)
+      onStart(intent, startId);
     return START_STICKY;
   }
 
