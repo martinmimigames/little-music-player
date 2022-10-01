@@ -77,7 +77,7 @@ public class Service extends android.app.Service {
   }
 
   /**
-   * startup locgic
+   * startup logic
    */
   @Override
   public int onStartCommand(final Intent intent, final int flags, final int startId) {
@@ -99,21 +99,7 @@ public class Service extends android.app.Service {
       case ACTION.SET_AUDIO:
 
         /* get audio location */
-        Uri audioLocation;
-        final Intent audioIntent = intent.getParcelableExtra(ServiceControl.AUDIO_LOCATION);
-        final String action = audioIntent.getAction();
-        switch (action) {
-          case Intent.ACTION_VIEW:
-            audioLocation = audioIntent.getData();
-            break;
-          case Intent.ACTION_SEND:
-            audioLocation = audioIntent.getParcelableExtra(Intent.EXTRA_STREAM);
-            break;
-
-          /* if none return to cancel operation */
-          default:
-            return START_STICKY;
-        }
+        final Uri audioLocation = intent.getParcelableExtra(ServiceControl.AUDIO_LOCATION);
 
         /* create notification for playback control */
         notification = createNotification(audioLocation);

@@ -9,24 +9,32 @@ import android.os.Bundle;
  */
 public class ServiceControl extends Activity {
 
-  /** key for audio location for intent flags */
+  /**
+   * key for audio location for intent flags
+   */
   public static final String AUDIO_LOCATION = "audio_location";
 
-  /** redirect call to actual logic */
+  /**
+   * redirect call to actual logic
+   */
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     onIntent(getIntent());
   }
 
-  /** redirect call to actual logic */
+  /**
+   * redirect call to actual logic
+   */
   @Override
   protected void onNewIntent(Intent intent) {
     super.onNewIntent(intent);
     onIntent(intent);
   }
 
-  /** call different logic based on required actions */
+  /**
+   * call different logic based on required actions
+   */
   private void onIntent(Intent intent) {
     /* check if called from self */
     if (intent.getIntExtra(ACTION.SELF_IDENTIFIER, ACTION.NULL) == ACTION.SELF_IDENTIFIER_ID) {
@@ -35,10 +43,21 @@ public class ServiceControl extends Activity {
     } else {
       /* pause service to avoid overlapping */
       stopService(new Intent(this, Service.class));
+
       /* setup correct flags */
       intent = new Intent(this, Service.class)
-          .putExtra(ACTION.TYPE, ACTION.SET_AUDIO)
-          .putExtra(AUDIO_LOCATION, getIntent());
+          .putExtra(ACTION.TYPE, ACTION.SET_AUDIO);
+
+      switch (getIntent().getAction()) {
+        case Intent.ACTION_VIEW:
+          intent.putExtra(AUDIO_LOCATION, getIntent().getData());
+          break;
+        case Intent.ACTION_SEND:
+          intent.putExtra(AUDIO_LOCATION, (Bundle) getIntent().getParcelableExtra(Intent.EXTRA_STREAM));
+          break;
+        default:
+          return;
+      }
     }
     startService(intent);
     /* does not need to keep this activity */
