@@ -51,8 +51,16 @@ public class Service extends android.app.Service {
     switch (intent.getIntExtra(ACTION.TYPE, ACTION.NULL)) {
 
       /* start or pause audio playback */
-      case ACTION.START_PAUSE:
+      case ACTION.PLAY_PAUSE:
         playPause();
+        return;
+
+      case ACTION.PLAY:
+        play();
+        return;
+
+      case ACTION.PAUSE:
+        pause();
         return;
 
       /* cancel audio playback and kill service */

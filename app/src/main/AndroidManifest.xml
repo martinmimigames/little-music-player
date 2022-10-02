@@ -24,6 +24,14 @@
       </intent-filter>
     </activity>
 
+    <receiver
+      android:name=".SessionBroadcastControl"
+      android:exported="true">
+      <intent-filter>
+        <action android:name="android.intent.action.MEDIA_BUTTON" />
+      </intent-filter>
+    </receiver>
+
     <service
       android:name=".Service"
       android:exported="false" />
