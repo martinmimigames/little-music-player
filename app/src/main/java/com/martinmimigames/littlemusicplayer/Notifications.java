@@ -44,11 +44,17 @@ public class Notifications {
 
   }
 
+  /**
+   * Switch to pause state
+   */
   void pausePlayback() {
     NotificationHelper.setText(notification, "Tap to start");
     update();
   }
 
+  /**
+   * Switch to play state
+   */
   void startPlayback() {
     NotificationHelper.setText(service.nm.notification, "Tap to stop");
     update();

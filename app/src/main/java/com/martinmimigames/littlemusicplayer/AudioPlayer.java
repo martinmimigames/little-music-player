@@ -64,14 +64,23 @@ public class AudioPlayer extends Thread implements MediaPlayer.OnPreparedListene
     }
   }
 
+  /**
+   * check if audio is playing
+   */
   public boolean isPlaying() {
     return mediaPlayer.isPlaying();
   }
 
+  /**
+   * Switch to play state
+   */
   public void play() {
     mediaPlayer.start();
   }
 
+  /**
+   * Switch to pause state
+   */
   public void pause() {
     mediaPlayer.pause();
   }

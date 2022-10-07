@@ -100,6 +100,9 @@ public class Service extends android.app.Service {
     audioPlayer.start();
   }
 
+  /**
+   * Switch to play or pause state, depending on current state
+   */
   void playPause() {
     if (audioPlayer.isPlaying())
       pause();
@@ -107,12 +110,18 @@ public class Service extends android.app.Service {
       play();
   }
 
+  /**
+   * Switch to play state
+   */
   void play() {
     audioPlayer.play();
     nm.startPlayback();
     sbc.play();
   }
 
+  /**
+   * Switch to pause state
+   */
   void pause() {
     audioPlayer.pause();
     nm.pausePlayback();

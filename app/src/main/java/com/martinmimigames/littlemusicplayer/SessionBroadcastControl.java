@@ -17,14 +17,26 @@ public class SessionBroadcastControl extends BroadcastReceiver {
   private MediaSession mediaSession;
   private PlaybackState.Builder playbackStateBuilder;
 
+  /**
+   * Required for older android versions,
+   * initialized by the system
+   */
   public SessionBroadcastControl() {
     super();
   }
 
+  /**
+   * Returns an instance, only useful when SDK_INT >= LOLLIPOP
+   *
+   * @param service the music service
+   */
   public SessionBroadcastControl(Service service) {
     this.service = service;
   }
 
+  /**
+   * Initializer, only useful when SDK_INT >= LOLLIPOP
+   */
   void create() {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
       mediaSession = new MediaSession(service, SessionBroadcastControl.class.toString());
@@ -42,6 +54,9 @@ public class SessionBroadcastControl extends BroadcastReceiver {
     }
   }
 
+  /**
+   * Switch to play state, only useful when SDK_INT >= LOLLIPOP
+   */
   void play() {
     if (Build.VERSION.SDK_INT >= 21) {
       playbackStateBuilder.setState(PlaybackState.STATE_PLAYING, PlaybackState.PLAYBACK_POSITION_UNKNOWN, 1);
@@ -49,6 +64,9 @@ public class SessionBroadcastControl extends BroadcastReceiver {
     }
   }
 
+  /**
+   * Switch to play state, only useful when SDK_INT >= LOLLIPOP
+   */
   void pause() {
     if (Build.VERSION.SDK_INT >= 21) {
       playbackStateBuilder.setState(PlaybackState.STATE_PAUSED, PlaybackState.PLAYBACK_POSITION_UNKNOWN, 0);
@@ -56,6 +74,9 @@ public class SessionBroadcastControl extends BroadcastReceiver {
     }
   }
 
+  /**
+   * Get ready to be destroyed, only useful when SDK_INT >= LOLLIPOP
+   */
   void destroy() {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
       mediaSession.setActive(false);
@@ -63,6 +84,10 @@ public class SessionBroadcastControl extends BroadcastReceiver {
     }
   }
 
+  /**
+   * Responds to media keycodes (ie. from bluetooth ear phones, etc.).
+   * Does not connect directly to service variable because service may not be initialized.
+   */
   @Override
   public void onReceive(Context context, Intent intent) {
     KeyEvent event = intent.getParcelableExtra(EXTRA_KEY_EVENT);
