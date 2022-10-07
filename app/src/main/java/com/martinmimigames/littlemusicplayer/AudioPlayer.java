@@ -87,15 +87,14 @@ public class AudioPlayer extends Thread implements MediaPlayer.OnPreparedListene
   /** release resource when playback finished */
   @Override
   public void onCompletion(MediaPlayer mp) {
-    interrupt();
+    service.stopSelf();
   }
 
   /** release and kill service */
   @Override
   public void interrupt() {
-    super.interrupt();
     mediaPlayer.release();
-    service.stopSelf();
+    super.interrupt();
   }
 
   /** create and display error toast to report errors */
