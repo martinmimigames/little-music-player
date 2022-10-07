@@ -69,32 +69,35 @@ public class SessionBroadcastControl extends BroadcastReceiver {
     if (event.getAction() == KeyEvent.ACTION_DOWN)
       switch (event.getKeyCode()) {
         case KeyEvent.KEYCODE_MEDIA_PLAY:
-          intent = new Intent(context, ServiceControl.class);
+          Log.e("", "got");
+          intent = new Intent(context, Service.class);
           intent.putExtra(ACTION.SELF_IDENTIFIER, ACTION.SELF_IDENTIFIER_ID);
           intent.putExtra(ACTION.TYPE, ACTION.PLAY);
           intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_HISTORY);
-          context.startActivity(intent);
+          context.startService(intent);
           break;
         case KeyEvent.KEYCODE_MEDIA_PAUSE:
-          intent = new Intent(context, ServiceControl.class);
+          Log.e("", "got");
+          intent = new Intent(context, Service.class);
           intent.putExtra(ACTION.SELF_IDENTIFIER, ACTION.SELF_IDENTIFIER_ID);
           intent.putExtra(ACTION.TYPE, ACTION.PAUSE);
           intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_HISTORY);
-          context.startActivity(intent);
+          context.startService(intent);
           break;
         case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
-          intent = new Intent(context, ServiceControl.class);
+          Log.e("", "got");
+          intent = new Intent(context, Service.class);
           intent.putExtra(ACTION.SELF_IDENTIFIER, ACTION.SELF_IDENTIFIER_ID);
           intent.putExtra(ACTION.TYPE, ACTION.PLAY_PAUSE);
           intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_HISTORY);
-          context.startActivity(intent);
+          context.startService(intent);
           break;
         case KeyEvent.KEYCODE_MEDIA_STOP:
-          intent = new Intent(context, ServiceControl.class);
+          intent = new Intent(context, Service.class);
           intent.putExtra(ACTION.SELF_IDENTIFIER, ACTION.SELF_IDENTIFIER_ID);
           intent.putExtra(ACTION.TYPE, ACTION.KILL);
           intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_HISTORY);
-          context.startActivity(intent);
+          context.startService(intent);
           break;
       }
   }

@@ -4,7 +4,9 @@ import android.annotation.TargetApi;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.IBinder;
+import android.util.Log;
 
 /**
  * service for playing music
@@ -48,43 +50,54 @@ public class Service extends android.app.Service {
    */
   @Override
   public void onStart(final Intent intent, final int startId) {
-    switch (intent.getIntExtra(ACTION.TYPE, ACTION.NULL)) {
+    Log.e("", "received");
+    /* check if called from self */
+    if (intent.getIntExtra(ACTION.SELF_IDENTIFIER, ACTION.NULL) == ACTION.SELF_IDENTIFIER_ID) {
+      switch (intent.getIntExtra(ACTION.TYPE, ACTION.NULL)) {
 
-      /* start or pause audio playback */
-      case ACTION.PLAY_PAUSE:
-        playPause();
-        return;
+        /* start or pause audio playback */
+        case ACTION.PLAY_PAUSE:
+          playPause();
+          return;
 
-      case ACTION.PLAY:
-        play();
-        return;
+        case ACTION.PLAY:
+          play();
+          return;
 
-      case ACTION.PAUSE:
-        pause();
-        return;
+        case ACTION.PAUSE:
+          pause();
+          return;
 
-      /* cancel audio playback and kill service */
-      case ACTION.KILL:
-        stopSelf();
-        return;
-
-      /* setup new audio for playback */
-      case ACTION.SET_AUDIO:
-
-        /* get audio location */
-        final Uri audioLocation = intent.getParcelableExtra(ServiceControl.AUDIO_LOCATION);
-
-        /* create notification for playback control */
-        nm.getNotification(audioLocation);
-
-        /* start service as foreground */
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ECLAIR)
-          startForeground(nm.NOTIFICATION, nm.notification);
-
-        /* get audio playback logic and start async */
-        audioPlayer = new AudioPlayer(this, audioLocation);
-        audioPlayer.start();
+        /* cancel audio playback and kill service */
+        case ACTION.KILL:
+          stopSelf();
+          return;
+      }
+    } else {
+      switch (intent.getAction()) {
+        case Intent.ACTION_VIEW:
+          setAudio(intent.getData());
+          break;
+        case Intent.ACTION_SEND:
+          setAudio(intent.getParcelableExtra(Intent.EXTRA_STREAM));
+          break;
+        default:
+          return;
+      }
     }
+  }
+
+  void setAudio(Uri audioLocation) {
+    /* create notification for playback control */
+    nm.getNotification(audioLocation);
+
+    /* start service as foreground */
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ECLAIR)
+      startForeground(nm.NOTIFICATION, nm.notification);
+
+    /* get audio playback logic and start async */
+    audioPlayer = new AudioPlayer(this, audioLocation);
+    audioPlayer.start();
   }
 
   void playPause() {
