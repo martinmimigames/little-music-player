@@ -4,13 +4,11 @@ package com.martinmimigames.littlemusicplayer;
 import static android.content.Intent.EXTRA_KEY_EVENT;
 
 import android.content.BroadcastReceiver;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.media.session.MediaSession;
 import android.media.session.PlaybackState;
 import android.os.Build;
-import android.util.Log;
 import android.view.KeyEvent;
 
 public class SessionBroadcastControl extends BroadcastReceiver {
@@ -66,39 +64,27 @@ public class SessionBroadcastControl extends BroadcastReceiver {
   @Override
   public void onReceive(Context context, Intent intent) {
     KeyEvent event = intent.getParcelableExtra(EXTRA_KEY_EVENT);
-    if (event.getAction() == KeyEvent.ACTION_DOWN)
+    if (event.getAction() == KeyEvent.ACTION_DOWN) {
+      intent = new Intent(context, Service.class);
+      intent.putExtra(ACTION.SELF_IDENTIFIER, ACTION.SELF_IDENTIFIER_ID);
+      intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_HISTORY);
       switch (event.getKeyCode()) {
         case KeyEvent.KEYCODE_MEDIA_PLAY:
-          Log.e("", "got");
-          intent = new Intent(context, Service.class);
-          intent.putExtra(ACTION.SELF_IDENTIFIER, ACTION.SELF_IDENTIFIER_ID);
           intent.putExtra(ACTION.TYPE, ACTION.PLAY);
-          intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_HISTORY);
-          context.startService(intent);
           break;
         case KeyEvent.KEYCODE_MEDIA_PAUSE:
-          Log.e("", "got");
-          intent = new Intent(context, Service.class);
-          intent.putExtra(ACTION.SELF_IDENTIFIER, ACTION.SELF_IDENTIFIER_ID);
           intent.putExtra(ACTION.TYPE, ACTION.PAUSE);
-          intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_HISTORY);
-          context.startService(intent);
           break;
         case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
-          Log.e("", "got");
-          intent = new Intent(context, Service.class);
-          intent.putExtra(ACTION.SELF_IDENTIFIER, ACTION.SELF_IDENTIFIER_ID);
           intent.putExtra(ACTION.TYPE, ACTION.PLAY_PAUSE);
-          intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_HISTORY);
-          context.startService(intent);
           break;
         case KeyEvent.KEYCODE_MEDIA_STOP:
-          intent = new Intent(context, Service.class);
-          intent.putExtra(ACTION.SELF_IDENTIFIER, ACTION.SELF_IDENTIFIER_ID);
           intent.putExtra(ACTION.TYPE, ACTION.KILL);
-          intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_HISTORY);
-          context.startService(intent);
           break;
+        default:
+          return;
       }
+      context.startService(intent);
+    }
   }
 }

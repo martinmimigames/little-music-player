@@ -5,7 +5,6 @@ public final class ACTION {
   public static final int NULL = 0;
   public static final int PLAY_PAUSE = 10000;
   public static final int KILL = 20000;
-  public static final int SET_AUDIO = 30000;
   public static final int PLAY = 40000;
   public static final int PAUSE = 50000;
   public static final int SELF_IDENTIFIER_ID = 345656789;

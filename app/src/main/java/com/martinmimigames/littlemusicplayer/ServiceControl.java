@@ -11,11 +11,6 @@ import android.util.Log;
 public class ServiceControl extends Activity {
 
   /**
-   * key for audio location for intent flags
-   */
-  public static final String AUDIO_LOCATION = "audio_location";
-
-  /**
    * redirect call to actual logic
    */
   @Override
