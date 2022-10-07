@@ -15,6 +15,7 @@ public class SessionBroadcastControl extends BroadcastReceiver {
 
   private Service service;
   private MediaSession mediaSession;
+  private PlaybackState.Builder playbackStateBuilder;
 
   public SessionBroadcastControl() {
     super();
@@ -34,23 +35,24 @@ public class SessionBroadcastControl extends BroadcastReceiver {
           return super.onMediaButtonEvent(mediaButtonIntent);
         }
       });
+      playbackStateBuilder = new PlaybackState.Builder();
+      playbackStateBuilder.setActions(PlaybackState.ACTION_PLAY | PlaybackState.ACTION_PAUSE | PlaybackState.ACTION_PLAY_PAUSE);
+      mediaSession.setPlaybackState(playbackStateBuilder.build());
       mediaSession.setActive(true);
     }
   }
 
   void play() {
     if (Build.VERSION.SDK_INT >= 21) {
-      PlaybackState.Builder builder = new PlaybackState.Builder();
-      builder.setActions(PlaybackState.ACTION_PLAY);
-      mediaSession.setPlaybackState(builder.build());
+      playbackStateBuilder.setState(PlaybackState.STATE_PLAYING, PlaybackState.PLAYBACK_POSITION_UNKNOWN, 1);
+      mediaSession.setPlaybackState(playbackStateBuilder.build());
     }
   }
 
   void pause() {
     if (Build.VERSION.SDK_INT >= 21) {
-      PlaybackState.Builder builder = new PlaybackState.Builder();
-      builder.setActions(PlaybackState.ACTION_PAUSE);
-      mediaSession.setPlaybackState(builder.build());
+      playbackStateBuilder.setState(PlaybackState.STATE_PAUSED, PlaybackState.PLAYBACK_POSITION_UNKNOWN, 0);
+      mediaSession.setPlaybackState(playbackStateBuilder.build());
     }
   }
 
