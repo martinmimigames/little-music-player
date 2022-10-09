@@ -1,0 +1,1 @@
+- now support hardware play pause button

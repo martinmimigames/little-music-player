@@ -1,1 +1,1 @@
-little music player
+Little Music Player
