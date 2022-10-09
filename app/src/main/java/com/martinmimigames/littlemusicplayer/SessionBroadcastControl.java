@@ -4,8 +4,11 @@ package com.martinmimigames.littlemusicplayer;
 import static android.content.Intent.EXTRA_KEY_EVENT;
 
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.media.AudioManager;
 import android.media.session.MediaSession;
 import android.media.session.PlaybackState;
 import android.os.Build;
@@ -16,6 +19,7 @@ public class SessionBroadcastControl extends BroadcastReceiver {
   private Service service;
   private MediaSession mediaSession;
   private PlaybackState.Builder playbackStateBuilder;
+  private ComponentName cn;
 
   /**
    * Required for older android versions,
@@ -51,6 +55,12 @@ public class SessionBroadcastControl extends BroadcastReceiver {
       playbackStateBuilder.setActions(PlaybackState.ACTION_PLAY | PlaybackState.ACTION_PAUSE | PlaybackState.ACTION_PLAY_PAUSE);
       mediaSession.setPlaybackState(playbackStateBuilder.build());
       mediaSession.setActive(true);
+    } else {
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO) {
+        cn = new ComponentName(service, SessionBroadcastControl.class);
+        ((AudioManager) service.getSystemService(Context.AUDIO_SERVICE)).registerMediaButtonEventReceiver(cn);
+      }
+      service.registerReceiver(this, new IntentFilter(Intent.ACTION_MEDIA_BUTTON));
     }
   }
 
@@ -81,6 +91,11 @@ public class SessionBroadcastControl extends BroadcastReceiver {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
       mediaSession.setActive(false);
       mediaSession.release();
+    } else {
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO) {
+        ((AudioManager) service.getSystemService(Context.AUDIO_SERVICE)).unregisterMediaButtonEventReceiver(cn);
+      }
+      service.unregisterReceiver(this);
     }
   }
 
