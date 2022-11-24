@@ -28,11 +28,17 @@ android {
     release {
       minifyEnabled true
       shrinkResources true
+      crunchPngs true
       proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
       signingConfig signingConfigs.basic
     }
     debug {
       signingConfig signingConfigs.basic
     }
+  }
+
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_10
+    targetCompatibility JavaVersion.VERSION_1_10
   }
 }
