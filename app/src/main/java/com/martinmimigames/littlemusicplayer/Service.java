@@ -48,7 +48,6 @@ public class Service extends android.app.Service {
    */
   @Override
   public void onStart(final Intent intent, final int startId) {
-    Log.e("", "received");
     /* check if called from self */
     if (intent.getIntExtra(ACTION.SELF_IDENTIFIER, ACTION.NULL) == ACTION.SELF_IDENTIFIER_ID) {
       switch (intent.getIntExtra(ACTION.TYPE, ACTION.NULL)) {
@@ -85,7 +84,7 @@ public class Service extends android.app.Service {
     }
   }
 
-  void setAudio(Uri audioLocation) {
+  void setAudio(final Uri audioLocation) {
     /* create notification for playback control */
     nm.getNotification(audioLocation);
 

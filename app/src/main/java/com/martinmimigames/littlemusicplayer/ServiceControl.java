@@ -28,7 +28,7 @@ public class ServiceControl extends Activity {
   }
 
   /**
-   * call different logic based on required actions
+   * restarts service
    */
   private void onIntent(Intent intent) {
     intent.setClass(this, Service.class);
