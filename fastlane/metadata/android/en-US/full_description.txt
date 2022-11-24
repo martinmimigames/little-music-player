@@ -1,6 +1,7 @@
 A mini, simple, yet compatible audio player.
-Plays audios and videos, like how you expected to.
-Designed in hope for compatibility with different android versions.
+Plays audios (and audios from videos), like how you expected to.
+Designed with compatibility in mind.
+Supports Android 1.0+
 
 "Specialities":
 - Free $$$
@@ -10,7 +11,7 @@ Designed in hope for compatibility with different android versions.
   Ad may be music to some, but we simply want a clean experience for everyone
 
 - Mini
-  Less than 20kB in size, one of the tiniest audio player apps on android!
+  Less than 20kB in size, making it one of the tiniest audio player apps on android!
   Never worry about bloated apps again!
 
 - Unbelievably compatible
@@ -28,7 +29,7 @@ Designed in hope for compatibility with different android versions.
   Lucky for you, this app is actually tested to work, just like how it should be.
   It supports all audio types that your system's decoder supports.
 
-- Minimal permission required
+- Minimum permission required
   Ever met an app that ask for a bunch of unrelated permissions?
   Ever have some strange requests that reminds you of malware?
   Not this app!

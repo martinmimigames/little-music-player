@@ -1,0 +1,2 @@
+- updated sdk target
+- reduced apk size

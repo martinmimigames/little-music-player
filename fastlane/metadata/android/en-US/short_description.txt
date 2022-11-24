@@ -1,1 +1,1 @@
-mini, compatible & plays audio
+Mini, plays audio, and supports Android 1.0+
