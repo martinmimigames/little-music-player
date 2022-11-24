@@ -16,13 +16,7 @@ android {
     def keystoreProperties = new Properties()
     keystoreProperties.load(new FileInputStream(keystorePropertiesFiles))
 
-    release {
-      storeFile file(keystoreProperties['storeFile'])
-      storePassword keystoreProperties['storePassword']
-      keyAlias keystoreProperties['keyAlias']
-      keyPassword keystoreProperties['keyPassword']
-    }
-    debug {
+    basic {
       storeFile file(keystoreProperties['storeFile'])
       storePassword keystoreProperties['storePassword']
       keyAlias keystoreProperties['keyAlias']
@@ -35,7 +29,10 @@ android {
       minifyEnabled true
       shrinkResources true
       proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-      signingConfig signingConfigs.release
+      signingConfig signingConfigs.basic
+    }
+    debug {
+      signingConfig signingConfigs.basic
     }
   }
 }
