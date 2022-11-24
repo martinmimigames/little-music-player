@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-  compileSdkVersion 32
+  compileSdkVersion 33
 
   defaultConfig {
     minSdkVersion 1
-    targetSdkVersion 32
+    targetSdkVersion 33
   }
 
   /* just delete the signing configs if it doesn't work */
