@@ -17,7 +17,7 @@ public class Notifications {
   /**
    * notification channel id
    */
-  public static final String NOTIFICATION_CHANNEL = "martinmimigames.simpleMusicPlayer notification channel";
+  public static final String NOTIFICATION_CHANNEL = "LittleMusicPlayer notifications";
   /**
    * notification id
    */

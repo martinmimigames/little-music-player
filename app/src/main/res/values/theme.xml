@@ -11,7 +11,7 @@
   </style>
 
   <style name="buttonStyle" parent="@android:style/Widget.Button">
-    <item name="android:padding">7sp</item>
+    <item name="android:padding">10dp</item>
     <item name="android:textColor">@color/foreground</item>
     <item name="android:background">@color/buttonBackground</item>
   </style>
