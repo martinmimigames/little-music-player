@@ -14,6 +14,7 @@ public class AudioPlayer extends Thread implements MediaPlayer.OnPreparedListene
 
   private final Service service;
   private final MediaPlayer mediaPlayer;
+
   public AudioPlayer(Service service, Uri audioLocation) {
     this.service = service;
     /* initiate new audio player */
@@ -40,10 +41,10 @@ public class AudioPlayer extends Thread implements MediaPlayer.OnPreparedListene
       mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
     } else {
       mediaPlayer.setAudioAttributes(
-          new AudioAttributes.Builder()
-              .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-              .setUsage(AudioAttributes.USAGE_MEDIA)
-              .build()
+        new AudioAttributes.Builder()
+          .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+          .setUsage(AudioAttributes.USAGE_MEDIA)
+          .build()
       );
     }
 
@@ -93,20 +94,26 @@ public class AudioPlayer extends Thread implements MediaPlayer.OnPreparedListene
     mediaPlayer.start();
   }
 
-  /** release resource when playback finished */
+  /**
+   * release resource when playback finished
+   */
   @Override
   public void onCompletion(MediaPlayer mp) {
     service.stopSelf();
   }
 
-  /** release and kill service */
+  /**
+   * release and kill service
+   */
   @Override
   public void interrupt() {
     mediaPlayer.release();
     super.interrupt();
   }
 
-  /** create and display error toast to report errors */
+  /**
+   * create and display error toast to report errors
+   */
   private void throwError(String msg) {
     ToastHelper.showShort(service, msg);
   }

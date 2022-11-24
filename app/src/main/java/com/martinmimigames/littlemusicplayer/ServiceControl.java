@@ -3,7 +3,6 @@ package com.martinmimigames.littlemusicplayer;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
 /**
  * activity for controlling the playback by invoking different logics based on incoming intents

@@ -4,7 +4,6 @@ import android.annotation.TargetApi;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
 
@@ -13,13 +12,12 @@ import android.util.Log;
  */
 public class Service extends android.app.Service {
 
+  SessionBroadcastControl sbc;
+  Notifications nm;
   /**
    * audio playing logic class
    */
   private AudioPlayer audioPlayer;
-  SessionBroadcastControl sbc;
-
-  Notifications nm;
 
   public Service() {
     nm = new Notifications(this);

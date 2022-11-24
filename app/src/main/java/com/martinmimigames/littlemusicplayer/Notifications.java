@@ -15,21 +15,18 @@ import mg.utils.notify.NotificationHelper;
 public class Notifications {
 
   /**
+   * notification channel id
+   */
+  public static final String NOTIFICATION_CHANNEL = "martinmimigames.simpleMusicPlayer notification channel";
+  /**
    * notification id
    */
   public final int NOTIFICATION = 1;
-
+  private final Service service;
   /**
    * notification for playback control
    */
   Notification notification;
-
-  /**
-   * notification channel id
-   */
-  public static final String NOTIFICATION_CHANNEL = "martinmimigames.simpleMusicPlayer notification channel";
-
-  private final Service service;
 
   public Notifications(Service service) {
     this.service = service;
@@ -79,34 +76,34 @@ public class Notifications {
 
     /* flags for control logics on notification */
     final int pendingIntentFlag =
-        (Build.VERSION.SDK_INT >= Build.VERSION_CODES.CUPCAKE) ?
-            (PendingIntent.FLAG_UPDATE_CURRENT |
-                ((Build.VERSION.SDK_INT > 23) ?
-                    PendingIntent.FLAG_IMMUTABLE : 0)
-            ) : 0;
+      (Build.VERSION.SDK_INT >= Build.VERSION_CODES.CUPCAKE) ?
+        (PendingIntent.FLAG_UPDATE_CURRENT |
+          ((Build.VERSION.SDK_INT > 23) ?
+            PendingIntent.FLAG_IMMUTABLE : 0)
+        ) : 0;
     /* calls for control logic by starting activity with flags */
     final PendingIntent killIntent =
-        PendingIntent
-            .getService(
-                service,
-                1,
-                new Intent(
-                    service,
-                    Service.class
-                ).addFlags(
-                    Intent.FLAG_ACTIVITY_NO_HISTORY |
-                        (
-                            (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ECLAIR) ?
-                                Intent.FLAG_ACTIVITY_NO_ANIMATION : 0)
-                ).putExtra(
-                    ACTION.SELF_IDENTIFIER,
-                    ACTION.SELF_IDENTIFIER_ID
-                ).putExtra(
-                    ACTION.TYPE,
-                    ACTION.KILL
-                ),
-                pendingIntentFlag
-            );
+      PendingIntent
+        .getService(
+          service,
+          1,
+          new Intent(
+            service,
+            Service.class
+          ).addFlags(
+            Intent.FLAG_ACTIVITY_NO_HISTORY |
+              (
+                (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ECLAIR) ?
+                  Intent.FLAG_ACTIVITY_NO_ANIMATION : 0)
+          ).putExtra(
+            ACTION.SELF_IDENTIFIER,
+            ACTION.SELF_IDENTIFIER_ID
+          ).putExtra(
+            ACTION.TYPE,
+            ACTION.KILL
+          ),
+          pendingIntentFlag
+        );
 
     /* extra variables for notification setup */
     /* different depending on sdk version as they require different logic */

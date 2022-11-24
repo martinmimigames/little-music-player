@@ -20,7 +20,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
     findViewById(R.id.file_opener).setOnClickListener(this);
   }
 
-  /** button logic */
+  /**
+   * button logic
+   */
   @Override
   public void onClick(View v) {
     /* request a file from the system */
@@ -29,7 +31,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
     startActivityForResult(fileIntent, REQUEST_CODE);
   }
 
-  /** call service control on receiving file */
+  /**
+   * call service control on receiving file
+   */
   @Override
   protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
     /* if result unusable, discard */
