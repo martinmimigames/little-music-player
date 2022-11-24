@@ -105,7 +105,7 @@ public class SessionBroadcastControl extends BroadcastReceiver {
    */
   @Override
   public void onReceive(Context context, Intent intent) {
-    KeyEvent event = intent.getParcelableExtra(EXTRA_KEY_EVENT);
+    final KeyEvent event = intent.getParcelableExtra(EXTRA_KEY_EVENT);
     if (event.getAction() == KeyEvent.ACTION_DOWN) {
       intent = new Intent(context, Service.class);
       intent.putExtra(ACTION.SELF_IDENTIFIER, ACTION.SELF_IDENTIFIER_ID);
