@@ -1,0 +1,4 @@
+- updated description
+- fixed notifications making alert sound (at least on emulators)
+- fixed notifications not working on android 13 (sdk 33)
+- new icons
