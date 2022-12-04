@@ -1,4 +1,4 @@
-# little music player
+# Little Music Player
 
 [<img src="https://img.shields.io/github/license/martinmimigames/little-music-player?style=flat-square"
 alt="Read license">](https://github.com/martinmimigames/little-music-player/blob/main/LICENSE.md)
@@ -9,14 +9,15 @@ This project is a light-weight, simple, yet compatible audio player.
 
 It allows you to play audio and video files, like how you expected to. Most importantly it is designed in hope to make it compatibile with different Android versions.
 
-Its usage is as easy as opening or sharing the file you want to play with the app, or selecting it directly from the app. Enjoy your music!
+Its usage is as easy as opening or sharing the file you want to play with the app, or selecting it
+directly from the app. Enjoy your music!
 
-Note that this project was originally known as *simple music player*.
+Note that this project was originally known as *Simple Music Player*.
 
 Location of webpage:
 [https://martinmimigames.github.io/projects/little-music-player](https://martinmimigames.github.io/projects/little-music-player)
 
-You can find most information about *little music player* just below.
+You can find most information about *Little Music Player* just below.
 
 ## Features
 
@@ -75,7 +76,7 @@ Please put them into issues
 
 ### Last update of README
 
-Date : 26-11-2022 dd-mm-yyyy
+Date : 04-12-2022 dd-mm-yyyy
 
 ### Important
 
