@@ -74,6 +74,8 @@ Please put them into issues
     alt="Get it on F-Droid"
     height="80">](https://f-droid.org/packages/com.martinmimigames.littlemusicplayer)
 
+[Get it from GitHub](https://github.com/martinmimigames/little-file-explorer/releases/latest)
+
 ### Last update of README
 
 Date : 04-12-2022 dd-mm-yyyy
