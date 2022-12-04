@@ -1,6 +1,7 @@
 package com.martinmimigames.littlemusicplayer;
 
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
@@ -36,9 +37,8 @@ public class Notifications {
     /* create a notification channel */
     final CharSequence name = "playback control";
     final String description = "Allows for control over audio playback.";
-    final int importance = (Build.VERSION.SDK_INT > 24) ? NotificationManager.IMPORTANCE_DEFAULT : 0;
+    final int importance = (Build.VERSION.SDK_INT > 24) ? NotificationManager.IMPORTANCE_LOW : 0;
     NotificationHelper.setupNotificationChannel(service, NOTIFICATION_CHANNEL, name, description, importance);
-
   }
 
   /**
@@ -60,7 +60,7 @@ public class Notifications {
   /**
    * create and start playback control notification
    */
-  void getNotification(Uri uri) {
+  void getNotification(final Uri uri) {
 
     /* setup notification variable */
     final String title = "now playing : " + new File(uri.getPath()).getName();

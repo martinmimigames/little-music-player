@@ -10,7 +10,6 @@
 
   <application
     android:icon="@drawable/ic_launcher"
-    android:roundIcon="@drawable/ic_launcher"
     android:label="Little Music Player"
     android:resizeableActivity="true"
     android:restoreAnyVersion="true"
