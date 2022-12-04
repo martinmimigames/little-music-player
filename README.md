@@ -1,78 +1,68 @@
-# little music player #
+# little music player
 
 [<img src="https://img.shields.io/github/license/martinmimigames/little-music-player?style=flat-square"
-alt="go to license">](https://github.com/martinmimigames/little-music-player/blob/main/LICENSE.md)
+alt="Read license">](https://github.com/martinmimigames/little-music-player/blob/main/LICENSE.md)
 
-## Description ##
+## Description
 
-A mini, simple, yet compatible audio player.
+This project is a light-weight, simple, yet compatible audio player.
 
-Plays audios and videos, like how you expected to.
-Designed in hope for compatibility with different android versions.
+It allows you to play audio and video files, like how you expected to. Most importantly it is designed in hope to make it compatibile with different Android versions.
 
-Simply open or share the file to the app, or select it from within the app, and enjoy the sound!
+Its usage is as easy as opening or sharing the file you want to play with the app, or selecting it directly from the app. Enjoy your music!
 
-Previously known as simple music player.
+Note that this project was originally known as *simple music player*.
 
-Location of webpage :
-[https://martinmimigames.github.io/projects/little-music-player]( https://martinmimigames.github.io/projects/little-music-player )
+Location of webpage:
+[https://martinmimigames.github.io/projects/little-music-player](https://martinmimigames.github.io/projects/little-music-player)
 
-You can find most information about little music player there.
+You can find most information about *little music player* just below.
 
-## "Specialities" ##
+## Features
 
-- Free $$$
+- It's free
 
-  everyone have the right to listen to music, and therefore we aim to make it possible
+  Everyone should have the right to listen to music, therefore we aim to make it accessible.
 
-- AD free !!!
+- No advertisement
 
-  ad may be music to some, but we simply want a clean experience for everyone
+  We simply want a distraction-free experience for you, so you can relax and enjoy!
 
-- Mini
+- Compact
 
-  less than 20kB in size, one of the tiniest audio player apps on android!
-  never worry about bloated apps again!
+  Less than 20 kB in size, one of the tiniest audio player apps on Android! No need to worry about bloated apps again.
 
 - Unbelievably compatible
 
-  Strangely addicted to support, we believe no one should be excluded because of an older system.
-  Therefore, we have theoretical support starting from android 1.0,
-  and tested support on android 2.3 and higher.
+  Strangely addicted to support, we believe that nobody should be excluded due to an older device. Therefore we have theoretical support starting all the way back from Android 1.0, and tested support on Android 2.3 and above. Isn't it amazing?
 
 - Clean & Simple
 
-  No strange placement, no hidden options and straightforward, so you can focus on the music.
-  Enjoyment is key, right?
+  No awkward layout, no hidden options and straightforward, so you can focus on the content. Enjoyment is key, right?
 
-- Works :)
+- It simply works :)
 
-  Even in the modern world, strangely something just seems to always fail.
-  Lucky for you, this app is actually tested to work, just like how it should be.
-  It supports all audio types that your system's decoder supports.
+  Even in the modern world, there is always something seeming to fail. Luckily for you, this app was designed to work just like it is supposed to. It supports all audio types that your device supports.
 
-- Minimal permission required
+- Minimal permissions required
 
-  Ever met an app that ask for a bunch of unrelated permissions?
-  Ever have some strange requests that reminds you of malware?
-  Not this app!
-  Only the foreground service permission is used, so you know it's safe to use.
+  Have you ever met an app asking for a bunch of unrelated permissions? Have you ever had some strange requests reminding you of a malware? **Not this app!** The only required permission is foreground service permission, so you know it's safe to use.
 
 - No hidden third-parties
 
-  It is completely open-sourced, and as little third-party library used as possible.
+  It is completely open-source, and uses as little third-party libraries as possible.
 
-If you worry about size, compatibility or privacy, this is simply the app for you!
+If you worry about size, compatibility or privacy, this is the best app for you!
 
-We use the permission Foreground Service to provide audio playing while using other apps.
+We use the foreground service permission to provide audio playing while using other apps.
 
-## Branches ##
+## Branches
 
-- main : latest source code
+- main: latest source-code
 
-## Issues ##
+## Issues
 
-Issues and pull requests are welcomed.
+Issues and pull requests are always welcome!
 
 Please put them into issues
 [here](https://github.com/martinmimigames/little-music-player/issues/new).
@@ -83,10 +73,10 @@ Please put them into issues
     alt="Get it on F-Droid"
     height="80">](https://f-droid.org/packages/com.martinmimigames.littlemusicplayer)
 
-### Last update of README ###
+### Last update of README
 
-Date : 25-08-2022 dd-mm-yyyy
+Date : 26-11-2022 dd-mm-yyyy
 
-### Important ###
+### Important
 
-!!! Please read the license !!!
+**Please read the license!**
