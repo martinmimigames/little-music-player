@@ -67,7 +67,7 @@
     <TextView
       a:layout_width="match_parent"
       a:layout_height="wrap_content"
-      a:text="2. Select simple music player" />
+      a:text="2. Select Little Music Player" />
 
     <TextView
       a:layout_width="match_parent"

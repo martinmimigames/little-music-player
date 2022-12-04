@@ -11,7 +11,8 @@
     a:layout_width="wrap_content"
     a:layout_height="match_parent"
     a:padding="10dp"
-    a:src="@drawable/ic_launcher" />
+    a:src="@drawable/ic_launcher"
+    tools:ignore="ContentDescription" />
 
   <LinearLayout
     a:layout_width="wrap_content"
@@ -19,7 +20,7 @@
     a:orientation="vertical">
 
     <TextView
-      a:id="@+id/notiftitle"
+      a:id="@+id/notif_title"
       a:layout_width="wrap_content"
       a:layout_height="wrap_content"
       a:textAppearance="@android:style/TextAppearance.DeviceDefault"

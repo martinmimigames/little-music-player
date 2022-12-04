@@ -1,7 +1,6 @@
 package com.martinmimigames.littlemusicplayer;
 
 import android.app.Notification;
-import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
@@ -117,7 +116,7 @@ public class Notifications {
       notification.actions = new android.app.Notification.Action[]{new android.app.Notification.Action(R.drawable.ic_launcher, "close", killIntent)};
     } else {
       notification.contentView = new RemoteViews("com.martinmimigames.littlemusicplayer", R.layout.notif);
-      NotificationHelper.setText(notification, R.id.notiftitle, title);
+      NotificationHelper.setText(notification, R.id.notif_title, title);
       notification.contentIntent = killIntent;
     }
 
