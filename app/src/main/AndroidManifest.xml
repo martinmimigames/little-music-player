@@ -5,10 +5,12 @@
   android:versionCode="9"
   android:versionName="2.7">
 
+  <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
   <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
   <application
     android:icon="@drawable/ic_launcher"
+    android:roundIcon="@drawable/ic_launcher"
     android:label="Little Music Player"
     android:resizeableActivity="true"
     android:restoreAnyVersion="true"

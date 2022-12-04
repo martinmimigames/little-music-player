@@ -1,8 +1,13 @@
 package com.martinmimigames.littlemusicplayer;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.view.View;
 
 /**
  * activity for giving instructions
@@ -15,6 +20,7 @@ public class MainActivity extends Activity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
+
     /* set listener for button */
     findViewById(R.id.file_opener)
       .setOnClickListener(
@@ -24,6 +30,26 @@ public class MainActivity extends Activity {
           fileIntent.setType("audio/*"); // intent type to filter application based on your requirement
           startActivityForResult(fileIntent, REQUEST_CODE);
         });
+  }
+
+  @Override
+  protected void onStart() {
+    super.onStart();
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+      this.getPackageManager()
+        .checkPermission(
+          Manifest.permission.POST_NOTIFICATIONS, this.getPackageName())
+        != PackageManager.PERMISSION_GRANTED) {
+      findViewById(R.id.request).setVisibility(View.VISIBLE);
+      findViewById(R.id.open_settings).setVisibility(View.VISIBLE);
+      findViewById(R.id.open_settings).setOnClickListener(
+        v -> {
+          final Intent intent = new Intent();
+          intent.setAction(Settings.ACTION_APP_NOTIFICATION_SETTINGS);
+          intent.putExtra(Settings.EXTRA_APP_PACKAGE, this.getPackageName());
+          this.startActivity(intent);
+        });
+    }
   }
 
   /**

@@ -20,8 +20,8 @@ public class Service extends android.app.Service {
   private AudioPlayer audioPlayer;
 
   public Service() {
-    nm = new Notifications(this);
     sbc = new SessionBroadcastControl(this);
+    nm = new Notifications(this);
   }
 
   /**
@@ -37,8 +37,8 @@ public class Service extends android.app.Service {
    */
   @Override
   public void onCreate() {
-    nm.create();
     sbc.create();
+    nm.create();
 
     super.onCreate();
   }
@@ -112,8 +112,8 @@ public class Service extends android.app.Service {
    */
   void play() {
     audioPlayer.play();
-    nm.startPlayback();
     sbc.play();
+    nm.startPlayback();
   }
 
   /**
@@ -121,8 +121,8 @@ public class Service extends android.app.Service {
    */
   void pause() {
     audioPlayer.pause();
-    nm.pausePlayback();
     sbc.pause();
+    nm.pausePlayback();
   }
 
   /**

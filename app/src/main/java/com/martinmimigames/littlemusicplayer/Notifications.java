@@ -53,7 +53,7 @@ public class Notifications {
    * Switch to play state
    */
   void startPlayback() {
-    NotificationHelper.setText(service.nm.notification, "Tap to stop");
+    NotificationHelper.setText(notification, "Tap to stop");
     update();
   }
 
@@ -65,7 +65,7 @@ public class Notifications {
     /* setup notification variable */
     final String title = "now playing : " + new File(uri.getPath()).getName();
     notification = NotificationHelper.createNotification(service, NOTIFICATION_CHANNEL, (Build.VERSION.SDK_INT > 21) ? android.app.Notification.CATEGORY_SERVICE : null);
-    notification.icon = R.drawable.ic_launcher; // icon display
+    notification.icon = R.drawable.ic_notif; // icon display
     //notification.largeIcon = BitmapFactory.decodeResource(this.getResources(), R.drawable.ic_launcher); // large icon display
     notification.defaults = android.app.Notification.DEFAULT_ALL; // set defaults
     notification.when = System.currentTimeMillis(); // set time of notification
