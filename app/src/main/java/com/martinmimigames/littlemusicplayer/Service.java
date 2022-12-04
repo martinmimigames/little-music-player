@@ -12,8 +12,8 @@ import android.util.Log;
  */
 public class Service extends android.app.Service {
 
-  SessionBroadcastControl sbc;
-  Notifications nm;
+  final SessionBroadcastControl sbc;
+  final Notifications nm;
   /**
    * audio playing logic class
    */
