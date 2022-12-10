@@ -19,6 +19,12 @@ Location of webpage:
 
 You can find most information about *Little Music Player* just below.
 
+## Different variations
+
+- [Tiny Music Player](https://github.com/martinmimigames/tiny-music-player)
+
+  Smallest, most minimial, with the trade-off of only having the most basic features.
+
 ## Features
 
 - It's free
