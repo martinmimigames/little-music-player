@@ -23,7 +23,7 @@ You can find most information about *Little Music Player* just below.
 
 - [Tiny Music Player](https://github.com/martinmimigames/tiny-music-player)
 
-  Smallest, most minimial, with the trade-off of only having the most basic features.
+  Smallest, most minimal, with the trade-off of only having the most basic features.
 
 ## Features
 
