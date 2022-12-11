@@ -37,7 +37,8 @@ You can find most information about *Little Music Player* just below.
 
 - Compact
 
-  Less than 20 kB in size, one of the tiniest audio player apps on Android! No need to worry about bloated apps again.
+  Less than 1 MB in size, one of the tiniest audio player apps on Android! No need to worry about
+  bloated apps again.
 
 - Unbelievably compatible
 
@@ -84,7 +85,7 @@ Please put them into issues
 
 ### Last update of README
 
-Date : 04-12-2022 dd-mm-yyyy
+Date : 10-12-2022 dd-mm-yyyy
 
 ### Important
 
