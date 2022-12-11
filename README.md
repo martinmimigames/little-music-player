@@ -54,7 +54,9 @@ You can find most information about *Little Music Player* just below.
 
 - Minimal permissions required
 
-  Have you ever met an app asking for a bunch of unrelated permissions? Have you ever had some strange requests reminding you of a malware? **Not this app!** The only required permission is foreground service permission, so you know it's safe to use.
+  Have you ever met an app asking for a bunch of unrelated permissions? Have you ever had some
+  strange requests reminding you of a malware? **Not this app!** We will explain how we use all our
+  permissions, so you know it's safe to use.
 
 - No hidden third-parties
 
@@ -63,6 +65,8 @@ You can find most information about *Little Music Player* just below.
 If you worry about size, compatibility or privacy, this is the best app for you!
 
 We use the foreground service permission to provide audio playing while using other apps.
+We use the notification permission for displaying playback control, as we are mainly a notification
+based music player.
 
 ## Branches
 
@@ -85,7 +89,7 @@ Please put them into issues
 
 ### Last update of README
 
-Date : 10-12-2022 dd-mm-yyyy
+Date : 11-12-2022 dd-mm-yyyy
 
 ### Important
 
