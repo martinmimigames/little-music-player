@@ -48,8 +48,8 @@ public class Service extends android.app.Service {
   @Override
   public void onStart(final Intent intent, final int startId) {
     /* check if called from self */
-    if (intent.getIntExtra(ServiceControl.SELF_IDENTIFIER, ServiceControl.NULL) == ServiceControl.SELF_IDENTIFIER_ID) {
-      switch (intent.getIntExtra(ServiceControl.TYPE, ServiceControl.NULL)) {
+    if (intent.getByteExtra(ServiceControl.SELF_IDENTIFIER, ServiceControl.NULL) == ServiceControl.SELF_IDENTIFIER_ID) {
+      switch (intent.getByteExtra(ServiceControl.TYPE, ServiceControl.NULL)) {
 
         /* start or pause audio playback */
         case ServiceControl.PLAY_PAUSE:
