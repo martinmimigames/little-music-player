@@ -19,8 +19,7 @@ Features
   We simply want a distraction-free experience for you, so you can relax and enjoy!
 
 - Compact
-  Less than half a MB in size, one of the tiniest audio player apps on Android! No need to worry about
-    bloated apps again.
+  Less than half a MB in size, one of the tiniest audio player apps on Android! No need to worry about bloated apps again. (Currently less than 30 KB)
 
 - Unbelievably compatible
   Strangely addicted to support, we believe that nobody should be excluded due to an older device. Therefore we have theoretical support starting all the way back from Android 1.0, and tested support on Android 2.3 and above. Isn't it amazing?
