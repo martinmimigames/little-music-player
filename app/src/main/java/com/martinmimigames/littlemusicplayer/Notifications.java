@@ -34,7 +34,7 @@ public class Notifications {
 
   public void create() {
     /* create a notification channel */
-    final CharSequence name = "playback control";
+    final CharSequence name = "Playback Control";
     final String description = "Allows for control over audio playback.";
     final int importance = (Build.VERSION.SDK_INT > 24) ? NotificationManager.IMPORTANCE_LOW : 0;
     NotificationHelper.setupNotificationChannel(service, NOTIFICATION_CHANNEL, name, description, importance);
