@@ -108,20 +108,20 @@ public class SessionBroadcastControl extends BroadcastReceiver {
     final KeyEvent event = intent.getParcelableExtra(EXTRA_KEY_EVENT);
     if (event.getAction() == KeyEvent.ACTION_DOWN) {
       intent = new Intent(context, Service.class);
-      intent.putExtra(ACTION.SELF_IDENTIFIER, ACTION.SELF_IDENTIFIER_ID);
+      intent.putExtra(ServiceControl.SELF_IDENTIFIER, ServiceControl.SELF_IDENTIFIER_ID);
       intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_HISTORY);
       switch (event.getKeyCode()) {
         case KeyEvent.KEYCODE_MEDIA_PLAY:
-          intent.putExtra(ACTION.TYPE, ACTION.PLAY);
+          intent.putExtra(ServiceControl.TYPE, ServiceControl.PLAY);
           break;
         case KeyEvent.KEYCODE_MEDIA_PAUSE:
-          intent.putExtra(ACTION.TYPE, ACTION.PAUSE);
+          intent.putExtra(ServiceControl.TYPE, ServiceControl.PAUSE);
           break;
         case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
-          intent.putExtra(ACTION.TYPE, ACTION.PLAY_PAUSE);
+          intent.putExtra(ServiceControl.TYPE, ServiceControl.PLAY_PAUSE);
           break;
         case KeyEvent.KEYCODE_MEDIA_STOP:
-          intent.putExtra(ACTION.TYPE, ACTION.KILL);
+          intent.putExtra(ServiceControl.TYPE, ServiceControl.KILL);
           break;
         default:
           return;

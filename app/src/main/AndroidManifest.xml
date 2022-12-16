@@ -16,15 +16,6 @@
     a:theme="@style/app_theme"
     tools:targetApi="n">
 
-    <activity
-      a:name=".MainActivity"
-      a:exported="true">
-      <intent-filter>
-        <action a:name="android.intent.action.MAIN" />
-        <category a:name="android.intent.category.LAUNCHER" />
-      </intent-filter>
-    </activity>
-
     <receiver
       a:name=".SessionBroadcastControl"
       a:exported="true">
@@ -39,8 +30,11 @@
 
     <activity
       a:name=".ServiceControl"
-      a:exported="true"
-      a:excludeFromRecents="true">
+      a:exported="true">
+      <intent-filter>
+        <action a:name="android.intent.action.MAIN" />
+        <category a:name="android.intent.category.LAUNCHER" />
+      </intent-filter>
       <intent-filter tools:ignore="AppLinkUrlError">
         <action a:name="android.intent.action.VIEW" />
         <action a:name="android.intent.action.SEND" />

@@ -95,11 +95,11 @@ public class Notifications {
                 (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ECLAIR) ?
                   Intent.FLAG_ACTIVITY_NO_ANIMATION : 0)
           ).putExtra(
-            ACTION.SELF_IDENTIFIER,
-            ACTION.SELF_IDENTIFIER_ID
+            ServiceControl.SELF_IDENTIFIER,
+            ServiceControl.SELF_IDENTIFIER_ID
           ).putExtra(
-            ACTION.TYPE,
-            ACTION.KILL
+            ServiceControl.TYPE,
+            ServiceControl.KILL
           ),
           pendingIntentFlag
         );
@@ -111,7 +111,7 @@ public class Notifications {
       notification.extras.putCharSequence(android.app.Notification.EXTRA_TITLE, title);
       notification.extras.putCharSequence(android.app.Notification.EXTRA_TEXT, "Tap to stop");
 
-      notification.contentIntent = PendingIntent.getService(service, 2, new Intent(service, Service.class).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_NO_HISTORY).putExtra(ACTION.TYPE, ACTION.PLAY_PAUSE).putExtra(ACTION.SELF_IDENTIFIER, ACTION.SELF_IDENTIFIER_ID), pendingIntentFlag);
+      notification.contentIntent = PendingIntent.getService(service, 2, new Intent(service, Service.class).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_NO_HISTORY).putExtra(ServiceControl.TYPE, ServiceControl.PLAY_PAUSE).putExtra(ServiceControl.SELF_IDENTIFIER, ServiceControl.SELF_IDENTIFIER_ID), pendingIntentFlag);
 
       notification.actions = new android.app.Notification.Action[]{new android.app.Notification.Action(R.drawable.ic_launcher, "close", killIntent)};
     } else {

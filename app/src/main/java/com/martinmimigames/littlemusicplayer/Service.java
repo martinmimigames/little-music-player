@@ -48,24 +48,24 @@ public class Service extends android.app.Service {
   @Override
   public void onStart(final Intent intent, final int startId) {
     /* check if called from self */
-    if (intent.getIntExtra(ACTION.SELF_IDENTIFIER, ACTION.NULL) == ACTION.SELF_IDENTIFIER_ID) {
-      switch (intent.getIntExtra(ACTION.TYPE, ACTION.NULL)) {
+    if (intent.getIntExtra(ServiceControl.SELF_IDENTIFIER, ServiceControl.NULL) == ServiceControl.SELF_IDENTIFIER_ID) {
+      switch (intent.getIntExtra(ServiceControl.TYPE, ServiceControl.NULL)) {
 
         /* start or pause audio playback */
-        case ACTION.PLAY_PAUSE:
+        case ServiceControl.PLAY_PAUSE:
           playPause();
           return;
 
-        case ACTION.PLAY:
+        case ServiceControl.PLAY:
           play();
           return;
 
-        case ACTION.PAUSE:
+        case ServiceControl.PAUSE:
           pause();
           return;
 
         /* cancel audio playback and kill service */
-        case ACTION.KILL:
+        case ServiceControl.KILL:
           stopSelf();
           return;
       }
