@@ -67,6 +67,12 @@ If you worry about size, compatibility or privacy, this is the best app for you!
 We use the foreground service permission to provide audio playing while using other apps.
 We use the notification permission for displaying playback control, as we are mainly a notification
 based music player.
+We use the internet permission to allow for audio streaming, however such function is still being
+developed, and can be very buggy.
+
+(Latest development branch only)
+Share a url containing a media file to Little Music Player to stream it.
+Not available on f-droid or github releases yet.
 
 ## Branches
 
