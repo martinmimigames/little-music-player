@@ -7,6 +7,7 @@
 
   <uses-permission a:name="android.permission.POST_NOTIFICATIONS" />
   <uses-permission a:name="android.permission.FOREGROUND_SERVICE" />
+  <uses-permission a:name="android.permission.INTERNET" />
 
   <application
     a:icon="@drawable/ic_launcher"
@@ -43,6 +44,7 @@
 
         <data a:mimeType="audio/*" />
         <data a:mimeType="video/*" />
+        <data a:mimeType="text/plain" />
       </intent-filter>
     </activity>
   </application>

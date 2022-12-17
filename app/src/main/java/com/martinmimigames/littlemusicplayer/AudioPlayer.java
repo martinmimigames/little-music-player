@@ -26,15 +26,19 @@ public class AudioPlayer extends Thread implements MediaPlayer.OnPreparedListene
       mediaPlayer.setDataSource(service, audioLocation);
     } catch (IllegalArgumentException e) {
       Exceptions.throwError(service, Exceptions.IllegalArgument);
+      service.stopSelf();
       return;
     } catch (SecurityException e) {
       Exceptions.throwError(service, Exceptions.Security);
+      service.stopSelf();
       return;
     } catch (IllegalStateException e) {
       Exceptions.throwError(service, Exceptions.IllegalState);
+      service.stopSelf();
       return;
     } catch (IOException e) {
       Exceptions.throwError(service, Exceptions.IO);
+      service.stopSelf();
       return;
     }
 
@@ -63,6 +67,7 @@ public class AudioPlayer extends Thread implements MediaPlayer.OnPreparedListene
       mediaPlayer.prepareAsync();
     } catch (IllegalStateException e) {
       Exceptions.throwError(service, Exceptions.IllegalState);
+      service.stopSelf();
     }
   }
 

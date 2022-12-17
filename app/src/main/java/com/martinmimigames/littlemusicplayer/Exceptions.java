@@ -10,6 +10,8 @@ final class Exceptions {
   static final String IO = "Read error, try again later.";
   static final String Security = "File location protected, cannot be accessed.";
 
+  static final String MediaNotFound = "Media file not found.";
+
   /**
    * create and display error toast to report errors
    */
