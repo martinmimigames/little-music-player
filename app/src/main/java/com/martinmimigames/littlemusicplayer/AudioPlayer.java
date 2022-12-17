@@ -8,7 +8,8 @@ import android.os.Build;
 
 import java.io.IOException;
 
-public class AudioPlayer extends Thread implements MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener {
+public class AudioPlayer extends Thread
+  implements MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener, MediaPlayer.OnErrorListener {
 
   private final Service service;
   private final MediaPlayer mediaPlayer;
@@ -55,6 +56,7 @@ public class AudioPlayer extends Thread implements MediaPlayer.OnPreparedListene
     /* setup listeners for further logics */
     mediaPlayer.setOnPreparedListener(this);
     mediaPlayer.setOnCompletionListener(this);
+    mediaPlayer.setOnErrorListener(this);
   }
 
   @Override
@@ -112,5 +114,14 @@ public class AudioPlayer extends Thread implements MediaPlayer.OnPreparedListene
   public void interrupt() {
     mediaPlayer.release();
     super.interrupt();
+  }
+
+  @Override
+  public boolean onError(MediaPlayer mediaPlayer, int i, int i1) {
+    // -2147483648 = System error
+    if (i == MediaPlayer.MEDIA_ERROR_UNKNOWN && i1 == -2147483648) {
+      Exceptions.throwError(service, Exceptions.MediaPlayerSystemError);
+    }
+    return false;
   }
 }

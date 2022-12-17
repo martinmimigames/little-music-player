@@ -10,9 +10,7 @@ final class Exceptions {
   static final String IO = "Read error, try again later.";
   static final String Security = "File location protected, cannot be accessed.";
 
-  static final String MediaNotFound = "Media file not found.";
-
-  static final String UrlInvalid = "Url is incorrect or malformed, try check your url.";
+  static final String MediaPlayerSystemError = "Media Player Error, maybe format not support by system.";
 
   /**
    * create and display error toast to report errors
