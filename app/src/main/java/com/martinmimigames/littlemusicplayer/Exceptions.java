@@ -12,6 +12,8 @@ final class Exceptions {
 
   static final String MediaNotFound = "Media file not found.";
 
+  static final String UrlInvalid = "Url is incorrect or malformed, try check your url.";
+
   /**
    * create and display error toast to report errors
    */

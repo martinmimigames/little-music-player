@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.IBinder;
-import android.util.Log;
 
 /**
  * service for playing music
@@ -76,20 +75,16 @@ public class Service extends android.app.Service {
           setAudio(intent.getData());
           break;
         case Intent.ACTION_SEND:
-          if (intent.getStringExtra(Intent.EXTRA_TEXT) != null)
-            resolveFileFromString(intent.getStringExtra(Intent.EXTRA_TEXT));
-          else
+          if (intent.getStringExtra(Intent.EXTRA_TEXT) != null) {
+            setAudio(Uri.parse(intent.getStringExtra(Intent.EXTRA_TEXT)));
+          } else {
             setAudio(intent.getParcelableExtra(Intent.EXTRA_STREAM));
+          }
           break;
         default:
           return;
       }
     }
-  }
-
-  void resolveFileFromString(String address) {
-    Log.e("", address);
-    stopSelf();
   }
 
   void setAudio(final Uri audioLocation) {

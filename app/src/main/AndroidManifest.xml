@@ -15,6 +15,7 @@
     a:resizeableActivity="true"
     a:restoreAnyVersion="true"
     a:theme="@style/app_theme"
+    a:usesCleartextTraffic="true"
     tools:targetApi="n">
 
     <receiver

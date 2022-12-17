@@ -105,7 +105,7 @@ public class Notifications {
     if (Build.VERSION.SDK_INT >= 19) {
 
       notification.extras.putCharSequence(Notification.EXTRA_TITLE, title);
-      notification.extras.putCharSequence(Notification.EXTRA_TEXT, "Tap to stop");
+      notification.extras.putCharSequence(Notification.EXTRA_TEXT, "Tap to start");
 
       notification.contentIntent = genIntent(2, ServiceControl.PLAY_PAUSE);
 

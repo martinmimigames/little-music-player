@@ -1,6 +1,5 @@
 package com.martinmimigames.littlemusicplayer;
 
-import android.content.Context;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -8,8 +7,6 @@ import android.net.Uri;
 import android.os.Build;
 
 import java.io.IOException;
-
-import mg.utils.notify.ToastHelper;
 
 public class AudioPlayer extends Thread implements MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener {
 
@@ -97,7 +94,7 @@ public class AudioPlayer extends Thread implements MediaPlayer.OnPreparedListene
    */
   @Override
   public void onPrepared(MediaPlayer mp) {
-    mediaPlayer.start();
+    service.play();
   }
 
   /**
