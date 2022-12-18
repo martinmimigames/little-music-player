@@ -120,7 +120,7 @@ public class AudioPlayer extends Thread
   public boolean onError(MediaPlayer mediaPlayer, int i, int i1) {
     // -2147483648 = System error
     if (i == MediaPlayer.MEDIA_ERROR_UNKNOWN && i1 == -2147483648) {
-      Exceptions.throwError(service, Exceptions.MediaPlayerSystemError);
+      Exceptions.throwError(service, Exceptions.FormatNotSupported);
     }
     return false;
   }

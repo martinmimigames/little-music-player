@@ -5,6 +5,16 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.IBinder;
+import android.webkit.MimeTypeMap;
+
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.concurrent.atomic.AtomicReference;
+
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLHandshakeException;
 
 /**
  * service for playing music
@@ -87,7 +97,82 @@ public class Service extends android.app.Service {
     }
   }
 
-  void setAudio(final Uri audioLocation) {
+  String getExtension(Uri m3uLocation) {
+    switch (m3uLocation.getScheme()) {
+      case "content":
+        return getContentResolver().getType(m3uLocation);
+      case "file":
+        var m3u = new File(m3uLocation.getPath());
+        var mimeMap = MimeTypeMap.getSingleton();
+        var name = m3u.getName();
+        name = name.substring(name.lastIndexOf("."));
+        return mimeMap.getMimeTypeFromExtension(name);
+      default:
+        return null;
+    }
+  }
+
+  boolean isPlayableMimeType(Uri audioLocation) {
+    switch (audioLocation.getScheme()) {
+      case "http":
+      case "https":
+        return true;
+      default:
+        var extension = getExtension(audioLocation);
+        if (extension != null) {
+          var index = extension.lastIndexOf("/");
+          if (index != -1) {
+            switch (extension.substring(0, index)) {
+              case "audio":
+              case "video":
+                return true;
+            }
+          }
+        }
+    }
+    Exceptions.throwError(this, Exceptions.FormatNotSupported);
+    return false;
+  }
+
+  Uri getStreamUri(Uri audioLocation) {
+    if (audioLocation.toString().startsWith("https"))
+      return audioLocation;
+    var urlLocation = new AtomicReference<>(audioLocation.toString());
+    var t = new Thread(() -> {
+      try {
+        var https = "https://" + urlLocation.get().substring(7);
+        var url = new URL(https);
+        var connection = (HttpsURLConnection) url.openConnection();
+        connection.connect();
+        urlLocation.set(https);
+        connection.disconnect();
+      } catch (SSLHandshakeException ignored) {
+      } catch (MalformedURLException ignored) {
+      } catch (IOException ignored) {
+      }
+    });
+    t.start();
+    try {
+      t.join();
+    } catch (InterruptedException ignored) {
+    }
+    return Uri.parse(urlLocation.get());
+  }
+
+  void setAudio(Uri audioLocation) {
+
+    switch (audioLocation.getScheme()) {
+      case "http":
+      case "https":
+        audioLocation = getStreamUri(audioLocation);
+        if (audioLocation.toString().startsWith("http"))
+          Exceptions.throwError(this, Exceptions.UsingHttp);
+        break;
+      default:
+        if (!isPlayableMimeType(audioLocation))
+          return;
+    }
+
     /* create notification for playback control */
     nm.getNotification(audioLocation);
 
