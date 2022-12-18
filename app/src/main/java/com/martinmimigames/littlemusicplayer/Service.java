@@ -165,7 +165,7 @@ public class Service extends android.app.Service {
       case "http":
       case "https":
         audioLocation = getStreamUri(audioLocation);
-        if (audioLocation.toString().startsWith("http"))
+        if (audioLocation.toString().startsWith("http://"))
           Exceptions.throwError(this, Exceptions.UsingHttp);
         break;
       default:
