@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.IBinder;
+import android.util.Log;
 import android.webkit.MimeTypeMap;
 
 import java.io.File;
@@ -97,15 +98,18 @@ public class Service extends android.app.Service {
     }
   }
 
-  String getExtension(Uri m3uLocation) {
-    switch (m3uLocation.getScheme()) {
+  String getExtension(Uri audioLocation) {
+    switch (audioLocation.getScheme()) {
       case "content":
-        return getContentResolver().getType(m3uLocation);
+        return getContentResolver().getType(audioLocation);
       case "file":
-        var m3u = new File(m3uLocation.getPath());
+        var file = new File(audioLocation.getPath());
+        Log.e("", "file path: " + file.getPath());
         var mimeMap = MimeTypeMap.getSingleton();
-        var name = m3u.getName();
-        name = name.substring(name.lastIndexOf("."));
+        var name = file.getName();
+        Log.e("", "name: " + name);
+        name = name.substring(name.lastIndexOf(".") + 1);
+        Log.e("", "extension: " + name);
         return mimeMap.getMimeTypeFromExtension(name);
       default:
         return null;
@@ -160,6 +164,8 @@ public class Service extends android.app.Service {
   }
 
   void setAudio(Uri audioLocation) {
+
+    Log.e("", "mime: " + getExtension(audioLocation));
 
     switch (audioLocation.getScheme()) {
       case "http":
