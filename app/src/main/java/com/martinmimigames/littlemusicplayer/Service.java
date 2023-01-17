@@ -1,7 +1,6 @@
 package com.martinmimigames.littlemusicplayer;
 
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -23,7 +22,7 @@ import javax.net.ssl.SSLHandshakeException;
  */
 public class Service extends android.app.Service {
 
-  final SessionBroadcastControl sbc;
+  final HWListener sbc;
   final Notifications nm;
   /**
    * audio playing logic class
@@ -31,7 +30,7 @@ public class Service extends android.app.Service {
   private AudioPlayer audioPlayer;
 
   public Service() {
-    sbc = new SessionBroadcastControl(this);
+    sbc = new HWListener(this);
     nm = new Notifications(this);
   }
 
@@ -59,28 +58,26 @@ public class Service extends android.app.Service {
    */
   @Override
   public void onStart(final Intent intent, final int startId) {
-    /* check if called from self */
-    if (intent.getByteExtra(ServiceControl.SELF_IDENTIFIER, ServiceControl.NULL) == ServiceControl.SELF_IDENTIFIER_ID) {
-      switch (intent.getByteExtra(ServiceControl.TYPE, ServiceControl.NULL)) {
+    switch (intent.getByteExtra(Launcher.TYPE, Launcher.NULL)) {
 
-        /* start or pause audio playback */
-        case ServiceControl.PLAY_PAUSE -> {
-          playPause();
-        }
-        case ServiceControl.PLAY -> play();
-        case ServiceControl.PAUSE -> pause();
-
-        /* cancel audio playback and kill service */
-        case ServiceControl.KILL -> stopSelf();
+      /* start or pause audio playback */
+      case Launcher.PLAY_PAUSE -> {
+        playPause();
       }
-    } else {
-      switch (intent.getAction()) {
-        case Intent.ACTION_VIEW -> setAudio(intent.getData());
-        case Intent.ACTION_SEND -> {
-          if (intent.getStringExtra(Intent.EXTRA_TEXT) != null) {
-            setAudio(Uri.parse(intent.getStringExtra(Intent.EXTRA_TEXT)));
-          } else {
-            setAudio(intent.getParcelableExtra(Intent.EXTRA_STREAM));
+      case Launcher.PLAY -> play();
+      case Launcher.PAUSE -> pause();
+
+      /* cancel audio playback and kill service */
+      case Launcher.KILL -> stopSelf();
+      default -> {
+        switch (intent.getAction()) {
+          case Intent.ACTION_VIEW -> setAudio(intent.getData());
+          case Intent.ACTION_SEND -> {
+            if (intent.getStringExtra(Intent.EXTRA_TEXT) != null) {
+              setAudio(Uri.parse(intent.getStringExtra(Intent.EXTRA_TEXT)));
+            } else {
+              setAudio(intent.getParcelableExtra(Intent.EXTRA_STREAM));
+            }
           }
         }
       }
