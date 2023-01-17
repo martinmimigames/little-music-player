@@ -1,5 +1,6 @@
 package com.martinmimigames.littlemusicplayer;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.net.Uri;
@@ -8,6 +9,7 @@ import android.os.IBinder;
 import android.webkit.MimeTypeMap;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -62,76 +64,42 @@ public class Service extends android.app.Service {
       switch (intent.getByteExtra(ServiceControl.TYPE, ServiceControl.NULL)) {
 
         /* start or pause audio playback */
-        case ServiceControl.PLAY_PAUSE:
+        case ServiceControl.PLAY_PAUSE -> {
           playPause();
-          return;
-
-        case ServiceControl.PLAY:
-          play();
-          return;
-
-        case ServiceControl.PAUSE:
-          pause();
-          return;
+        }
+        case ServiceControl.PLAY -> play();
+        case ServiceControl.PAUSE -> pause();
 
         /* cancel audio playback and kill service */
-        case ServiceControl.KILL:
-          stopSelf();
-          return;
+        case ServiceControl.KILL -> stopSelf();
       }
     } else {
       switch (intent.getAction()) {
-        case Intent.ACTION_VIEW:
-          setAudio(intent.getData());
-          break;
-        case Intent.ACTION_SEND:
+        case Intent.ACTION_VIEW -> setAudio(intent.getData());
+        case Intent.ACTION_SEND -> {
           if (intent.getStringExtra(Intent.EXTRA_TEXT) != null) {
             setAudio(Uri.parse(intent.getStringExtra(Intent.EXTRA_TEXT)));
           } else {
             setAudio(intent.getParcelableExtra(Intent.EXTRA_STREAM));
           }
-          break;
-        default:
-          return;
+        }
       }
     }
   }
 
-  String getExtension(Uri m3uLocation) {
-    switch (m3uLocation.getScheme()) {
+  String getExtension(Uri location) {
+    switch (location.getScheme()) {
       case "content":
-        return getContentResolver().getType(m3uLocation);
+        return getContentResolver().getType(location);
       case "file":
-        var m3u = new File(m3uLocation.getPath());
+        var file = new File(location.getPath());
         var mimeMap = MimeTypeMap.getSingleton();
-        var name = m3u.getName();
+        var name = file.getName();
         name = name.substring(name.lastIndexOf("."));
         return mimeMap.getMimeTypeFromExtension(name);
       default:
         return null;
     }
-  }
-
-  boolean isPlayableMimeType(Uri audioLocation) {
-    switch (audioLocation.getScheme()) {
-      case "http":
-      case "https":
-        return true;
-      default:
-        var extension = getExtension(audioLocation);
-        if (extension != null) {
-          var index = extension.lastIndexOf("/");
-          if (index != -1) {
-            switch (extension.substring(0, index)) {
-              case "audio":
-              case "video":
-                return true;
-            }
-          }
-        }
-    }
-    Exceptions.throwError(this, Exceptions.FormatNotSupported);
-    return false;
   }
 
   Uri getStreamUri(Uri audioLocation) {
@@ -160,17 +128,26 @@ public class Service extends android.app.Service {
   }
 
   void setAudio(Uri audioLocation) {
-
     switch (audioLocation.getScheme()) {
-      case "http":
-      case "https":
+      case "http", "https" -> {
         audioLocation = getStreamUri(audioLocation);
         if (audioLocation.toString().startsWith("http://"))
           Exceptions.throwError(this, Exceptions.UsingHttp);
-        break;
-      default:
-        if (!isPlayableMimeType(audioLocation))
-          return;
+      }
+      default -> {
+        var extension = getExtension(audioLocation);
+        if ("audio/x-mpegurl".equals(extension)) {
+          var parser = new M3UParser(this);
+          try {
+            parser.parse(audioLocation);
+            var locations = parser.getEntries();
+            setAudio(Uri.parse(locations[0].path));
+            return;
+          } catch (FileNotFoundException e) {
+            Exceptions.throwError(this, "File not found!\nLocation: " + audioLocation);
+          }
+        }
+      }
     }
 
     /* create notification for playback control */
@@ -216,7 +193,7 @@ public class Service extends android.app.Service {
   /**
    * forward to startup logic for newer androids
    */
-  @TargetApi(Build.VERSION_CODES.ECLAIR)
+  @SuppressLint("InlinedApi")
   @Override
   public int onStartCommand(final Intent intent, final int flags, final int startId) {
     onStart(intent, startId);
