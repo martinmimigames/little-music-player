@@ -14,7 +14,7 @@ import android.media.session.PlaybackState;
 import android.os.Build;
 import android.view.KeyEvent;
 
-public class SessionBroadcastControl extends BroadcastReceiver {
+public class HWListener extends BroadcastReceiver {
 
   private Service service;
   private MediaSession mediaSession;
@@ -25,7 +25,7 @@ public class SessionBroadcastControl extends BroadcastReceiver {
    * Required for older android versions,
    * initialized by the system
    */
-  public SessionBroadcastControl() {
+  public HWListener() {
     super();
   }
 
@@ -34,7 +34,7 @@ public class SessionBroadcastControl extends BroadcastReceiver {
    *
    * @param service the music service
    */
-  public SessionBroadcastControl(Service service) {
+  public HWListener(Service service) {
     this.service = service;
   }
 
@@ -43,7 +43,7 @@ public class SessionBroadcastControl extends BroadcastReceiver {
    */
   void create() {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-      mediaSession = new MediaSession(service, SessionBroadcastControl.class.toString());
+      mediaSession = new MediaSession(service, HWListener.class.toString());
       mediaSession.setCallback(new MediaSession.Callback() {
         @Override
         public boolean onMediaButtonEvent(Intent mediaButtonIntent) {
@@ -57,7 +57,7 @@ public class SessionBroadcastControl extends BroadcastReceiver {
       mediaSession.setActive(true);
     } else {
       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO) {
-        cn = new ComponentName(service, SessionBroadcastControl.class);
+        cn = new ComponentName(service, HWListener.class);
         ((AudioManager) service.getSystemService(Context.AUDIO_SERVICE)).registerMediaButtonEventReceiver(cn);
       }
       service.registerReceiver(this, new IntentFilter(Intent.ACTION_MEDIA_BUTTON));
@@ -108,23 +108,13 @@ public class SessionBroadcastControl extends BroadcastReceiver {
     final KeyEvent event = intent.getParcelableExtra(EXTRA_KEY_EVENT);
     if (event.getAction() == KeyEvent.ACTION_DOWN) {
       intent = new Intent(context, Service.class);
-      intent.putExtra(ServiceControl.SELF_IDENTIFIER, ServiceControl.SELF_IDENTIFIER_ID);
       intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_HISTORY);
       switch (event.getKeyCode()) {
-        case KeyEvent.KEYCODE_MEDIA_PLAY:
-          intent.putExtra(ServiceControl.TYPE, ServiceControl.PLAY);
-          break;
-        case KeyEvent.KEYCODE_MEDIA_PAUSE:
-          intent.putExtra(ServiceControl.TYPE, ServiceControl.PAUSE);
-          break;
-        case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
-          intent.putExtra(ServiceControl.TYPE, ServiceControl.PLAY_PAUSE);
-          break;
-        case KeyEvent.KEYCODE_MEDIA_STOP:
-          intent.putExtra(ServiceControl.TYPE, ServiceControl.KILL);
-          break;
-        default:
-          return;
+        case KeyEvent.KEYCODE_MEDIA_PLAY -> intent.putExtra(Launcher.TYPE, Launcher.PLAY);
+        case KeyEvent.KEYCODE_MEDIA_PAUSE -> intent.putExtra(Launcher.TYPE, Launcher.PAUSE);
+        case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE ->
+          intent.putExtra(Launcher.TYPE, Launcher.PLAY_PAUSE);
+        case KeyEvent.KEYCODE_MEDIA_STOP -> intent.putExtra(Launcher.TYPE, Launcher.KILL);
       }
       context.startService(intent);
     }

@@ -12,7 +12,7 @@ import android.view.View;
 /**
  * activity for controlling the playback by invoking different logics based on incoming intents
  */
-public class ServiceControl extends Activity {
+public class Launcher extends Activity {
 
   public static final String TYPE = "type";
   public static final byte NULL = 0;
@@ -20,9 +20,6 @@ public class ServiceControl extends Activity {
   public static final byte KILL = 2;
   public static final byte PLAY = 3;
   public static final byte PAUSE = 4;
-  public static final byte SELF_IDENTIFIER_ID = 45;
-  public static final String SELF_IDENTIFIER = Service.class.toString();
-
   public static final int REQUEST_CODE = 44130840;
 
   /**
@@ -32,8 +29,7 @@ public class ServiceControl extends Activity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
-    if (getIntent().getByteExtra(ServiceControl.SELF_IDENTIFIER, ServiceControl.NULL) != ServiceControl.SELF_IDENTIFIER_ID
-      && !Intent.ACTION_VIEW.equals(getIntent().getAction())
+    if (!Intent.ACTION_VIEW.equals(getIntent().getAction())
       && !Intent.ACTION_SEND.equals(getIntent().getAction())) {
 
       /* set listener for button */
@@ -43,7 +39,7 @@ public class ServiceControl extends Activity {
             /* request a file from the system */
             final Intent fileIntent = new Intent(Intent.ACTION_GET_CONTENT);
             fileIntent.setType("audio/*"); // intent type to filter application based on your requirement
-            startActivityForResult(fileIntent, ServiceControl.REQUEST_CODE);
+            startActivityForResult(fileIntent, Launcher.REQUEST_CODE);
           });
       return;
     }
@@ -99,9 +95,9 @@ public class ServiceControl extends Activity {
   @Override
   protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
     /* if result unusable, discard */
-    if (requestCode != ServiceControl.REQUEST_CODE || resultCode != Activity.RESULT_OK) return;
+    if (requestCode != Launcher.REQUEST_CODE || resultCode != Activity.RESULT_OK) return;
     /* redirect to service */
-    intent.setClass(this, ServiceControl.class);
+    intent.setClass(this, Launcher.class);
     intent.setAction(Intent.ACTION_VIEW);
     startActivity(intent);
   }
