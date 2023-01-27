@@ -1,1 +1,1 @@
-Mini, plays audio, and supports Android 1.0+
+Android 1.0+ mini notification based audio player
