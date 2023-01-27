@@ -1,14 +1,14 @@
 package com.martinmimigames.littlemusicplayer;
 
-import android.annotation.TargetApi;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.IBinder;
-import android.util.Log;
 import android.webkit.MimeTypeMap;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -22,7 +22,7 @@ import javax.net.ssl.SSLHandshakeException;
  */
 public class Service extends android.app.Service {
 
-  final SessionBroadcastControl sbc;
+  final HWListener sbc;
   final Notifications nm;
   /**
    * audio playing logic class
@@ -30,7 +30,7 @@ public class Service extends android.app.Service {
   private AudioPlayer audioPlayer;
 
   public Service() {
-    sbc = new SessionBroadcastControl(this);
+    sbc = new HWListener(this);
     nm = new Notifications(this);
   }
 
@@ -58,84 +58,45 @@ public class Service extends android.app.Service {
    */
   @Override
   public void onStart(final Intent intent, final int startId) {
-    /* check if called from self */
-    if (intent.getByteExtra(ServiceControl.SELF_IDENTIFIER, ServiceControl.NULL) == ServiceControl.SELF_IDENTIFIER_ID) {
-      switch (intent.getByteExtra(ServiceControl.TYPE, ServiceControl.NULL)) {
+    switch (intent.getByteExtra(Launcher.TYPE, Launcher.NULL)) {
 
-        /* start or pause audio playback */
-        case ServiceControl.PLAY_PAUSE:
-          playPause();
-          return;
-
-        case ServiceControl.PLAY:
-          play();
-          return;
-
-        case ServiceControl.PAUSE:
-          pause();
-          return;
-
-        /* cancel audio playback and kill service */
-        case ServiceControl.KILL:
-          stopSelf();
-          return;
+      /* start or pause audio playback */
+      case Launcher.PLAY_PAUSE -> {
+        playPause();
       }
-    } else {
-      switch (intent.getAction()) {
-        case Intent.ACTION_VIEW:
-          setAudio(intent.getData());
-          break;
-        case Intent.ACTION_SEND:
-          if (intent.getStringExtra(Intent.EXTRA_TEXT) != null) {
-            setAudio(Uri.parse(intent.getStringExtra(Intent.EXTRA_TEXT)));
-          } else {
-            setAudio(intent.getParcelableExtra(Intent.EXTRA_STREAM));
+      case Launcher.PLAY -> play();
+      case Launcher.PAUSE -> pause();
+
+      /* cancel audio playback and kill service */
+      case Launcher.KILL -> stopSelf();
+      default -> {
+        switch (intent.getAction()) {
+          case Intent.ACTION_VIEW -> setAudio(intent.getData());
+          case Intent.ACTION_SEND -> {
+            if (intent.getStringExtra(Intent.EXTRA_TEXT) != null) {
+              setAudio(Uri.parse(intent.getStringExtra(Intent.EXTRA_TEXT)));
+            } else {
+              setAudio(intent.getParcelableExtra(Intent.EXTRA_STREAM));
+            }
           }
-          break;
-        default:
-          return;
+        }
       }
     }
   }
 
-  String getExtension(Uri audioLocation) {
-    switch (audioLocation.getScheme()) {
+  String getExtension(Uri location) {
+    switch (location.getScheme()) {
       case "content":
-        return getContentResolver().getType(audioLocation);
+        return getContentResolver().getType(location);
       case "file":
-        var file = new File(audioLocation.getPath());
-        Log.e("", "file path: " + file.getPath());
+        var file = new File(location.getPath());
         var mimeMap = MimeTypeMap.getSingleton();
         var name = file.getName();
-        Log.e("", "name: " + name);
-        name = name.substring(name.lastIndexOf(".") + 1);
-        Log.e("", "extension: " + name);
+        name = name.substring(name.lastIndexOf("."));
         return mimeMap.getMimeTypeFromExtension(name);
       default:
         return null;
     }
-  }
-
-  boolean isPlayableMimeType(Uri audioLocation) {
-    switch (audioLocation.getScheme()) {
-      case "http":
-      case "https":
-        return true;
-      default:
-        var extension = getExtension(audioLocation);
-        if (extension != null) {
-          var index = extension.lastIndexOf("/");
-          if (index != -1) {
-            switch (extension.substring(0, index)) {
-              case "audio":
-              case "video":
-                return true;
-            }
-          }
-        }
-    }
-    Exceptions.throwError(this, Exceptions.FormatNotSupported);
-    return false;
   }
 
   Uri getStreamUri(Uri audioLocation) {
@@ -164,19 +125,26 @@ public class Service extends android.app.Service {
   }
 
   void setAudio(Uri audioLocation) {
-
-    Log.e("", "mime: " + getExtension(audioLocation));
-
     switch (audioLocation.getScheme()) {
-      case "http":
-      case "https":
+      case "http", "https" -> {
         audioLocation = getStreamUri(audioLocation);
         if (audioLocation.toString().startsWith("http://"))
           Exceptions.throwError(this, Exceptions.UsingHttp);
-        break;
-      default:
-        if (!isPlayableMimeType(audioLocation))
-          return;
+      }
+      default -> {
+        var extension = getExtension(audioLocation);
+        if ("audio/x-mpegurl".equals(extension)) {
+          var parser = new M3UParser(this);
+          try {
+            parser.parse(audioLocation);
+            var locations = parser.getEntries();
+            setAudio(Uri.parse(locations[0].path));
+            return;
+          } catch (FileNotFoundException e) {
+            Exceptions.throwError(this, "File not found!\nLocation: " + audioLocation);
+          }
+        }
+      }
     }
 
     /* create notification for playback control */
@@ -222,7 +190,7 @@ public class Service extends android.app.Service {
   /**
    * forward to startup logic for newer androids
    */
-  @TargetApi(Build.VERSION_CODES.ECLAIR)
+  @SuppressLint("InlinedApi")
   @Override
   public int onStartCommand(final Intent intent, final int flags, final int startId) {
     onStart(intent, startId);
