@@ -7,7 +7,10 @@ alt="Read license">](https://github.com/martinmimigames/little-music-player/blob
 
 This project is a light-weight, simple, yet compatible audio player.
 
-It allows you to play audio and video files, like how you expected to. Most importantly it is designed in hope to make it compatibile with different Android versions.
+Supports Android 1.0+
+
+It allows you to play audio and video files, like how you expected to. Most importantly it is
+designed in hope to make it compatibile with different Android versions.
 
 Its usage is as easy as opening or sharing the file you want to play with the app, or selecting it
 directly from the app. Enjoy your music!
@@ -65,14 +68,18 @@ You can find most information about *Little Music Player* just below.
 If you worry about size, compatibility or privacy, this is the best app for you!
 
 We use the foreground service permission to provide audio playing while using other apps.
+
 We use the notification permission for displaying playback control, as we are mainly a notification
 based music player.
+
 We use the internet permission to allow for audio streaming, however such function is still being
 developed, and can be very buggy.
 
-(Latest development branch only)
+(Beta function)
+
 Share a url containing a media file to Little Music Player to stream it.
-Not available on f-droid or github releases yet.
+
+Or use a single entry m3u file with the stream url inside.
 
 ## Branches
 
@@ -95,7 +102,7 @@ Please put them into issues
 
 ### Last update of README
 
-Date : 11-12-2022 dd-mm-yyyy
+Date : 27-01-2023 dd-mm-yyyy
 
 ### Important
 

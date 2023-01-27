@@ -1,4 +1,7 @@
 This project is a light-weight, simple, yet compatible audio player.
+
+Supports Android 1.0+
+
 It allows you to play audio and video files, like how you expected to. Most importantly it is designed in hope to make it compatible with different Android versions.
 Its usage is as easy as opening or sharing the file you want to play with the app, or selecting it directly from the app. Enjoy your music!
 Note that this project was originally known as simple music player.
@@ -41,11 +44,17 @@ If you worry about size, compatibility or privacy, this is the best app for you!
 We use the foreground service permission to provide audio playing while using other apps.
 We use the notification permission for displaying playback control, as we are mainly a notification
 based music player.
+We use the internet permission to allow for audio streaming, however such function is still being
+developed, and can be very buggy.
+
+(Beta function)
+Share a url containing a media file to Little Music Player to stream it.
+Or use a single entry m3u file with the stream url inside.
 
 Issues and pull requests are always welcome!
 
 Last update of Description:
-- 04-12-2022 dd-mm-yyyy
+- 27-01-2023 dd-mm-yyyy
 
 Important:
 - Please read the license!
