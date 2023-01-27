@@ -75,6 +75,9 @@ based music player.
 We use the internet permission to allow for audio streaming, however such function is still being
 developed, and can be very buggy.
 
+We use the read storage permission on older devices to open the audio files. (not required for newer
+devices)
+
 (Beta function)
 
 Share a url containing a media file to Little Music Player to stream it.
