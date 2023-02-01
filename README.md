@@ -5,7 +5,9 @@ alt="Read license">](https://github.com/martinmimigames/little-music-player/blob
 
 ## Description
 
-This project is a light-weight, simple, yet compatible audio player.
+A mini, simple, yet compatible notification-based audio player. 
+
+Open-sourced and publicly-viewable code for anyone worrying about being locked in or privacy invasion.
 
 Supports Android 1.0+
 
@@ -103,9 +105,15 @@ Please put them into issues
 
 [Get it from GitHub](https://github.com/martinmimigames/little-file-explorer/releases/latest)
 
+[Get it from the offical website](https://martinmimigames.github.io/projects/little-music-player)
+
+## Made by Martinmimigames
+
+Official Website at [https://martinmimigames.github.io](https://martinmimigames.github.io)
+
 ### Last update of README
 
-Date : 27-01-2023 dd-mm-yyyy
+Date : 01-02-2023 dd-mm-yyyy
 
 ### Important
 
