@@ -3,7 +3,7 @@
 [<img src="https://img.shields.io/github/license/martinmimigames/little-music-player?style=flat-square"
 alt="Read license">](https://github.com/martinmimigames/little-music-player/blob/main/LICENSE.md)
 
-## Description
+## Descriptions
 
 A mini, simple, yet compatible notification-based audio player. 
 
@@ -94,10 +94,11 @@ Or use a single entry m3u file with the stream url inside.
 
 Issues and pull requests are always welcome!
 
-Please put them into issues
-[here](https://github.com/martinmimigames/little-music-player/issues/new).
+You can submit issues the following ways:
+- via [Github Issues](https://github.com/martinmimigames/little-music-player/issues/new).
+- via email: martinmimigames@gmail.com
 
-- - - -
+## Installation
 
 [<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
     alt="Get it on F-Droid"
