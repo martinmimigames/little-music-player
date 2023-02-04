@@ -24,6 +24,11 @@ Location of webpage:
 
 You can find most information about *Little Music Player* just below.
 
+## Notices
+
+The app will not be able to function properly without notification permissions being granted.
+For Android 13+, due to new notification restrictions, the app will request for the notification permission if the permission is not granted.
+
 ## Different variations
 
 - [Tiny Music Player](https://github.com/martinmimigames/tiny-music-player)
@@ -114,7 +119,7 @@ Official Website at [https://martinmimigames.github.io](https://martinmimigames.
 
 ### Last update of README
 
-Date : 02-02-2023 dd-mm-yyyy
+Date : 04-02-2023 dd-mm-yyyy
 
 ### Important
 
