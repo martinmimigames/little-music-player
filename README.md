@@ -100,7 +100,7 @@ Or use a single entry m3u file with the stream url inside.
 Issues and pull requests are always welcome!
 
 You can submit issues the following ways:
-- via [Github Issues](https://github.com/martinmimigames/little-music-player/issues/new).
+- via [Github Issues](https://github.com/martinmimigames/little-music-player/issues).
 - via email: martinmimigames@gmail.com
 
 ## Installation
