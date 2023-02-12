@@ -105,7 +105,7 @@ Or use a single entry m3u file with the stream url inside.
 
 4. Import the project.
 
-[![4-Open-Project.png](https://i.postimg.cc/nc5dcT1k/4-Open-Project.png)](https://postimg.cc/dL2R52pk)
+[![4-Import-Project.png](https://i.postimg.cc/9Q7L4T8j/4-Import-Project.png)](https://postimg.cc/w19XZtYW)
 
 5. Create a virtual device (for this example, we'll go with Pixel 6 Pro).
 
