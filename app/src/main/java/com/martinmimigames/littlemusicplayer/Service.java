@@ -126,9 +126,11 @@ public class Service extends android.app.Service {
   }
 
   void setAudio(Uri audioLocation) {
+    var allowLoop = true;
     switch (audioLocation.getScheme()) {
       case "http", "https" -> {
         audioLocation = getStreamUri(audioLocation);
+        allowLoop = false;
         if (audioLocation.toString().startsWith("http://"))
           Exceptions.throwError(this, Exceptions.UsingHttp);
       }
@@ -154,7 +156,7 @@ public class Service extends android.app.Service {
       audioPlayer.start();
 
       /* create notification for playback control */
-      notifications.getNotification(audioLocation);
+      notifications.getNotification(audioLocation, allowLoop);
 
       /* start service as foreground */
       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ECLAIR)

@@ -54,7 +54,7 @@ class Notifications {
    * @param playPauseIntent pending intent for pause/play audio
    * @param killIntent      pending intent for closing the service
    */
-  void setupNotificationBuilder(String title, PendingIntent playPauseIntent, PendingIntent killIntent, PendingIntent loopIntent) {
+  void setupNotificationBuilder(String title, PendingIntent playPauseIntent, PendingIntent killIntent, PendingIntent loopIntent, boolean allowLoop) {
     if (Build.VERSION.SDK_INT < 11) return;
 
     // create builder instance
@@ -74,7 +74,8 @@ class Notifications {
     builder.setVibrate(null);
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
       builder.setContentIntent(playPauseIntent);
-      builder.addAction(0, "loop", loopIntent);
+      if (allowLoop)
+        builder.addAction(0, "loop", loopIntent);
       builder.addAction(0, TAP_TO_CLOSE, killIntent);
     } else {
       builder.setContentText(TAP_TO_CLOSE);
@@ -166,7 +167,7 @@ class Notifications {
   /**
    * create and start playback control notification
    */
-  void getNotification(final Uri uri) {
+  void getNotification(final Uri uri, boolean allowLoop) {
 
     /* setup notification variable */
     var title = new File(uri.getPath()).getName();
@@ -176,7 +177,7 @@ class Notifications {
     var playPauseIntent = genIntent(2, Launcher.PLAY_PAUSE);
     var loopIntent = genIntent(3, Launcher.LOOP);
 
-    setupNotificationBuilder(title, playPauseIntent, killIntent, loopIntent);
+    setupNotificationBuilder(title, playPauseIntent, killIntent, loopIntent, allowLoop);
     genNotification();
     setupNotification(title, killIntent);
 
