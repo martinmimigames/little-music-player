@@ -20,6 +20,7 @@ public class Launcher extends Activity {
   public static final byte KILL = 2;
   public static final byte PLAY = 3;
   public static final byte PAUSE = 4;
+  public static final byte LOOP = 5;
   public static final int REQUEST_CODE = 44130840;
 
   /**

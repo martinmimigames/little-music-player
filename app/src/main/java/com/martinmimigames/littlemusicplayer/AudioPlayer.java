@@ -8,39 +8,30 @@ import android.os.Build;
 
 import java.io.IOException;
 
-public class AudioPlayer extends Thread
-  implements MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener, MediaPlayer.OnErrorListener {
+class AudioPlayer extends Thread implements MediaPlayer.OnCompletionListener {
 
   private final Service service;
   private final MediaPlayer mediaPlayer;
 
-  public AudioPlayer(Service service, Uri audioLocation) {
+  /**
+   * Initiate an audio player, throws exceptions if failed.
+   *
+   * @param service       the service initialising this.
+   * @param audioLocation the Uri containing the location of the audio.
+   * @throws IllegalArgumentException when the media player need cookies, but we do not supply it.
+   * @throws IllegalStateException    when the media player is not in the correct state.
+   * @throws SecurityException        when the audio file is protected and cannot be played.
+   * @throws IOException              when the audio file cannot be read.
+   */
+  public AudioPlayer(Service service, Uri audioLocation) throws IllegalArgumentException, IllegalStateException, SecurityException, IOException {
     this.service = service;
     /* initiate new audio player */
     mediaPlayer = new MediaPlayer();
 
     /* setup player variables */
-    try {
-      mediaPlayer.setDataSource(service, audioLocation);
-    } catch (IllegalArgumentException e) {
-      Exceptions.throwError(service, Exceptions.IllegalArgument);
-      service.stopSelf();
-      return;
-    } catch (SecurityException e) {
-      Exceptions.throwError(service, Exceptions.Security);
-      service.stopSelf();
-      return;
-    } catch (IllegalStateException e) {
-      Exceptions.throwError(service, Exceptions.IllegalState);
-      service.stopSelf();
-      return;
-    } catch (IOException e) {
-      Exceptions.throwError(service, Exceptions.IO);
-      service.stopSelf();
-      return;
-    }
+    mediaPlayer.setDataSource(service, audioLocation);
 
-    if (Build.VERSION.SDK_INT < 21) {
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
       mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
     } else {
       mediaPlayer.setAudioAttributes(
@@ -54,19 +45,19 @@ public class AudioPlayer extends Thread
     mediaPlayer.setLooping(false);
 
     /* setup listeners for further logics */
-    mediaPlayer.setOnPreparedListener(this);
     mediaPlayer.setOnCompletionListener(this);
-    mediaPlayer.setOnErrorListener(this);
   }
 
   @Override
   public void run() {
+    /* get ready for playback */
     try {
-      /* get ready for playback */
-      mediaPlayer.prepareAsync();
+      mediaPlayer.prepare();
+      service.setState(true, false);
     } catch (IllegalStateException e) {
       Exceptions.throwError(service, Exceptions.IllegalState);
-      service.stopSelf();
+    } catch (IOException e) {
+      Exceptions.throwError(service, Exceptions.IO);
     }
   }
 
@@ -78,25 +69,29 @@ public class AudioPlayer extends Thread
   }
 
   /**
-   * Switch to play state
+   * check if audio is looping, always false on < android cupcake (sdk 3)
    */
-  public void play() {
-    mediaPlayer.start();
+  public boolean isLooping() {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.CUPCAKE) {
+      return mediaPlayer.isLooping();
+    } else {
+      return false;
+    }
   }
 
   /**
-   * Switch to pause state
+   * set player state
+   *
+   * @param playing is audio playing
+   * @param looping is audio looping
    */
-  public void pause() {
-    mediaPlayer.pause();
-  }
-
-  /**
-   * playback when ready
-   */
-  @Override
-  public void onPrepared(MediaPlayer mp) {
-    service.play();
+  void setState(boolean playing, boolean looping) {
+    if (playing) {
+      mediaPlayer.start();
+    } else {
+      mediaPlayer.pause();
+    }
+    mediaPlayer.setLooping(looping);
   }
 
   /**
@@ -114,14 +109,5 @@ public class AudioPlayer extends Thread
   public void interrupt() {
     mediaPlayer.release();
     super.interrupt();
-  }
-
-  @Override
-  public boolean onError(MediaPlayer mediaPlayer, int i, int i1) {
-    // -2147483648 = System error
-    if (i == MediaPlayer.MEDIA_ERROR_UNKNOWN && i1 == -2147483648) {
-      Exceptions.throwError(service, Exceptions.FormatNotSupported);
-    }
-    return false;
   }
 }

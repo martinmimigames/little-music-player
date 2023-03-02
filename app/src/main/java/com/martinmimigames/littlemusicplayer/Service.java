@@ -22,16 +22,16 @@ import javax.net.ssl.SSLHandshakeException;
  */
 public class Service extends android.app.Service {
 
-  final HWListener sbc;
-  final Notifications nm;
+  final HWListener hwListener;
+  final Notifications notifications;
   /**
    * audio playing logic class
    */
   private AudioPlayer audioPlayer;
 
   public Service() {
-    sbc = new HWListener(this);
-    nm = new Notifications(this);
+    hwListener = new HWListener(this);
+    notifications = new Notifications(this);
   }
 
   /**
@@ -47,8 +47,8 @@ public class Service extends android.app.Service {
    */
   @Override
   public void onCreate() {
-    sbc.create();
-    nm.create();
+    hwListener.create();
+    notifications.create();
 
     super.onCreate();
   }
@@ -58,26 +58,27 @@ public class Service extends android.app.Service {
    */
   @Override
   public void onStart(final Intent intent, final int startId) {
-    switch (intent.getByteExtra(Launcher.TYPE, Launcher.NULL)) {
-
-      /* start or pause audio playback */
-      case Launcher.PLAY_PAUSE -> {
-        playPause();
+    /* check if called from self */
+    if (intent.getAction() == null) {
+      var isPLaying = audioPlayer.isPlaying();
+      var isLooping = audioPlayer.isLooping();
+      switch (intent.getByteExtra(Launcher.TYPE, Launcher.NULL)) {
+        /* start or pause audio playback */
+        case Launcher.PLAY_PAUSE -> setState(!isPLaying, isLooping);
+        case Launcher.PLAY -> setState(true, isLooping);
+        case Launcher.PAUSE -> setState(false, isLooping);
+        case Launcher.LOOP -> setState(isPLaying, !isLooping);
+        /* cancel audio playback and kill service */
+        case Launcher.KILL -> stopSelf();
       }
-      case Launcher.PLAY -> play();
-      case Launcher.PAUSE -> pause();
-
-      /* cancel audio playback and kill service */
-      case Launcher.KILL -> stopSelf();
-      default -> {
-        switch (intent.getAction()) {
-          case Intent.ACTION_VIEW -> setAudio(intent.getData());
-          case Intent.ACTION_SEND -> {
-            if (intent.getStringExtra(Intent.EXTRA_TEXT) != null) {
-              setAudio(Uri.parse(intent.getStringExtra(Intent.EXTRA_TEXT)));
-            } else {
-              setAudio(intent.getParcelableExtra(Intent.EXTRA_STREAM));
-            }
+    } else {
+      switch (intent.getAction()) {
+        case Intent.ACTION_VIEW -> setAudio(intent.getData());
+        case Intent.ACTION_SEND -> {
+          if (intent.getStringExtra(Intent.EXTRA_TEXT) != null) {
+            setAudio(Uri.parse(intent.getStringExtra(Intent.EXTRA_TEXT)));
+          } else {
+            setAudio(intent.getParcelableExtra(Intent.EXTRA_STREAM));
           }
         }
       }
@@ -147,44 +148,36 @@ public class Service extends android.app.Service {
       }
     }
 
-    /* create notification for playback control */
-    nm.getNotification(audioLocation);
+    try {
+      /* get audio playback logic and start async */
+      audioPlayer = new AudioPlayer(this, audioLocation);
+      audioPlayer.start();
 
-    /* start service as foreground */
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ECLAIR)
-      startForeground(nm.NOTIFICATION, nm.notification);
+      /* create notification for playback control */
+      notifications.getNotification(audioLocation);
 
-    /* get audio playback logic and start async */
-    audioPlayer = new AudioPlayer(this, audioLocation);
-    audioPlayer.start();
+      /* start service as foreground */
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ECLAIR)
+        startForeground(Notifications.NOTIFICATION_ID, notifications.notification);
+
+    } catch (IllegalArgumentException e) {
+      Exceptions.throwError(this, Exceptions.IllegalArgument);
+    } catch (SecurityException e) {
+      Exceptions.throwError(this, Exceptions.Security);
+    } catch (IllegalStateException e) {
+      Exceptions.throwError(this, Exceptions.IllegalState);
+    } catch (IOException e) {
+      Exceptions.throwError(this, Exceptions.IO);
+    }
   }
 
   /**
-   * Switch to play or pause state, depending on current state
+   * Switch to player component state
    */
-  void playPause() {
-    if (audioPlayer.isPlaying())
-      pause();
-    else
-      play();
-  }
-
-  /**
-   * Switch to play state
-   */
-  void play() {
-    audioPlayer.play();
-    sbc.play();
-    nm.startPlayback();
-  }
-
-  /**
-   * Switch to pause state
-   */
-  void pause() {
-    audioPlayer.pause();
-    sbc.pause();
-    nm.pausePlayback();
+  void setState(boolean playing, boolean looping) {
+    audioPlayer.setState(playing, looping);
+    hwListener.setState(playing, looping);
+    notifications.setState(playing, looping);
   }
 
   /**
@@ -202,10 +195,10 @@ public class Service extends android.app.Service {
    */
   @Override
   public void onDestroy() {
-    nm.destroy();
-    sbc.destroy();
+    notifications.destroy();
+    hwListener.destroy();
     /* interrupt audio playback logic */
-    if (audioPlayer != null && !audioPlayer.isInterrupted()) audioPlayer.interrupt();
+    if (!audioPlayer.isInterrupted()) audioPlayer.interrupt();
 
     super.onDestroy();
   }

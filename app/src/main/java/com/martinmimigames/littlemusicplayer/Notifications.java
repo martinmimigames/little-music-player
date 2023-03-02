@@ -13,19 +13,17 @@ import java.io.File;
 
 import mg.utils.notify.NotificationHelper;
 
-public class Notifications {
+class Notifications {
 
   /**
    * notification channel id
    */
   public static final String NOTIFICATION_CHANNEL = "nc";
-
-  private static final String TAP_TO_CLOSE = "Tap to close";
-
   /**
    * notification id
    */
-  public static final int NOTIFICATION = 1;
+  public static final int NOTIFICATION_ID = 1;
+  private static final String TAP_TO_CLOSE = "Tap to close";
   private final Service service;
   /**
    * notification for playback control
@@ -40,8 +38,8 @@ public class Notifications {
   public void create() {
     if (Build.VERSION.SDK_INT >= 26) {
       /* create a notification channel */
-      var name = "playback control";
-      var description = "Allows for control over audio playback.";
+      var name = "Playback Control";
+      var description = "Notification audio controls";
       var importance = NotificationManager.IMPORTANCE_LOW;
       var notificationChannel = NotificationHelper.setupNotificationChannel(service, NOTIFICATION_CHANNEL, name, description, importance);
       notificationChannel.setSound(null, null);
@@ -56,7 +54,7 @@ public class Notifications {
    * @param playPauseIntent pending intent for pause/play audio
    * @param killIntent      pending intent for closing the service
    */
-  void setupNotificationBuilder(String title, PendingIntent playPauseIntent, PendingIntent killIntent) {
+  void setupNotificationBuilder(String title, PendingIntent playPauseIntent, PendingIntent killIntent, PendingIntent loopIntent) {
     if (Build.VERSION.SDK_INT < 11) return;
 
     // create builder instance
@@ -76,6 +74,7 @@ public class Notifications {
     builder.setVibrate(null);
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
       builder.setContentIntent(playPauseIntent);
+      builder.addAction(0, "loop", loopIntent);
       builder.addAction(0, TAP_TO_CLOSE, killIntent);
     } else {
       builder.setContentText(TAP_TO_CLOSE);
@@ -84,24 +83,17 @@ public class Notifications {
   }
 
   /**
-   * Switch to pause state
+   * Switch playback state
    */
-  void pausePlayback() {
+  void setState(boolean playing, boolean looping) {
     // no notification controls < Jelly bean
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-      builder.setContentText("Tap to start");
-      buildNotification();
-      update();
-    }
-  }
-
-  /**
-   * Switch to play state
-   */
-  void startPlayback() {
-    // no notification controls < Jelly bean
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-      builder.setContentText("Tap to stop");
+      var playbackText = "Tap to ";
+      playbackText += (playing) ? "pause" : "play";
+      if (looping) {
+        playbackText += " | looping";
+      }
+      builder.setContentText(playbackText);
       buildNotification();
       update();
     }
@@ -182,8 +174,9 @@ public class Notifications {
     /* calls for control logic by starting activity with flags */
     var killIntent = genIntent(1, Launcher.KILL);
     var playPauseIntent = genIntent(2, Launcher.PLAY_PAUSE);
+    var loopIntent = genIntent(3, Launcher.LOOP);
 
-    setupNotificationBuilder(title, playPauseIntent, killIntent);
+    setupNotificationBuilder(title, playPauseIntent, killIntent, loopIntent);
     genNotification();
     setupNotification(title, killIntent);
 
@@ -194,11 +187,11 @@ public class Notifications {
    * update notification content and place on stack
    */
   private void update() {
-    NotificationHelper.send(service, NOTIFICATION, notification);
+    NotificationHelper.send(service, NOTIFICATION_ID, notification);
   }
 
   void destroy() {
     /* remove notification from stack */
-    NotificationHelper.unsend(service, NOTIFICATION);
+    NotificationHelper.unsend(service, NOTIFICATION_ID);
   }
 }
