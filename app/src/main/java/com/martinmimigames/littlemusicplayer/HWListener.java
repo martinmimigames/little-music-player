@@ -110,7 +110,8 @@ public class HWListener extends BroadcastReceiver implements MediaPlayerStateLis
       switch (event.getKeyCode()) {
         case KeyEvent.KEYCODE_MEDIA_PLAY -> intent.putExtra(Launcher.TYPE, Launcher.PLAY);
         case KeyEvent.KEYCODE_MEDIA_PAUSE -> intent.putExtra(Launcher.TYPE, Launcher.PAUSE);
-        case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE -> intent.putExtra(Launcher.TYPE, Launcher.PLAY_PAUSE);
+        case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE ->
+          intent.putExtra(Launcher.TYPE, Launcher.PLAY_PAUSE);
         case KeyEvent.KEYCODE_MEDIA_STOP -> intent.putExtra(Launcher.TYPE, Launcher.KILL);
       }
       context.startService(intent);

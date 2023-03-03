@@ -90,11 +90,11 @@ class AudioPlayer extends Thread implements MediaPlayer.OnCompletionListener, Me
   }
 
   /**
-   * release resource when playback finished
+   * notifies playback completion
    */
   @Override
   public void onCompletion(MediaPlayer mp) {
-    service.onMediaPlayerDestroy();
+    service.onMediaPlayerComplete();
   }
 
   @Override

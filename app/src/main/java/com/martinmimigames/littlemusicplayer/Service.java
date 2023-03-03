@@ -197,6 +197,13 @@ public class Service extends android.app.Service implements MediaPlayerStateList
   }
 
   /**
+   * destroy on playback complete
+   */
+  void onMediaPlayerComplete() {
+    onMediaPlayerDestroy();
+  }
+
+  /**
    * service killing logic
    */
   @Override

@@ -5,15 +5,13 @@ import android.net.Uri;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class M3UParser {
 
-  ArrayList<Entry> entries;
-
   final Context context;
+  ArrayList<Entry> entries;
 
   M3UParser(Context context) {
     this.context = context;
