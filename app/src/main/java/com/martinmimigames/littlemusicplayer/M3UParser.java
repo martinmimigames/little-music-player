@@ -11,28 +11,32 @@ import java.util.Scanner;
 public class M3UParser {
 
   final Context context;
-  ArrayList<Entry> entries;
 
   M3UParser(Context context) {
     this.context = context;
-    entries = new ArrayList<>();
   }
 
-  void parse(Uri m3uLocation) throws FileNotFoundException {
+  AudioEntry[] parse(Uri m3uLocation) throws FileNotFoundException {
     switch (m3uLocation.getScheme()) {
-      case "content" ->
-        parseScanner(new Scanner(context.getContentResolver().openInputStream(m3uLocation)));
-      case "file" -> parseScanner(new Scanner(new File(m3uLocation.toString())));
+      case "content" -> {
+        return parseInternal(new Scanner(context.getContentResolver().openInputStream(m3uLocation)));
+      }
+      case "file" -> {
+        return parseInternal(new Scanner(new File(m3uLocation.toString())));
+      }
+      default -> {
+        return new AudioEntry[0];
+      }
     }
   }
 
-  private void parseScanner(Scanner input) {
-    entries.clear();
+  private AudioEntry[] parseInternal(Scanner input) {
+    var entries = new ArrayList<AudioEntry>();
     while (input.hasNextLine()) {
       var line = input.nextLine().trim();
       if (line.trim().length() == 0)
         continue;
-      var entry = new Entry();
+      var entry = new AudioEntry();
       if (line.startsWith("#EXTINF:")) {
         var infoAndName = line.split(",");
         entry.name = infoAndName[infoAndName.length - 1];
@@ -44,18 +48,11 @@ public class M3UParser {
         entries.add(entry);
       }
     }
-  }
 
-  Entry[] getEntries() {
-    var out = new Entry[entries.size()];
+    var out = new AudioEntry[entries.size()];
     for (int i = 0; i < out.length; i++) {
       out[i] = entries.get(i);
     }
     return out;
-  }
-
-  static class Entry {
-    String name;
-    String path;
   }
 }
