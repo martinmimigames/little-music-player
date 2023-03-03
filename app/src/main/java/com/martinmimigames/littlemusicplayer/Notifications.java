@@ -165,10 +165,7 @@ class Notifications implements MediaPlayerStateListener {
   /**
    * create and start playback control notification
    */
-  void getNotification(final Uri uri, boolean allowLoop) {
-
-    /* setup notification variable */
-    var title = new File(uri.getPath()).getName();
+  void getNotification(final String title, boolean allowLoop) {
 
     /* calls for control logic by starting activity with flags */
     var killIntent = genIntent(1, Launcher.KILL);

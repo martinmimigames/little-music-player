@@ -139,8 +139,8 @@ public class Service extends android.app.Service implements MediaPlayerStateList
         if ("audio/x-mpegurl".equals(extension)) {
           var parser = new M3UParser(this);
           try {
-            var audioEntries = parser.parse(audioLocation)[0];
-            setAudio(Uri.parse(audioEntries.path));
+            var audioEntry = parser.parse(audioLocation)[0];
+            setAudio(audioEntry.name, Uri.parse(audioEntry.path), false);
             return;
           } catch (FileNotFoundException e) {
             Exceptions.throwError(this, "File not found!\nLocation: " + audioLocation);
@@ -148,14 +148,17 @@ public class Service extends android.app.Service implements MediaPlayerStateList
         }
       }
     }
+    setAudio(new File(audioLocation.getPath()).getName(), audioLocation, allowLoop);
+  }
 
+  private void setAudio(String title, Uri location, boolean allowLoop) {
     try {
       /* get audio playback logic and start async */
-      audioPlayer = new AudioPlayer(this, audioLocation);
+      audioPlayer = new AudioPlayer(this, location);
       audioPlayer.start();
 
       /* create notification for playback control */
-      notifications.getNotification(audioLocation, allowLoop);
+      notifications.getNotification(title, allowLoop);
 
       /* start service as foreground */
       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ECLAIR)
