@@ -94,7 +94,15 @@ class AudioPlayer extends Thread implements MediaPlayer.OnCompletionListener, Me
    */
   @Override
   public void onCompletion(MediaPlayer mp) {
-    service.stopSelf();
+    service.onMediaPlayerDestroy();
+  }
+
+  @Override
+  public void onMediaPlayerDestroy() {
+    /* interrupt audio playback logic */
+    if (!isInterrupted()) {
+      interrupt();
+    }
   }
 
   /**

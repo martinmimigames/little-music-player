@@ -190,15 +190,20 @@ public class Service extends android.app.Service implements MediaPlayerStateList
     return START_STICKY;
   }
 
+  @Override
+  public void onMediaPlayerDestroy() {
+    // calls onDestroy()
+    stopSelf();
+  }
+
   /**
    * service killing logic
    */
   @Override
   public void onDestroy() {
-    notifications.destroy();
-    hwListener.destroy();
-    /* interrupt audio playback logic */
-    if (!audioPlayer.isInterrupted()) audioPlayer.interrupt();
+    notifications.onMediaPlayerDestroy();
+    hwListener.onMediaPlayerDestroy();
+    audioPlayer.onMediaPlayerDestroy();
 
     super.onDestroy();
   }

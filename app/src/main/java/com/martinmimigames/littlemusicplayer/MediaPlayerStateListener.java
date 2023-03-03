@@ -10,4 +10,6 @@ interface MediaPlayerStateListener {
    */
   void setState(boolean playing, boolean looping);
 
+  void onMediaPlayerDestroy();
+
 }

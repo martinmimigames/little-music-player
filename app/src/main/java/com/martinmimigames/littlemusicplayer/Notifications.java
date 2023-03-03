@@ -189,7 +189,8 @@ class Notifications implements MediaPlayerStateListener {
     NotificationHelper.send(service, NOTIFICATION_ID, notification);
   }
 
-  void destroy() {
+  @Override
+  public void onMediaPlayerDestroy() {
     /* remove notification from stack */
     NotificationHelper.unsend(service, NOTIFICATION_ID);
   }

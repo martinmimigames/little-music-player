@@ -85,7 +85,7 @@ public class HWListener extends BroadcastReceiver implements MediaPlayerStateLis
   /**
    * Get ready to be destroyed, only useful when SDK_INT >= LOLLIPOP
    */
-  void destroy() {
+  public void onMediaPlayerDestroy() {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
       mediaSession.setActive(false);
       mediaSession.release();
