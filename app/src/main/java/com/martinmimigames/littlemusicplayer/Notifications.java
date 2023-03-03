@@ -13,7 +13,7 @@ import java.io.File;
 
 import mg.utils.notify.NotificationHelper;
 
-class Notifications {
+class Notifications implements MediaPlayerStateListener {
 
   /**
    * notification channel id
@@ -83,10 +83,8 @@ class Notifications {
     }
   }
 
-  /**
-   * Switch playback state
-   */
-  void setState(boolean playing, boolean looping) {
+  @Override
+  public void setState(boolean playing, boolean looping) {
     // no notification controls < Jelly bean
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
       var playbackText = "Tap to ";

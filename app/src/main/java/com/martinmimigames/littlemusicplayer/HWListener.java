@@ -17,7 +17,7 @@ import android.view.KeyEvent;
 /**
  * Hardware Listener for button controls
  */
-public class HWListener extends BroadcastReceiver {
+public class HWListener extends BroadcastReceiver implements MediaPlayerStateListener {
 
   private Service service;
   private MediaSession mediaSession;
@@ -70,10 +70,9 @@ public class HWListener extends BroadcastReceiver {
     }
   }
 
-  /**
-   * Switch playback state, only useful when SDK_INT >= LOLLIPOP
-   */
-  void setState(boolean playing, boolean looping) {
+  @Override
+  public void setState(boolean playing, boolean looping) {
+    // playback state only useful when SDK_INT >= LOLLIPOP
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
       if (playing)
         playbackStateBuilder.setState(PlaybackState.STATE_PLAYING, PlaybackState.PLAYBACK_POSITION_UNKNOWN, 1);

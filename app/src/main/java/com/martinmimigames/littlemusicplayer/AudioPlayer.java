@@ -8,7 +8,7 @@ import android.os.Build;
 
 import java.io.IOException;
 
-class AudioPlayer extends Thread implements MediaPlayer.OnCompletionListener {
+class AudioPlayer extends Thread implements MediaPlayer.OnCompletionListener, MediaPlayerStateListener {
 
   private final Service service;
   private final MediaPlayer mediaPlayer;
@@ -79,13 +79,8 @@ class AudioPlayer extends Thread implements MediaPlayer.OnCompletionListener {
     }
   }
 
-  /**
-   * set player state
-   *
-   * @param playing is audio playing
-   * @param looping is audio looping
-   */
-  void setState(boolean playing, boolean looping) {
+  @Override
+  public void setState(boolean playing, boolean looping) {
     if (playing) {
       mediaPlayer.start();
     } else {

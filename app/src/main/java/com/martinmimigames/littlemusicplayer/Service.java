@@ -20,7 +20,7 @@ import javax.net.ssl.SSLHandshakeException;
 /**
  * service for playing music
  */
-public class Service extends android.app.Service {
+public class Service extends android.app.Service implements MediaPlayerStateListener {
 
   final HWListener hwListener;
   final Notifications notifications;
@@ -173,10 +173,8 @@ public class Service extends android.app.Service {
     }
   }
 
-  /**
-   * Switch to player component state
-   */
-  void setState(boolean playing, boolean looping) {
+  @Override
+  public void setState(boolean playing, boolean looping) {
     audioPlayer.setState(playing, looping);
     hwListener.setState(playing, looping);
     notifications.setState(playing, looping);
