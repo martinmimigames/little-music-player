@@ -86,17 +86,16 @@ public class Service extends android.app.Service implements MediaPlayerStateList
   }
 
   String getExtension(Uri location) {
-    switch (location.getScheme()) {
-      case "content":
-        return getContentResolver().getType(location);
-      case "file":
-        var file = new File(location.getPath());
-        var mimeMap = MimeTypeMap.getSingleton();
-        var name = file.getName();
-        name = name.substring(name.lastIndexOf("."));
-        return mimeMap.getMimeTypeFromExtension(name);
-      default:
-        return null;
+    String scheme = location.getScheme();
+    if ("content".equals(scheme)) {
+      return getContentResolver().getType(location);
+    } else {
+      // if "file://" or otherwise, need to handle null
+      var file = new File(location.getPath());
+      var mimeMap = MimeTypeMap.getSingleton();
+      var name = file.getName();
+      name = name.substring(name.lastIndexOf("."));
+      return mimeMap.getMimeTypeFromExtension(name);
     }
   }
 
@@ -125,30 +124,33 @@ public class Service extends android.app.Service implements MediaPlayerStateList
     return Uri.parse(urlLocation.get());
   }
 
-  void setAudio(Uri audioLocation) {
+  void setAudio(Uri location) {
+    setAudio(new File(location.getPath()).getName(), location);
+  }
+
+  void setAudio(String title, Uri audioLocation) {
     var allowLoop = true;
-    switch (audioLocation.getScheme()) {
-      case "http", "https" -> {
-        audioLocation = getStreamUri(audioLocation);
-        allowLoop = false;
-        if (audioLocation.toString().startsWith("http://"))
-          Exceptions.throwError(this, Exceptions.UsingHttp);
-      }
-      default -> {
-        var extension = getExtension(audioLocation);
-        if ("audio/x-mpegurl".equals(extension)) {
-          var parser = new M3UParser(this);
-          try {
-            var audioEntry = parser.parse(audioLocation)[0];
-            setAudio(audioEntry.name, Uri.parse(audioEntry.path), false);
-            return;
-          } catch (FileNotFoundException e) {
-            Exceptions.throwError(this, "File not found!\nLocation: " + audioLocation);
-          }
+    String scheme = audioLocation.getScheme();
+    // if statement to handle null
+    if ("http".equals(scheme) || "https".equals(scheme)) {
+      audioLocation = getStreamUri(audioLocation);
+      allowLoop = false;
+      if (audioLocation.toString().startsWith("http://"))
+        Exceptions.throwError(this, Exceptions.UsingHttp);
+    } else {
+      var extension = getExtension(audioLocation);
+      if ("audio/x-mpegurl".equals(extension)) {
+        var parser = new M3UParser(this);
+        try {
+          var audioEntry = parser.parse(audioLocation)[0];
+          setAudio(audioEntry.name, Uri.parse(audioEntry.path));
+          return;
+        } catch (FileNotFoundException e) {
+          Exceptions.throwError(this, "File not found!\nLocation: " + audioLocation);
         }
       }
     }
-    setAudio(new File(audioLocation.getPath()).getName(), audioLocation, allowLoop);
+    setAudio(title, audioLocation, allowLoop);
   }
 
   private void setAudio(String title, Uri location, boolean allowLoop) {
