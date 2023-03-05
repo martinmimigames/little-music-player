@@ -39,7 +39,7 @@ public class M3UParser {
         entry.path = Uri.parse(input.nextLine());
         entries.add(entry);
       } else if (!line.startsWith("#")) {
-        entry.name = line;
+        entry.name = new File(line).getName();
         entry.path = Uri.parse(line);
         entries.add(entry);
       }
