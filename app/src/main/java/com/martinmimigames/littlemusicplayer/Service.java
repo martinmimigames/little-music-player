@@ -131,7 +131,8 @@ public class Service extends android.app.Service implements MediaPlayerStateList
   public void onMediaPlayerReset() {
     notifications.onMediaPlayerReset();
     hwListener.onMediaPlayerReset();
-    audioPlayer.onMediaPlayerReset();
+    if (audioPlayer != null)
+      audioPlayer.onMediaPlayerReset();
   }
 
   @Override
@@ -170,7 +171,8 @@ public class Service extends android.app.Service implements MediaPlayerStateList
     onMediaPlayerReset();
     notifications.onMediaPlayerDestroy();
     hwListener.onMediaPlayerDestroy();
-    audioPlayer.onMediaPlayerDestroy();
+    if (audioPlayer != null)
+      audioPlayer.onMediaPlayerDestroy();
 
     super.onDestroy();
   }
