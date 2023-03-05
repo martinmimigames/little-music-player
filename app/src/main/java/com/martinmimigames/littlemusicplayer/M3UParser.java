@@ -49,10 +49,6 @@ public class M3UParser {
       }
     }
 
-    var out = new AudioEntry[entries.size()];
-    for (int i = 0; i < out.length; i++) {
-      out[i] = entries.get(i);
-    }
-    return out;
+    return entries.toArray(new AudioEntry[0]);
   }
 }
