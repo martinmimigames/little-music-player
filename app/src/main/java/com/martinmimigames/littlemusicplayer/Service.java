@@ -89,11 +89,11 @@ public class Service extends android.app.Service implements MediaPlayerStateList
     var entry = playlist[entryIndex];
     try {
       /* get audio playback logic and start async */
-      audioPlayer = new AudioPlayer(this, entry.path);
+      audioPlayer = new AudioPlayer(this, entry.location);
       audioPlayer.start();
 
       /* create notification for playback control */
-      notifications.getNotification(entry.name, entry.canLoop, haveNextEntry());
+      notifications.getNotification(entry.title, entry.canLoop, haveNextEntry());
 
       /* start service as foreground */
       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ECLAIR)

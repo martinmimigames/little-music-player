@@ -19,20 +19,20 @@ class AudioPlayer extends Thread implements MediaPlayer.OnCompletionListener, Me
   /**
    * Initiate an audio player, throws exceptions if failed.
    *
-   * @param service       the service initialising this.
-   * @param audioLocation the Uri containing the location of the audio.
+   * @param service  the service initialising this.
+   * @param location the Uri containing the location of the audio.
    * @throws IllegalArgumentException when the media player need cookies, but we do not supply it.
    * @throws IllegalStateException    when the media player is not in the correct state.
    * @throws SecurityException        when the audio file is protected and cannot be played.
    * @throws IOException              when the audio file cannot be read.
    */
-  public AudioPlayer(Service service, Uri audioLocation) throws IllegalArgumentException, IllegalStateException, SecurityException, IOException {
+  public AudioPlayer(Service service, Uri location) throws IllegalArgumentException, IllegalStateException, SecurityException, IOException {
     this.service = service;
     /* initiate new audio player */
     mediaPlayer = new MediaPlayer();
 
     /* setup player variables */
-    mediaPlayer.setDataSource(service, audioLocation);
+    mediaPlayer.setDataSource(service, location);
 
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
       mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
@@ -118,7 +118,6 @@ class AudioPlayer extends Thread implements MediaPlayer.OnCompletionListener, Me
    */
   @Override
   public void interrupt() {
-    mediaPlayer.pause();
     mediaPlayer.release();
     super.interrupt();
   }

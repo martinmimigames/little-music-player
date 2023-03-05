@@ -164,7 +164,7 @@ class Notifications implements MediaPlayerStateListener {
   /**
    * create and start playback control notification
    */
-  void getNotification(final String title, boolean allowLoop, boolean canSkip) {
+  void getNotification(final String title, boolean canLoop, boolean canSkip) {
 
     /* calls for control logic by starting activity with flags */
     var killIntent = genIntent(1, Launcher.KILL);
@@ -172,7 +172,7 @@ class Notifications implements MediaPlayerStateListener {
     var loopIntent = genIntent(3, Launcher.LOOP);
     var skipIntent = genIntent(4, Launcher.SKIP);
 
-    setupNotificationBuilder(title, playPauseIntent, killIntent, loopIntent, skipIntent, allowLoop, canSkip);
+    setupNotificationBuilder(title, playPauseIntent, killIntent, loopIntent, skipIntent, canLoop, canSkip);
     genNotification();
     setupNotification(title, killIntent);
 

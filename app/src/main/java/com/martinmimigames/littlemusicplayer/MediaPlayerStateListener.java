@@ -10,8 +10,14 @@ interface MediaPlayerStateListener {
    */
   void setState(boolean playing, boolean looping);
 
+  /**
+   * destroy the music player completely
+   */
   void onMediaPlayerDestroy();
 
+  /**
+   * reset the music player to accept new audio files
+   */
   void onMediaPlayerReset();
 
 }

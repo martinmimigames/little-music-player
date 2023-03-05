@@ -23,6 +23,12 @@ class PlaylistGenerator {
     this.context = context;
   }
 
+  /**
+   * Get the mime type of the Uri.
+   *
+   * @param location the Uri to obtain the mime type from
+   * @return mime type, or null if invalid/unavailable
+   */
   String getExtension(Uri location) {
     String scheme = location.getScheme();
     if ("content".equals(scheme)) {
@@ -40,10 +46,17 @@ class PlaylistGenerator {
     }
   }
 
-  Uri getStreamUri(Uri audioLocation) {
-    if (audioLocation.toString().startsWith("https"))
-      return audioLocation;
-    var urlLocation = new AtomicReference<>(audioLocation.toString());
+  /**
+   * Get a audio stream url. Returns https if available.
+   * Currently does not support self-signed certificate.
+   *
+   * @param location url of audio
+   * @return original url or https url if available
+   */
+  Uri getStreamUri(Uri location) {
+    if (location.toString().startsWith("https"))
+      return location;
+    var urlLocation = new AtomicReference<>(location.toString());
     var t = new Thread(() -> {
       try {
         var https = "https://" + urlLocation.get().substring(7);
@@ -69,32 +82,36 @@ class PlaylistGenerator {
     return getPlaylist(new File(location.getPath()).getName(), location, new ArrayList<>(1)).toArray(new AudioEntry[0]);
   }
 
-  private ArrayList<AudioEntry> getPlaylist(String title, Uri audioLocation, ArrayList<AudioEntry> entries) {
+  private ArrayList<AudioEntry> getPlaylist(String title, Uri location, ArrayList<AudioEntry> entries) {
     var allowLoop = true;
-    String scheme = audioLocation.getScheme();
+    String scheme = location.getScheme();
     // if statement to handle null
     if ("http".equals(scheme) || "https".equals(scheme)) {
-      audioLocation = getStreamUri(audioLocation);
+      // assume the web link is an audio file
+      location = getStreamUri(location);
       allowLoop = false;
-      if (audioLocation.toString().startsWith("http://"))
+      if (location.toString().startsWith("http://"))
         Exceptions.throwError(context, Exceptions.UsingHttp);
     } else {
-      var extension = getExtension(audioLocation);
+      var extension = getExtension(location);
       if ("audio/x-mpegurl".equals(extension)) {
+        // special processing if it is a m3u file
         var parser = new M3UParser(context);
         try {
-          for (var entry : parser.parse(audioLocation)) {
-            entries = getPlaylist(entry.name, entry.path, entries);
+          for (var entry : parser.parse(location)) {
+            // recursion to set correct audio type/ m3u processing
+            entries = getPlaylist(entry.title, entry.location, entries);
           }
           return entries;
         } catch (FileNotFoundException e) {
-          Exceptions.throwError(context, "File not found!\nLocation: " + audioLocation);
+          Exceptions.throwError(context, "File not found!\nLocation: " + location);
         }
       }
     }
+
     var entry = new AudioEntry();
-    entry.name = title;
-    entry.path = audioLocation;
+    entry.title = title;
+    entry.location = location;
     entry.canLoop = allowLoop;
     entries.add(entry);
     return entries;

@@ -35,12 +35,12 @@ public class M3UParser {
       var entry = new AudioEntry();
       if (line.startsWith("#EXTINF:")) {
         var infoAndName = line.split(",");
-        entry.name = infoAndName[infoAndName.length - 1];
-        entry.path = Uri.parse(input.nextLine());
+        entry.title = infoAndName[infoAndName.length - 1];
+        entry.location = Uri.parse(input.nextLine());
         entries.add(entry);
       } else if (!line.startsWith("#")) {
-        entry.name = new File(line).getName();
-        entry.path = Uri.parse(line);
+        entry.title = new File(line).getName();
+        entry.location = Uri.parse(line);
         entries.add(entry);
       }
     }
