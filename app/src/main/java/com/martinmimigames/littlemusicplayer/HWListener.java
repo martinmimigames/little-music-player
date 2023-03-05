@@ -85,7 +85,8 @@ public class HWListener extends BroadcastReceiver implements MediaPlayerStateLis
   /**
    * Get ready to be destroyed, only useful when SDK_INT >= LOLLIPOP
    */
-  public void onMediaPlayerDestroy() {
+  @Override
+  public void onMediaPlayerReset() {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
       mediaSession.setActive(false);
       mediaSession.release();
@@ -95,6 +96,10 @@ public class HWListener extends BroadcastReceiver implements MediaPlayerStateLis
       }
       service.unregisterReceiver(this);
     }
+  }
+
+  @Override
+  public void onMediaPlayerDestroy() {
   }
 
   /**

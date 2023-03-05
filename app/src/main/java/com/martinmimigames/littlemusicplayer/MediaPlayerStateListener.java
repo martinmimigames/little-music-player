@@ -12,4 +12,6 @@ interface MediaPlayerStateListener {
 
   void onMediaPlayerDestroy();
 
+  void onMediaPlayerReset();
+
 }

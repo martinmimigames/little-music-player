@@ -108,11 +108,17 @@ class AudioPlayer extends Thread implements MediaPlayer.OnCompletionListener, Me
     }
   }
 
+  @Override
+  public void onMediaPlayerReset() {
+    mediaPlayer.reset();
+  }
+
   /**
    * release and kill service
    */
   @Override
   public void interrupt() {
+    mediaPlayer.pause();
     mediaPlayer.release();
     super.interrupt();
   }

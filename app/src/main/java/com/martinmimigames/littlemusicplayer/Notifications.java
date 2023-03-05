@@ -51,7 +51,7 @@ class Notifications implements MediaPlayerStateListener {
    * @param playPauseIntent pending intent for pause/play audio
    * @param killIntent      pending intent for closing the service
    */
-  void setupNotificationBuilder(String title, PendingIntent playPauseIntent, PendingIntent killIntent, PendingIntent loopIntent, boolean allowLoop) {
+  void setupNotificationBuilder(String title, PendingIntent playPauseIntent, PendingIntent killIntent, PendingIntent loopIntent, PendingIntent skipIntent, boolean allowLoop, boolean canSkip) {
     if (Build.VERSION.SDK_INT < 11) return;
 
     // create builder instance
@@ -73,6 +73,8 @@ class Notifications implements MediaPlayerStateListener {
       builder.setContentIntent(playPauseIntent);
       if (allowLoop)
         builder.addAction(0, "loop", loopIntent);
+      if (canSkip)
+        builder.addAction(0, "skip", skipIntent);
       builder.addAction(0, TAP_TO_CLOSE, killIntent);
     } else {
       builder.setContentText(TAP_TO_CLOSE);
@@ -162,14 +164,15 @@ class Notifications implements MediaPlayerStateListener {
   /**
    * create and start playback control notification
    */
-  void getNotification(final String title, boolean allowLoop) {
+  void getNotification(final String title, boolean allowLoop, boolean canSkip) {
 
     /* calls for control logic by starting activity with flags */
     var killIntent = genIntent(1, Launcher.KILL);
     var playPauseIntent = genIntent(2, Launcher.PLAY_PAUSE);
     var loopIntent = genIntent(3, Launcher.LOOP);
+    var skipIntent = genIntent(4, Launcher.SKIP);
 
-    setupNotificationBuilder(title, playPauseIntent, killIntent, loopIntent, allowLoop);
+    setupNotificationBuilder(title, playPauseIntent, killIntent, loopIntent, skipIntent, allowLoop, canSkip);
     genNotification();
     setupNotification(title, killIntent);
 
@@ -184,8 +187,12 @@ class Notifications implements MediaPlayerStateListener {
   }
 
   @Override
-  public void onMediaPlayerDestroy() {
+  public void onMediaPlayerReset() {
     /* remove notification from stack */
     NotificationHelper.unsend(service, NOTIFICATION_ID);
+  }
+
+  @Override
+  public void onMediaPlayerDestroy() {
   }
 }

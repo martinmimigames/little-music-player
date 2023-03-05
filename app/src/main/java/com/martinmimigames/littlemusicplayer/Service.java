@@ -61,6 +61,7 @@ public class Service extends android.app.Service implements MediaPlayerStateList
         case Launcher.PLAY -> setState(true, isLooping);
         case Launcher.PAUSE -> setState(false, isLooping);
         case Launcher.LOOP -> setState(isPLaying, !isLooping);
+        case Launcher.SKIP -> playNextEntry();
         /* cancel audio playback and kill service */
         case Launcher.KILL -> stopSelf();
       }
@@ -92,7 +93,7 @@ public class Service extends android.app.Service implements MediaPlayerStateList
       audioPlayer.start();
 
       /* create notification for playback control */
-      notifications.getNotification(entry.name, entry.canLoop);
+      notifications.getNotification(entry.name, entry.canLoop, haveNextEntry());
 
       /* start service as foreground */
       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ECLAIR)
@@ -127,21 +128,38 @@ public class Service extends android.app.Service implements MediaPlayerStateList
   }
 
   @Override
+  public void onMediaPlayerReset() {
+    notifications.onMediaPlayerReset();
+    hwListener.onMediaPlayerReset();
+    audioPlayer.onMediaPlayerReset();
+  }
+
+  @Override
   public void onMediaPlayerDestroy() {
     // calls onDestroy()
     stopSelf();
+  }
+
+  boolean haveNextEntry() {
+    return entryIndex + 1 < playlist.length;
+  }
+
+  boolean playNextEntry() {
+    if (haveNextEntry()) {
+      onMediaPlayerReset();
+      entryIndex += 1;
+      playEntryFromPlaylist();
+      return true;
+    }
+    return false;
   }
 
   /**
    * destroy on playback complete
    */
   void onMediaPlayerComplete() {
-    if (entryIndex + 1 < playlist.length) {
-      entryIndex += 1;
-      playEntryFromPlaylist();
-    } else {
+    if (!playNextEntry())
       onMediaPlayerDestroy();
-    }
   }
 
   /**
@@ -149,6 +167,7 @@ public class Service extends android.app.Service implements MediaPlayerStateList
    */
   @Override
   public void onDestroy() {
+    onMediaPlayerReset();
     notifications.onMediaPlayerDestroy();
     hwListener.onMediaPlayerDestroy();
     audioPlayer.onMediaPlayerDestroy();
