@@ -1,6 +1,9 @@
 package com.martinmimigames.littlemusicplayer;
 
+import android.net.Uri;
+
 final class AudioEntry {
   String name;
-  String path;
+  Uri path;
+  boolean canLoop;
 }

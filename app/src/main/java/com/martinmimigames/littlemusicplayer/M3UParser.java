@@ -40,11 +40,11 @@ public class M3UParser {
       if (line.startsWith("#EXTINF:")) {
         var infoAndName = line.split(",");
         entry.name = infoAndName[infoAndName.length - 1];
-        entry.path = input.nextLine();
+        entry.path = Uri.parse(input.nextLine());
         entries.add(entry);
       } else if (!line.startsWith("#")) {
         entry.name = line;
-        entry.path = line;
+        entry.path = Uri.parse(line);
         entries.add(entry);
       }
     }

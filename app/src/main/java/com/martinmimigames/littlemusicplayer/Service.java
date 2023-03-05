@@ -5,17 +5,9 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.IBinder;
-import android.webkit.MimeTypeMap;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.concurrent.atomic.AtomicReference;
-
-import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLHandshakeException;
 
 /**
  * service for playing music
@@ -24,11 +16,13 @@ public class Service extends android.app.Service implements MediaPlayerStateList
 
   final HWListener hwListener;
   final Notifications notifications;
+  private final PlaylistGenerator playlistGenerator;
   private AudioPlayer audioPlayer;
 
   public Service() {
     hwListener = new HWListener(this);
     notifications = new Notifications(this);
+    playlistGenerator = new PlaylistGenerator(this);
   }
 
   /**
@@ -82,72 +76,11 @@ public class Service extends android.app.Service implements MediaPlayerStateList
     }
   }
 
-  String getExtension(Uri location) {
-    String scheme = location.getScheme();
-    if ("content".equals(scheme)) {
-      return getContentResolver().getType(location);
-    } else {
-      // if "file://" or otherwise, need to handle null
-      var file = new File(location.getPath());
-      var mimeMap = MimeTypeMap.getSingleton();
-      var name = file.getName();
-      name = name.substring(name.lastIndexOf("."));
-      return mimeMap.getMimeTypeFromExtension(name);
-    }
-  }
-
-  Uri getStreamUri(Uri audioLocation) {
-    if (audioLocation.toString().startsWith("https"))
-      return audioLocation;
-    var urlLocation = new AtomicReference<>(audioLocation.toString());
-    var t = new Thread(() -> {
-      try {
-        var https = "https://" + urlLocation.get().substring(7);
-        var url = new URL(https);
-        var connection = (HttpsURLConnection) url.openConnection();
-        connection.connect();
-        urlLocation.set(https);
-        connection.disconnect();
-      } catch (SSLHandshakeException ignored) {
-      } catch (MalformedURLException ignored) {
-      } catch (IOException ignored) {
-      }
-    });
-    t.start();
-    try {
-      t.join();
-    } catch (InterruptedException ignored) {
-    }
-    return Uri.parse(urlLocation.get());
-  }
-
   void setAudio(Uri location) {
-    setAudio(new File(location.getPath()).getName(), location);
-  }
-
-  void setAudio(String title, Uri audioLocation) {
-    var allowLoop = true;
-    String scheme = audioLocation.getScheme();
-    // if statement to handle null
-    if ("http".equals(scheme) || "https".equals(scheme)) {
-      audioLocation = getStreamUri(audioLocation);
-      allowLoop = false;
-      if (audioLocation.toString().startsWith("http://"))
-        Exceptions.throwError(this, Exceptions.UsingHttp);
-    } else {
-      var extension = getExtension(audioLocation);
-      if ("audio/x-mpegurl".equals(extension)) {
-        var parser = new M3UParser(this);
-        try {
-          var audioEntry = parser.parse(audioLocation)[0];
-          setAudio(audioEntry.name, Uri.parse(audioEntry.path));
-          return;
-        } catch (FileNotFoundException e) {
-          Exceptions.throwError(this, "File not found!\nLocation: " + audioLocation);
-        }
-      }
+    var playlist = playlistGenerator.getPlaylist(new File(location.getPath()).getName(), location);
+    for (var item : playlist) {
+      setAudio(item.name, item.path, item.canLoop);
     }
-    setAudio(title, audioLocation, allowLoop);
   }
 
   private void setAudio(String title, Uri location, boolean allowLoop) {
