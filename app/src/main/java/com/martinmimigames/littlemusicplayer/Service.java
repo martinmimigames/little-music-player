@@ -5,9 +5,11 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.IBinder;
+import android.util.Log;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 
 /**
  * service for playing music
@@ -77,10 +79,14 @@ public class Service extends android.app.Service implements MediaPlayerStateList
   }
 
   void setAudio(Uri location) {
-    var playlist = playlistGenerator.getPlaylist(new File(location.getPath()).getName(), location);
+    var playlist = playlistGenerator.getPlaylist(location);
     for (var item : playlist) {
-      setAudio(item.name, item.path, item.canLoop);
+      Log.e("playlist", item.name);
     }
+
+    var item = playlist[0];
+    setAudio(item.name, item.path, item.canLoop);
+
   }
 
   private void setAudio(String title, Uri location, boolean allowLoop) {

@@ -16,21 +16,17 @@ public class M3UParser {
     this.context = context;
   }
 
-  AudioEntry[] parse(Uri m3uLocation) throws FileNotFoundException {
-    switch (m3uLocation.getScheme()) {
-      case "content" -> {
-        return parseInternal(new Scanner(context.getContentResolver().openInputStream(m3uLocation)));
-      }
-      case "file" -> {
-        return parseInternal(new Scanner(new File(m3uLocation.toString())));
-      }
-      default -> {
-        return new AudioEntry[0];
-      }
+  ArrayList<AudioEntry> parse(Uri m3uLocation) throws FileNotFoundException {
+    String scheme = m3uLocation.getScheme();
+    if ("content".equals(scheme)) {
+      return parseInternal(new Scanner(context.getContentResolver().openInputStream(m3uLocation)));
+    } else {
+      // assume scheme is file://
+      return parseInternal(new Scanner(new File(m3uLocation.toString())));
     }
   }
 
-  private AudioEntry[] parseInternal(Scanner input) {
+  private ArrayList<AudioEntry> parseInternal(Scanner input) {
     var entries = new ArrayList<AudioEntry>();
     while (input.hasNextLine()) {
       var line = input.nextLine().trim();
@@ -49,6 +45,6 @@ public class M3UParser {
       }
     }
 
-    return entries.toArray(new AudioEntry[0]);
+    return entries;
   }
 }
