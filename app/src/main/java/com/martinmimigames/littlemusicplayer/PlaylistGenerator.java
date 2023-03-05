@@ -46,38 +46,6 @@ class PlaylistGenerator {
     }
   }
 
-  /**
-   * Get a audio stream url. Returns https if available.
-   * Currently does not support self-signed certificate.
-   *
-   * @param location url of audio
-   * @return original url or https url if available
-   */
-  Uri getStreamUri(Uri location) {
-    if (location.toString().startsWith("https"))
-      return location;
-    var urlLocation = new AtomicReference<>(location.toString());
-    var t = new Thread(() -> {
-      try {
-        var https = "https://" + urlLocation.get().substring(7);
-        var url = new URL(https);
-        var connection = (HttpsURLConnection) url.openConnection();
-        connection.connect();
-        urlLocation.set(https);
-        connection.disconnect();
-      } catch (SSLHandshakeException ignored) {
-      } catch (MalformedURLException ignored) {
-      } catch (IOException ignored) {
-      }
-    });
-    t.start();
-    try {
-      t.join();
-    } catch (InterruptedException ignored) {
-    }
-    return Uri.parse(urlLocation.get());
-  }
-
   AudioEntry[] getPlaylist(Uri location) {
     return getPlaylist(new File(location.getPath()).getName(), location, new ArrayList<>(1)).toArray(new AudioEntry[0]);
   }
@@ -87,11 +55,7 @@ class PlaylistGenerator {
     String scheme = location.getScheme();
     // if statement to handle null
     if ("http".equals(scheme) || "https".equals(scheme)) {
-      // assume the web link is an audio file
-      location = getStreamUri(location);
       allowLoop = false;
-      if (location.toString().startsWith("http://"))
-        Exceptions.throwError(context, Exceptions.UsingHttp);
     } else {
       var extension = getExtension(location);
       if ("audio/x-mpegurl".equals(extension)) {

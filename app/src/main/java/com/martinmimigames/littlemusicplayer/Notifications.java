@@ -70,6 +70,7 @@ class Notifications implements MediaPlayerStateListener {
     builder.setSound(null);
     builder.setVibrate(null);
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+      builder.setContentText("buffering");
       builder.setContentIntent(playPauseIntent);
       if (allowLoop)
         builder.addAction(0, "loop", loopIntent);

@@ -59,8 +59,10 @@ class AudioPlayer extends Thread implements MediaPlayer.OnCompletionListener, Me
       service.setState(true, false);
     } catch (IllegalStateException e) {
       Exceptions.throwError(service, Exceptions.IllegalState);
+      service.playOrDestroy();
     } catch (IOException e) {
       Exceptions.throwError(service, Exceptions.IO);
+      service.playOrDestroy();
     }
   }
 

@@ -7,6 +7,12 @@ import android.os.Build;
 import android.os.IBinder;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.concurrent.atomic.AtomicReference;
+
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLHandshakeException;
 
 /**
  * service for playing music
@@ -85,9 +91,48 @@ public class Service extends android.app.Service implements MediaPlayerStateList
     playEntryFromPlaylist();
   }
 
+  /**
+   * Get a audio stream url. Returns https if available.
+   * Currently does not support self-signed certificate.
+   *
+   * @param location url of audio
+   * @return original url or https url if available
+   */
+  Uri getStreamUri(Uri location) {
+    if (location.toString().startsWith("https"))
+      return location;
+    var urlLocation = new AtomicReference<>(location.toString());
+    var t = new Thread(() -> {
+      try {
+        var https = "https://" + urlLocation.get().substring(7);
+        var url = new URL(https);
+        var connection = (HttpsURLConnection) url.openConnection();
+        connection.connect();
+        urlLocation.set(https);
+        connection.disconnect();
+      } catch (SSLHandshakeException ignored) {
+      } catch (MalformedURLException ignored) {
+      } catch (IOException ignored) {
+      }
+    });
+    t.start();
+    try {
+      t.join();
+    } catch (InterruptedException ignored) {
+    }
+    return Uri.parse(urlLocation.get());
+  }
+
   private void playEntryFromPlaylist() {
     var entry = playlist[entryIndex];
+    if ("http".equals(entry.location.getScheme())) {
+      // assume the web link is an audio file
+      entry.location = getStreamUri(entry.location);
+      if ("http".equals(entry.location.getScheme()))
+        Exceptions.throwError(this, Exceptions.UsingHttp);
+    }
     try {
+
       /* get audio playback logic and start async */
       audioPlayer = new AudioPlayer(this, entry.location);
       audioPlayer.start();
@@ -101,13 +146,22 @@ public class Service extends android.app.Service implements MediaPlayerStateList
 
     } catch (IllegalArgumentException e) {
       Exceptions.throwError(this, Exceptions.IllegalArgument);
+      playOrDestroy();
     } catch (SecurityException e) {
       Exceptions.throwError(this, Exceptions.Security);
+      playOrDestroy();
     } catch (IllegalStateException e) {
       Exceptions.throwError(this, Exceptions.IllegalState);
+      playOrDestroy();
     } catch (IOException e) {
       Exceptions.throwError(this, Exceptions.IO);
+      playOrDestroy();
     }
+  }
+
+  public void playOrDestroy() {
+    if (!playNextEntry())
+      onMediaPlayerDestroy();
   }
 
   @Override
