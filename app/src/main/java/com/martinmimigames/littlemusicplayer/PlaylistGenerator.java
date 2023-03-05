@@ -2,7 +2,6 @@ package com.martinmimigames.littlemusicplayer;
 
 import android.content.Context;
 import android.net.Uri;
-import android.util.Log;
 import android.webkit.MimeTypeMap;
 
 import java.io.File;
@@ -37,7 +36,6 @@ class PlaylistGenerator {
       if (lastDotIndex >= 0 && lastDotIndex + 1 < name.length()) {
         name = name.substring(name.lastIndexOf(".") + 1);
       }
-      Log.e("name", name);
       return mimeMap.getMimeTypeFromExtension(name);
     }
   }
@@ -82,7 +80,6 @@ class PlaylistGenerator {
         Exceptions.throwError(context, Exceptions.UsingHttp);
     } else {
       var extension = getExtension(audioLocation);
-      Log.e("parser", "parse m3u: " + extension);
       if ("audio/x-mpegurl".equals(extension)) {
         var parser = new M3UParser(context);
         try {

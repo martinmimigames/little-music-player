@@ -5,11 +5,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.IBinder;
-import android.util.Log;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
 
 /**
  * service for playing music
@@ -20,6 +17,9 @@ public class Service extends android.app.Service implements MediaPlayerStateList
   final Notifications notifications;
   private final PlaylistGenerator playlistGenerator;
   private AudioPlayer audioPlayer;
+
+  private AudioEntry[] playlist;
+  private int entryIndex;
 
   public Service() {
     hwListener = new HWListener(this);
@@ -66,37 +66,33 @@ public class Service extends android.app.Service implements MediaPlayerStateList
       }
     } else {
       switch (intent.getAction()) {
-        case Intent.ACTION_VIEW -> setAudio(intent.getData());
+        case Intent.ACTION_VIEW -> setAudioEntry(intent.getData());
         case Intent.ACTION_SEND -> {
           if (intent.getStringExtra(Intent.EXTRA_TEXT) != null) {
-            setAudio(Uri.parse(intent.getStringExtra(Intent.EXTRA_TEXT)));
+            setAudioEntry(Uri.parse(intent.getStringExtra(Intent.EXTRA_TEXT)));
           } else {
-            setAudio(intent.getParcelableExtra(Intent.EXTRA_STREAM));
+            setAudioEntry(intent.getParcelableExtra(Intent.EXTRA_STREAM));
           }
         }
       }
     }
   }
 
-  void setAudio(Uri location) {
-    var playlist = playlistGenerator.getPlaylist(location);
-    for (var item : playlist) {
-      Log.e("playlist", item.name);
-    }
-
-    var item = playlist[0];
-    setAudio(item.name, item.path, item.canLoop);
-
+  void setAudioEntry(Uri location) {
+    playlist = playlistGenerator.getPlaylist(location);
+    entryIndex = 0;
+    playEntryFromPlaylist();
   }
 
-  private void setAudio(String title, Uri location, boolean allowLoop) {
+  private void playEntryFromPlaylist() {
+    var entry = playlist[entryIndex];
     try {
       /* get audio playback logic and start async */
-      audioPlayer = new AudioPlayer(this, location);
+      audioPlayer = new AudioPlayer(this, entry.path);
       audioPlayer.start();
 
       /* create notification for playback control */
-      notifications.getNotification(title, allowLoop);
+      notifications.getNotification(entry.name, entry.canLoop);
 
       /* start service as foreground */
       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ECLAIR)
@@ -140,7 +136,12 @@ public class Service extends android.app.Service implements MediaPlayerStateList
    * destroy on playback complete
    */
   void onMediaPlayerComplete() {
-    onMediaPlayerDestroy();
+    if (entryIndex + 1 < playlist.length) {
+      entryIndex += 1;
+      playEntryFromPlaylist();
+    } else {
+      onMediaPlayerDestroy();
+    }
   }
 
   /**
