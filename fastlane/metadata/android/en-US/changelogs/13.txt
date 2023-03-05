@@ -1,0 +1,3 @@
+- New loop function for non-streaming audio
+- Playlist support (via m3u) (does not work with relative path yet) (may require storage permissions)
+- Skip button for playlist

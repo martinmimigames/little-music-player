@@ -6,12 +6,25 @@ It allows you to play audio and video files, like how you expected to. Most impo
 Its usage is as easy as opening or sharing the file you want to play with the app, or selecting it directly from the app. Enjoy your music!
 Note that this project was originally known as simple music player.
 
+Currently partially support m3u/m3u8 playlist files. More information below in section Playlist Support.
+
 You can find most information about Little Music Player just below.
 
 Different variations
 
 - Tiny Music Player https://github.com/martinmimigames/tiny-music-player
   Smallest, most minimal, with the trade-off of only having the most basic features.
+
+
+Playlist support
+
+We currently partially support m3u/m3u8.
+
+Features supported:
+- Audio stream url (http/https)
+- Absolute audio path (e.g. /storage/emulated/0/Music/Example.mp3)
+- Nested m3u/m3u8 files (Absolute path only)
+- Custom audio name via "#EXTINF: [duration], [custom name]" , does not support duration
 
 Features
 
@@ -46,16 +59,24 @@ We use the notification permission for displaying playback control, as we are ma
 based music player.
 We use the internet permission to allow for audio streaming, however such function is still being
 developed, and can be very buggy.
-We use the read storage permission on older devices to open the audio files. (not required for newer devices)
+We use the read storage permission to open the audio files. Required for older devices, and m3u/m3u8 processing.
 
 (Beta function)
 Share a url containing a media file to Little Music Player to stream it.
-Or use a single entry m3u file with the stream url inside.
+Or use a m3u file with the stream url inside.
+
+Issues
 
 Issues and pull requests are always welcome!
+Since we do not have telemetry in the app, we rely on you to report issues and give feedback.
+
+You can submit issues the following ways:
+- via Github issues at https://github.com/martinmimigames/little-music-player/issues
+- via email: martinmimigames@gmail.com
+
 
 Last update of Description:
-- 27-01-2023 dd-mm-yyyy
+- 05-03-2023 dd-mm-yyyy
 
 Important:
 - Please read the license!

@@ -7,7 +7,8 @@ alt="Read license">](https://github.com/martinmimigames/little-music-player/blob
 
 A mini, simple, yet compatible notification-based audio player. 
 
-Open-sourced and publicly-viewable code for anyone worrying about being locked in or privacy invasion.
+Open-sourced and publicly-viewable code for anyone worrying about being locked in or privacy
+invasion.
 
 Supports Android 1.0+
 
@@ -16,6 +17,9 @@ designed in hope to make it compatible with different Android versions.
 
 Its usage is as easy as opening or sharing the file you want to play with the app, or selecting it
 directly from the app. Enjoy your music!
+
+Currently partially support ```m3u```/```m3u8``` playlist files.
+More information below in section **Playlist Support**.
 
 Note that this project was originally known as *Simple Music Player*.
 
@@ -27,13 +31,25 @@ You can find most information about *Little Music Player* just below.
 ## Notices
 
 The app will not be able to function properly without notification permissions being granted.
-For Android 13+, due to new notification restrictions, the app will request for the notification permission if the permission is not granted.
+For Android 13+, due to new notification restrictions, the app will request for the notification
+permission if the permission is not granted.
 
 ## Different variations
 
 - [Tiny Music Player](https://github.com/martinmimigames/tiny-music-player)
 
   Smallest, most minimal, with the trade-off of only having the most basic features.
+
+## Playlist support
+
+We currently partially support ```m3u```/```m3u8```.
+
+Features supported:
+
+- Audio stream url (```http```/```https```)
+- Absolute audio path (e.g. ```/storage/emulated/0/Music/Example.mp3```)
+- Nested ```m3u```/```m3u8``` files (Absolute path only)
+- Custom audio name via ```#EXTINF: [duration], [custom name]```. does not support duration
 
 ## Features
 
@@ -80,16 +96,16 @@ We use the notification permission for displaying playback control, as we are ma
 based music player.
 
 We use the internet permission to allow for audio streaming, however such function is still being
-developed, and can be very buggy.
+developed, and can be buggy.
 
-We use the read storage permission on older devices to open the audio files. (not required for newer
-devices)
+We use the read storage permission to open the audio files.
+Required for older devices, and ```m3u```/```m3u8``` processing.
 
 (Beta function)
 
 Share a url containing a media file to Little Music Player to stream it.
 
-Or use a single entry m3u file with the stream url inside.
+Or use a m3u file with the stream url inside.
 
 ## Development
 
@@ -105,15 +121,42 @@ For starters, check [how to download/run the source code](/docs/contribution.md)
 
 Issues and pull requests are always welcome!
 
+Since we do not have telemetry in the app, we rely on you to report issues and give feedback.
+
 You can submit issues the following ways:
-- via [Github Issues](https://github.com/martinmimigames/little-music-player/issues).
+
+- via [Github Issues](https://github.com/martinmimigames/little-music-player/issues)
 - via email: martinmimigames@gmail.com
+
+## Latest Versions
+
+- v2.11
+  - New loop function for non-streaming audio
+  - Playlist support (via m3u) (does not work with relative path yet) (may require storage
+    permissions)
+  - Skip button for playlist
+- v2.10
+  - Support internet streaming (new internet permission)
+  - Added required permissions for notifications (Android 13+)
+  - Better error reporting
+  - Fixed audio player null when destroying
+  - Fix spelling mistake
+  - Updated notifications
+  - Added required permissions for audio file opening (older androids)
+- v2.9
+  - reverted icon
+  - fixed incorrect instructions
+- v2.8
+  - updated description
+  - fixed notifications making alert sound (at least on emulators)
+  - fixed notifications not working on android 13 (sdk 33)
+  - new icons
 
 ## Installation
 
 [<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
-    alt="Get it on F-Droid"
-    height="80">](https://f-droid.org/packages/com.martinmimigames.littlemusicplayer)
+alt="Get it on F-Droid"
+height="80">](https://f-droid.org/packages/com.martinmimigames.littlemusicplayer)
 
 [Get it from GitHub](https://github.com/martinmimigames/little-file-explorer/releases/latest)
 
@@ -125,7 +168,7 @@ Official Website at [https://martinmimigames.github.io](https://martinmimigames.
 
 ### Last update of README
 
-Date : 02-03-2023 dd-mm-yyyy
+Date : 05-03-2023 dd-mm-yyyy
 
 ### Important
 
