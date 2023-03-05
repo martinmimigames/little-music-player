@@ -24,9 +24,6 @@ public class Service extends android.app.Service implements MediaPlayerStateList
 
   final HWListener hwListener;
   final Notifications notifications;
-  /**
-   * audio playing logic class
-   */
   private AudioPlayer audioPlayer;
 
   public Service() {
