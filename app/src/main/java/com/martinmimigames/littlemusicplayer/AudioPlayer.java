@@ -49,6 +49,7 @@ public class AudioPlayer extends Thread
           .setUsage(AudioAttributes.USAGE_MEDIA)
           .build()
       );
+      System.out.println("Happy Listening!");
     }
 
     mediaPlayer.setLooping(false);
