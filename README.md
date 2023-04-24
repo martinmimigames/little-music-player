@@ -1,7 +1,8 @@
 # Little Music Player
 
-[<img src="https://img.shields.io/github/license/martinmimigames/little-music-player?style=flat-square"
-alt="Read license">](https://github.com/martinmimigames/little-music-player/blob/main/LICENSE.md)
+[![Read License](https://img.shields.io/github/license/martinmimigames/little-music-player?style=flat-square)](https://github.com/martinmimigames/little-music-player/blob/main/LICENSE.md)
+
+[![Code Quality](https://img.shields.io/codefactor/grade/github/martinmimigames/little-music-player/main?style=flat-square)](https://www.codefactor.io/repository/github/martinmimigames/little-music-player)
 
 ## Descriptions
 
