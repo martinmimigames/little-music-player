@@ -126,7 +126,7 @@ Since we do not have telemetry in the app, we rely on you to report issues and g
 You can submit issues the following ways:
 
 - via [Github Issues](https://github.com/martinmimigames/little-music-player/issues)
-- via email: martinmimigames@gmail.com
+- via email: <martinmimigames@gmail.com>
 
 ## Latest Versions
 
@@ -154,11 +154,14 @@ You can submit issues the following ways:
 
 ## Installation
 
-[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
-alt="Get it on F-Droid"
-height="80">](https://f-droid.org/packages/com.martinmimigames.littlemusicplayer)
 
-[Get it from GitHub](https://github.com/martinmimigames/little-file-explorer/releases/latest)
+[<img src="https://martinmimigames.github.io/res/get-it-on/f-droid.png"
+     alt="Get it on F-Droid"
+     height="80">](https://f-droid.org/packages/com.martinmimigames.littlemusicplayer/)
+
+[<img src="https://martinmimigames.github.io/res/get-it-on/github.png"
+     alt="Get it on Github"
+     height="80">](https://github.com/martinmimigames/little-music-player/releases/latest)
 
 [Get it from the official website](https://martinmimigames.github.io/projects/little-music-player)
 

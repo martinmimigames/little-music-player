@@ -2,12 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/StudioProjects.little-music-player.app.little_music_player.app.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/StudioProjects.little-music-player.app.little_music_player.app.androidTest.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/app.little_music_player.app.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/app.little_music_player.app.androidTest.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/little-music-player.app.little_music_player.app.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/little-music-player.app.little_music_player.app.androidTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/little_music_player.iml" filepath="$PROJECT_DIR$/.idea/modules/little_music_player.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/little_music_player.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/little_music_player.app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/little_music_player.app.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/little_music_player.app.androidTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/little_music_player.app.main.iml" filepath="$PROJECT_DIR$/.idea/modules/app/little_music_player.app.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/little_music_player.app.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/little_music_player.app.unitTest.iml" />
     </modules>
