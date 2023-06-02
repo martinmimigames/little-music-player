@@ -1,12 +1,14 @@
 # Little Music Player
 
+![Icon](/docs/images/icon.png)
+
 [![Read License](https://img.shields.io/github/license/martinmimigames/little-music-player?style=flat-square)](https://github.com/martinmimigames/little-music-player/blob/main/LICENSE.md)
 
 [![Code Quality](https://img.shields.io/codefactor/grade/github/martinmimigames/little-music-player/main?style=flat-square)](https://www.codefactor.io/repository/github/martinmimigames/little-music-player)
 
 ## Descriptions
 
-A mini, simple, yet compatible notification-based audio player. 
+A mini, simple, yet compatible notification-based audio player.
 
 Open-sourced and publicly-viewable code for anyone worrying about being locked in or privacy
 invasion.
@@ -154,7 +156,6 @@ You can submit issues the following ways:
   - new icons
 
 ## Installation
-
 
 [<img src="https://martinmimigames.github.io/res/get-it-on/f-droid.png"
      alt="Get it on F-Droid"
