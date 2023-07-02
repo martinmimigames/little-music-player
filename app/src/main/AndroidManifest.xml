@@ -10,6 +10,8 @@
   <uses-permission a:name="android.permission.INTERNET"/>
   <uses-permission a:name="android.permission.READ_EXTERNAL_STORAGE"/>
   <uses-permission a:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK"/>
+  <uses-permission a:name="android.permission.READ_MEDIA_VIDEO"/>
+  <uses-permission a:name="android.permission.READ_MEDIA_AUDIO"/>
 
   <application
     a:icon="@drawable/ic_launcher"
