@@ -59,7 +59,7 @@ We use the notification permission for displaying playback control, as we are ma
 based music player.
 We use the internet permission to allow for audio streaming, however such function is still being
 developed, and can be very buggy.
-We use the read storage permission to open the audio files. Required for older devices, and m3u/m3u8 processing.
+We use the read storage/audio/video permission to open the audio files. Required for older devices, and m3u/m3u8 processing.
 
 (Beta function)
 Share a url containing a media file to Little Music Player to stream it.
@@ -76,7 +76,7 @@ You can submit issues the following ways:
 
 
 Last update of Description:
-- 05-03-2023 dd-mm-yyyy
+- 02-07-2023 dd-mm-yyyy
 
 Important:
 - Please read the license!

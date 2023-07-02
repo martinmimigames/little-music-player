@@ -1,0 +1,3 @@
+- Fixed permission missing on newer android
+- Now runs on Android 14 (emulator)
+- Added permission blocks at the bottom of activity

@@ -132,6 +132,10 @@ You can submit issues the following ways:
 - via email: <martinmimigames@gmail.com>
 
 ## Latest Versions
+- v2.12
+  - Fixed permission missing on newer android
+  - Now runs on Android 14 (emulator)
+  - Added permission blocks at the bottom of activity
 
 - v2.11
   - New loop function for non-streaming audio
