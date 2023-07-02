@@ -101,7 +101,7 @@ based music player.
 We use the internet permission to allow for audio streaming, however such function is still being
 developed, and can be buggy.
 
-We use the read storage permission to open the audio files.
+We use the read storage/audio/video permission to open the audio files.
 Required for older devices, and ```m3u```/```m3u8``` processing.
 
 (Beta function)
@@ -173,7 +173,7 @@ Official Website at [https://martinmimigames.github.io](https://martinmimigames.
 
 ### Last update of README
 
-Date : 25-04-2023 dd-mm-yyyy
+Date : 02-07-2023 dd-mm-yyyy
 
 ### Important
 
