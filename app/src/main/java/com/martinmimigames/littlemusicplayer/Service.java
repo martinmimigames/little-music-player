@@ -2,6 +2,7 @@ package com.martinmimigames.littlemusicplayer;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.pm.ServiceInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.IBinder;
@@ -141,7 +142,9 @@ public class Service extends android.app.Service implements MediaPlayerStateList
       notifications.getNotification(entry.title, entry.canLoop, haveNextEntry());
 
       /* start service as foreground */
-      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ECLAIR)
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
+        startForeground(Notifications.NOTIFICATION_ID, notifications.notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK);
+      else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ECLAIR)
         startForeground(Notifications.NOTIFICATION_ID, notifications.notification);
 
     } catch (IllegalArgumentException e) {
