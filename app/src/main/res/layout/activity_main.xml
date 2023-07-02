@@ -19,23 +19,6 @@
       a:textSize="40sp" />
 
     <TextView
-      a:id="@+id/request"
-      a:layout_width="match_parent"
-      a:layout_height="wrap_content"
-      a:layout_marginTop="10dp"
-      a:text="Please allow us to tell you we are playing audio."
-      a:visibility="gone" />
-
-    <Button
-      a:id="@+id/open_settings"
-      a:layout_width="match_parent"
-      a:layout_height="wrap_content"
-      a:layout_margin="10dp"
-      a:text="Notification settings"
-      a:visibility="gone" />
-
-
-    <TextView
       a:layout_width="match_parent"
       a:layout_height="wrap_content"
       a:layout_marginTop="10dp"
@@ -67,20 +50,45 @@
     <TextView
       a:layout_width="match_parent"
       a:layout_height="wrap_content"
-      a:text="2. Select Little Music Player" />
+      a:text="2. Select Little Music Player"/>
 
     <TextView
       a:layout_width="match_parent"
       a:layout_height="wrap_content"
       a:layout_marginTop="10dp"
-      a:text="You can control the playback via the notification." />
+      a:text="You can control the playback via the notification."/>
+
+    <TextView
+      a:layout_width="match_parent"
+      a:layout_height="wrap_content"
+      a:id="@+id/permissions"
+      a:layout_marginTop="10dp"
+      a:text="Permissions"
+      a:textSize="40sp"
+      a:visibility="gone"/>
+
+    <Button
+      a:id="@+id/notif_settings"
+      a:layout_width="match_parent"
+      a:layout_height="wrap_content"
+      a:layout_margin="10dp"
+      a:text="Allow notifications for playback controls"
+      a:visibility="gone"/>
+
+    <Button
+      a:id="@+id/playlist_settings"
+      a:layout_width="match_parent"
+      a:layout_height="wrap_content"
+      a:layout_margin="10dp"
+      a:text="Allow media file access to enable playlist"
+      a:visibility="gone"/>
 
     <TextView
       a:layout_width="match_parent"
       a:layout_height="wrap_content"
       a:layout_marginTop="10dp"
       a:text="Made By"
-      a:textSize="40sp" />
+      a:textSize="40sp"/>
 
     <TextView
       a:layout_width="match_parent"

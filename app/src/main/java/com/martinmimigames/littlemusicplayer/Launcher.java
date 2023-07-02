@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -32,17 +33,17 @@ public class Launcher extends Activity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
     if (!Intent.ACTION_VIEW.equals(getIntent().getAction())
-      && !Intent.ACTION_SEND.equals(getIntent().getAction())) {
+        && !Intent.ACTION_SEND.equals(getIntent().getAction())) {
 
       /* set listener for button */
       findViewById(R.id.file_opener)
-        .setOnClickListener(
-          v -> {
-            /* request a file from the system */
-            final Intent fileIntent = new Intent(Intent.ACTION_GET_CONTENT);
-            fileIntent.setType("audio/*"); // intent type to filter application based on your requirement
-            startActivityForResult(fileIntent, Launcher.REQUEST_CODE);
-          });
+          .setOnClickListener(
+              v -> {
+                /* request a file from the system */
+                final Intent fileIntent = new Intent(Intent.ACTION_GET_CONTENT);
+                fileIntent.setType("audio/*"); // intent type to filter application based on your requirement
+                startActivityForResult(fileIntent, Launcher.REQUEST_CODE);
+              });
       return;
     }
     onIntent(getIntent());
@@ -75,19 +76,24 @@ public class Launcher extends Activity {
   @Override
   protected void onStart() {
     super.onStart();
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
-      this.getPackageManager()
-        .checkPermission(
-          Manifest.permission.POST_NOTIFICATIONS, this.getPackageName())
-        != PackageManager.PERMISSION_GRANTED) {
-      findViewById(R.id.request).setVisibility(View.VISIBLE);
-      findViewById(R.id.open_settings).setVisibility(View.VISIBLE);
-      findViewById(R.id.open_settings).setOnClickListener(v -> {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+      findViewById(R.id.notif_settings).setVisibility(View.VISIBLE);
+      findViewById(R.id.notif_settings).setOnClickListener(v -> {
         final Intent intent = new Intent();
         intent.setAction(Settings.ACTION_APP_NOTIFICATION_SETTINGS);
         intent.putExtra(Settings.EXTRA_APP_PACKAGE, this.getPackageName());
         this.startActivity(intent);
       });
+    }
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+      findViewById(R.id.playlist_settings).setVisibility(View.VISIBLE);
+      findViewById(R.id.playlist_settings).setOnClickListener(v -> {
+        final Intent intent = new Intent();
+        intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        intent.setData(Uri.fromParts("package", this.getPackageName(), null));
+        this.startActivity(intent);
+      });
+      findViewById(R.id.permissions).setVisibility(View.VISIBLE);
     }
   }
 
