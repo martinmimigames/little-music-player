@@ -90,9 +90,9 @@ final class PlaylistGenerator {
         }
 
         private void parse(Scanner input) {
-            String line;
-            while ((line = input.nextLine()) != null) {
-                if (line.trim().length() == 0)
+            while (input.hasNextLine()) {
+                var line = input.nextLine().trim();
+                if (line.length() == 0)
                     continue;
                 var entry = new Playlist.Entry();
                 if (line.startsWith("#EXTINF:")) {

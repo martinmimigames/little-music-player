@@ -45,6 +45,7 @@
       <intent-filter tools:ignore="AppLinkUrlError">
         <action a:name="android.intent.action.VIEW" />
         <action a:name="android.intent.action.SEND" />
+        <action a:name="android.intent.action.SEND_MULTIPLE"/>
 
         <category a:name="android.intent.category.DEFAULT" />
 

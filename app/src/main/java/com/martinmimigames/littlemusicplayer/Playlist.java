@@ -13,6 +13,12 @@ final class Playlist extends ArrayList<Playlist.Entry> {
         generator = new PlaylistGenerator(context, this);
     }
 
+    void generate(ArrayList<Uri> locations) {
+        for (var location : locations) {
+            generator.generate(location);
+        }
+    }
+
     void generate(Uri location) {
         generator.generate(location);
     }
