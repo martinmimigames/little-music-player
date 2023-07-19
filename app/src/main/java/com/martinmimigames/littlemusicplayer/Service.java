@@ -10,6 +10,7 @@ import android.os.IBinder;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Iterator;
 import java.util.concurrent.atomic.AtomicReference;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -22,16 +23,15 @@ public class Service extends android.app.Service implements MediaPlayerStateList
 
   final HWListener hwListener;
   final Notifications notifications;
-  private final PlaylistGenerator playlistGenerator;
   private AudioPlayer audioPlayer;
 
-  private AudioEntry[] playlist;
-  private int entryIndex;
+  private final Playlist playlist;
+  private Iterator<Playlist.Entry> iterator;
 
   public Service() {
     hwListener = new HWListener(this);
     notifications = new Notifications(this);
-    playlistGenerator = new PlaylistGenerator(this);
+    playlist = new Playlist(this);
   }
 
   /**
@@ -87,8 +87,9 @@ public class Service extends android.app.Service implements MediaPlayerStateList
   }
 
   void setAudioEntry(Uri location) {
-    playlist = playlistGenerator.getPlaylist(location);
-    entryIndex = 0;
+    playlist.clear();
+    playlist.generate(location);
+    iterator = playlist.iterator();
     playEntryFromPlaylist();
   }
 
@@ -125,7 +126,7 @@ public class Service extends android.app.Service implements MediaPlayerStateList
   }
 
   private void playEntryFromPlaylist() {
-    var entry = playlist[entryIndex];
+    var entry = iterator.next();
     if ("http".equals(entry.location.getScheme())) {
       // assume the web link is an audio file
       entry.location = getStreamUri(entry.location);
@@ -139,7 +140,7 @@ public class Service extends android.app.Service implements MediaPlayerStateList
       audioPlayer.start();
 
       /* create notification for playback control */
-      notifications.getNotification(entry.title, entry.canLoop, haveNextEntry());
+      notifications.getNotification(entry.title, entry.canLoop, iterator.hasNext());
 
       /* start service as foreground */
       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
@@ -198,14 +199,9 @@ public class Service extends android.app.Service implements MediaPlayerStateList
     stopSelf();
   }
 
-  boolean haveNextEntry() {
-    return entryIndex + 1 < playlist.length;
-  }
-
   boolean playNextEntry() {
-    if (haveNextEntry()) {
+    if (iterator.hasNext()) {
       onMediaPlayerReset();
-      entryIndex += 1;
       playEntryFromPlaylist();
       return true;
     }
@@ -230,6 +226,7 @@ public class Service extends android.app.Service implements MediaPlayerStateList
     hwListener.onMediaPlayerDestroy();
     if (audioPlayer != null)
       audioPlayer.onMediaPlayerDestroy();
+    playlist.clear();
 
     super.onDestroy();
   }
