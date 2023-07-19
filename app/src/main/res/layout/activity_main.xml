@@ -28,24 +28,32 @@
     <TextView
       a:layout_width="match_parent"
       a:layout_height="wrap_content"
-      a:text="From this app:" />
+      a:text="From this app:"/>
 
     <Button
       a:id="@+id/file_opener"
       a:layout_width="match_parent"
       a:layout_height="wrap_content"
       a:layout_margin="10dp"
-      a:text="Open an audio" />
+      a:text="Open an audio"/>
+
+    <Button
+      a:id="@+id/folder_opener"
+      a:layout_width="match_parent"
+      a:layout_height="wrap_content"
+      a:layout_margin="10dp"
+      a:text="Open a folder"
+      a:visibility="gone"/>
 
     <TextView
       a:layout_width="match_parent"
       a:layout_height="wrap_content"
-      a:text="From other apps:" />
+      a:text="From other apps:"/>
 
     <TextView
       a:layout_width="match_parent"
       a:layout_height="wrap_content"
-      a:text="1. Share an audio" />
+      a:text="1. Share an audio"/>
 
     <TextView
       a:layout_width="match_parent"
