@@ -18,9 +18,11 @@ Different variations
 
 Playlist support
 
-We currently partially support m3u/m3u8.
+- Folder-based playlist on Android 5.0+
+- Temporary playlist via multi-share function
+- Partial m3u/m3u8 support
 
-Features supported:
+m3u/m3u8 features supported:
 - Audio stream url (http/https)
 - Absolute audio path (e.g. /storage/emulated/0/Music/Example.mp3)
 - Nested m3u/m3u8 files (Absolute path only)
@@ -74,9 +76,12 @@ You can submit issues the following ways:
 - via Github issues at https://github.com/martinmimigames/little-music-player/issues
 - via email: martinmimigames@gmail.com
 
+Made by Martinmimigames
+
+Official website at https://martinmimigames.github.io
 
 Last update of Description:
-- 02-07-2023 dd-mm-yyyy
+- 20-07-2023 dd-mm-yyyy
 
 Important:
 - Please read the license!

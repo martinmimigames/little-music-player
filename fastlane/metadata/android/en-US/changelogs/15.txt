@@ -1,0 +1,2 @@
+- Now support folder-based playlist for Android 5.0+
+- Now support temporary playlist via multi-share
