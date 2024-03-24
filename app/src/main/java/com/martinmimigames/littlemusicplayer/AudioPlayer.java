@@ -121,6 +121,7 @@ class AudioPlayer extends Thread implements MediaPlayer.OnCompletionListener, Me
   @Override
   public void interrupt() {
     mediaPlayer.release();
+    
     super.interrupt();
   }
 }
