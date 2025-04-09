@@ -31,6 +31,18 @@ Location of webpage:
 
 You can find most information about *Little Music Player* just below.
 
+## Installation
+
+[<img src="https://martinmimigames.github.io/res/get-it-on/f-droid.png"
+     alt="Get it on F-Droid"
+     height="80">](https://f-droid.org/packages/com.martinmimigames.littlemusicplayer/)
+
+[<img src="https://martinmimigames.github.io/res/get-it-on/github.png"
+     alt="Get it on Github"
+     height="80">](https://github.com/martinmimigames/little-music-player/releases/latest)
+
+[Get it from the official website](https://martinmimigames.github.io/projects/little-music-player)
+
 ## screenshot
 
 ![example screenshot](/docs/images/2.jpg)
@@ -118,6 +130,31 @@ Or use a m3u file with the stream url inside.
 
 ## Development
 
+To clone repository, run the following:
+
+```sh
+# clone the repository
+git clone https://github.com/martinmimigames/little-music-player
+
+# enter the project directory
+cd little-music-player
+
+# gets the mg.util library
+git submodule update --init
+```
+
+To compile the app, run the following:
+
+```sh
+./gradlew assembleDebug
+```
+
+You will need a `keystore.properties` file on the **ROOT FOLDER** of the project.
+
+See [Dockerfile](/Dockerfile) for more details.
+
+Alternatively, you can compile the app using the `build` GitHub action.
+
 If you want to contribute by making code changes, you are welcomed!
 
 For starters, check [how to download/run the source code](/docs/contribution.md)
@@ -170,25 +207,13 @@ You can submit issues the following ways:
   - fixed notifications not working on android 13 (sdk 33)
   - new icons
 
-## Installation
-
-[<img src="https://martinmimigames.github.io/res/get-it-on/f-droid.png"
-     alt="Get it on F-Droid"
-     height="80">](https://f-droid.org/packages/com.martinmimigames.littlemusicplayer/)
-
-[<img src="https://martinmimigames.github.io/res/get-it-on/github.png"
-     alt="Get it on Github"
-     height="80">](https://github.com/martinmimigames/little-music-player/releases/latest)
-
-[Get it from the official website](https://martinmimigames.github.io/projects/little-music-player)
-
 ## Made by Martinmimigames
 
 Official Website at [https://martinmimigames.github.io](https://martinmimigames.github.io)
 
 ### Last update of README
 
-Date : 20-07-2023 dd-mm-yyyy
+Date : 2025-04-09 yyyy-mm-dd
 
 ### Important
 
